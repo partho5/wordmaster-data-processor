@@ -1,0 +1,40 @@
+
+body{
+    background: rgba(235, 235, 235, 0.66);
+}
+
+#content{
+    margin-top: -1em;
+}
+
+#exam-info{
+    font-size: 1.1em;
+}
+.exam{
+    display: none;
+    background: #fff;
+    padding: 4px;
+    border: 1px solid #dddddd;
+    margin-bottom: 2em;
+}
+.exam-date{
+    background: #5e9bcc;
+    color: #fff;
+    padding: 2px 6px;
+}
+.exam-date .time{
+    color: #e4e4e4;
+    background: #5790bd;
+    padding: 1px;
+}
+.exam .details{
+    text-align: center;
+    background: #eeeeee;
+}
+.exam .details a{
+    color: #0000f0 !important;
+}
+.exam .labels{
+    color: #0c5460;
+    font-family: Courier, sans-serif;
+}

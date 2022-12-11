@@ -1,0 +1,65 @@
+
+
+.no-padding{
+    padding: 0;
+    margin: 0;
+}
+
+#chat-container .col-xs-12{
+    padding: 4px;
+}
+#chat-container{
+
+}
+
+.user-msg-wrapper .single-msg{
+    background-color: rgba(235, 235, 235, 0.65);
+    font-size: 1.2em;
+}
+.username-label{
+    padding: 0 5px;
+}
+.user-msg-wrapper .username-label{
+    color: #000;
+    font-weight: bold;
+}
+.single-msg{
+    padding: 5px;
+}
+
+.admin-msg-wrapper .single-msg{
+    background-color: rgba(213, 235, 222, 0.65);
+    font-size: 1.2em;
+
+}
+.admin-msg-wrapper .username-label{
+    color: #1e7a85;
+    font-weight: bold;
+}
+
+.single-msg{
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+.about-msg .time{
+    font-size: 0.8em;
+    color: #a5a7aa;
+}
+
+#write-field-wrapper{
+    position: fixed;
+    bottom: 2px;
+    z-index: 2;
+    background-color: #fff;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+#send-btn{
+    color: #00f;
+    margin-top: 6px;
+
+}
+#send-btn .btn{
+    font-size: 1.2em;
+}

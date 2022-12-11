@@ -1,0 +1,18 @@
+Models
+------------
+namespace App\Models
+
+
+
+
+Controller
+------------
+use App\Models\User
+
+
+
+
+
+web.php
+------------
+accordingly

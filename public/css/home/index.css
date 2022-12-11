@@ -1,0 +1,217 @@
+.no-padding{
+    margin: 0;
+    padding: 0;
+}
+.vcenter{
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+html, body {
+    background: linear-gradient(#f9f9f9, #FFFFFF);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 200;
+    height: 100vh;
+    margin: 0;
+    height: 100vh;
+}
+
+.custom-alert{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.custom-alert .msg{
+    background-color: #f6fbf4;
+    position: fixed;
+    z-index: 9999;
+    text-align: center;
+    padding: 1em 0 0 1em;
+    top: 2em;
+    left: 1em;
+    right: 1em;
+    border: 1px solid rgba(0, 0, 243, 0.78);
+    box-shadow: 5px 5px 10px 2px #939393;
+}
+.my-hr{
+    display: block;
+    height: 1px;
+    background-color: #d4d9d2;
+    width: 100%;
+    left: 0;
+    position: absolute;
+}
+.custom-alert .part1 .p1{
+    font-size: 1.4em;
+    color: #0000f3;
+}
+.custom-alert .part2{
+    color: #7c7c7c;
+    margin-top: 1em;
+}
+.custom-alert .part2 .p1{
+    padding-top: 0.5em;
+
+}
+.custom-alert .btn-wrapper{
+    margin: 2em 0 1em 0;
+}
+#slideContainer{
+    overflow: scroll;
+}
+.body-content{
+    overflow: scroll;
+}
+.word-wrapper{
+    background-color: #FFFFFF;
+    color: #ff0000;
+}
+.base-word, .bangla-meaning{
+    margin: 0;
+    padding: 0;
+}
+.base-word{
+    font-size: 1.9em;
+    font-weight: bold;
+    font-family: Roboto;
+    padding: 0.2em 0 0 0.5em;
+}
+.base-word .parts-of-speech{
+    font-size: 0.5em;
+    color: #9b9ea5;
+    font-family: Nunito, sans-serif;
+}
+.bangla-meaning{
+    font-size: 1.5em;
+    font-family: Nunito, sans-serif;
+    padding: 0.5em 0 0.2em 0.5em;
+}
+.meaning-label{
+    color: #505050;
+    font-size: 0.6em;
+    font-family: Raleway
+}
+.note-icon{
+    visibility: hidden;
+}
+#mnemonic-wrapper{
+    border-top: 1px solid rgb(187, 221, 224);
+    padding: 0;
+    font-size: 0.8em;
+}
+
+#mnemonic-wrapper .heading span{
+    display: inline-block;
+    background-color: rgba(187, 237, 242, 0.85);
+    color: rgb(2, 138, 154);
+    padding: 0 0.5em;
+}
+#mnemonic-wrapper #mnemonic{
+    font-size: 1.5em;
+    padding: 0.2em 0 0.4em 0.3em;
+    color: #000000;
+}
+#mnemonic-wrapper .nicEdit-main{
+
+}
+#derived-words-wrapper{
+    border-top: 1px solid #b3dbb8;
+    font-size: 0.8em;
+}
+#derived-words-wrapper .heading span{
+    display: inline-block;
+    background-color: rgba(188, 241, 216, 0.7);
+    color: rgb(2, 149, 123);
+    border-bottom: 1px solid rgb(2, 216, 179);
+    font-size: 1.2em;
+    padding: 0 0.5em;
+}
+#derived-words-wrapper ul{
+    font-size: 1.5em;
+    list-style-type: square;
+    padding-left: 20px;
+}
+#derived-words-wrapper ul li{
+    padding-bottom: 0.4em;
+}
+#derived-words-wrapper .parts-of-speech, .derivation-relation{
+    font-size: 0.7em;
+    color: #6d6f74;
+}
+#usage-wrapper{
+    border-top: 1px solid rgba(215, 111, 0, 0.31);
+    font-size: 0.9em;
+}
+#usage-wrapper .heading span{
+    display: inline-block;
+    background-color: rgba(248, 233, 123, 0.33);
+    color: #d76f00;
+    font-size: 1em;
+    padding: 0 0.5em;
+    border-bottom: 1px solid rgba(248, 180, 0, 0.5);;
+}
+#usage-wrapper ul{
+    font-size: 1.7em;
+    list-style-type: square;
+    padding-left: 20px;
+}
+#usage-wrapper ul li{
+    padding-bottom: 0.9em;
+}
+
+
+#synonym-wrapper{
+    border-top: 1px solid rgba(64, 215, 21, 0.36);
+    font-size: 0.9em;
+    margin-bottom: 3em;
+}
+#synonym-wrapper .heading span{
+    display: inline-block;
+    background-color: rgba(145, 247, 53, 0.17);
+    color: #19b600;
+    font-size: 1em;
+    padding: 0 0.5em;
+    border-bottom: 1px solid rgba(25, 182, 0, 0.36);
+}
+#synonym-wrapper ul{
+    font-size: 1.7em;
+    list-style-type: square;
+    padding-left: 20px;
+}
+#synonym-wrapper ul span{
+    font-family: Raleway;
+    color: #6e6e6e;
+}
+#synonym-wrapper .main-word-listed{
+    color: #0000d5;
+}
+
+
+
+#bottom-info{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #ececec;
+}
+#bottom-info #info-content{
+    padding: 0.2em 0;
+    display: none;
+}
+#bottom-info #navigation-bar{
+    background-color: #f9f9f9;
+}
+.prevBtn:hover, .nextBtn:hover{
+    cursor: pointer;
+}
+.prevBtn span, .nextBtn span{
+    margin: 10px;
+    padding: 0.2em 0.5em;
+    background-color: #000000;
+    color: #ffffff;
+    border-radius: 3em;
+}

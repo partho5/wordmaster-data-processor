@@ -1,0 +1,95 @@
+
+
+
+body{
+    background: linear-gradient(rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95)), url("../../images/bg10.jpg") ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+#content{
+    font-size: 1.3em;
+    margin-top: -1.1em;
+}
+@media (min-width: 1025px) {
+    #content{
+        border-left: 1px solid #c3c3c3;
+        border-right: 1px solid #c3c3c3;
+    }
+}
+
+#intro{
+    font-size: 1.2em;
+}
+#intro .p1{
+
+}
+#intro .ins-btn{
+    color: #0000d5;
+    border: 1px solid #dcdcdc;
+    border-radius: 20px;
+    background: #fff;
+}
+#intro ul{
+
+}
+#get-question{
+    
+}
+#get-question .btn-get{
+    background: #1c657d;
+    color: #fff;
+    border: 1px #00bd00;
+    padding: 8px 25px;
+    border-radius: 25px;
+}
+
+.panel{
+
+}
+#get-question .panel-hidden{
+    bottom: -10em;
+    display: none;
+}
+.panel-shown{
+    display: block;
+    background: #eee;
+    bottom: 2em;
+    padding: 1em 8px;
+}
+
+#exam{
+    display: none;
+}
+#exam .p1, #exam .p2{
+    display: none;
+}
+#exam #about-question{
+    margin-top: 15px;
+}
+#exam .question ol{
+    list-style-type: lower-alpha;
+}
+#exam .clock{
+    background: #006400;
+    z-index: 2;
+    color: #f8f8f8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+#question-container .question{
+    margin-top: 2em;
+}
+#question-container .question ol li{
+    margin: 7px 0;
+}
+#submit-ans{
+    font-size: 1.1em;
+    padding: 10px 0;
+    margin-top: 1em;
+    margin-bottom: 2em;
+}

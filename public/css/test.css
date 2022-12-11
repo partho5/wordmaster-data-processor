@@ -1,0 +1,65 @@
+#content{
+
+}
+
+.word-container{
+    margin-top: 1em;
+    text-align: center;
+    min-height: 367px;
+    //background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8)), url("../images/bg10.jpg") center;
+}
+.title{
+    font-size: 3em;
+    background: #dd4c1e;
+    color: #fff;
+    font-family: 'Monda', sans-serif;
+    //-webkit-text-stroke: 0.013em #0000e2;
+    text-shadow: 1px 2px 1px #232323;
+}
+.meaning{
+    color: #00f;
+    font-size: 2em;
+    padding: 5px 0;
+}
+.exam-info{
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.8em;
+    color: #c634c4;
+}
+.exam-info .bullet{
+    width: 20px;
+    height: 20px;
+}
+
+
+
+
+.theme0{
+    background: linear-gradient(rgba(248, 249, 255, 1), rgba(255, 255, 255, 0.95)), url("../images/bg9.jpg") center;
+}
+.theme1{
+    background: linear-gradient(rgba(252, 255, 220, 0.99), rgba(255, 255, 255, 0.99)), url("../images/bg10.jpg") center;
+}
+.theme2{
+    background: linear-gradient(rgba(248, 249, 255, 0.7), rgba(255, 255, 255, 0.9)), url("../images/bg48.jpg") center;
+}
+.theme3{
+    background: linear-gradient(rgba(248, 249, 255, 0.9), rgba(255, 255, 255, 0.8)), url("../images/bg41.jpg") center;
+}
+.theme4{
+    background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(254, 255, 235, 0.8)), url("../images/bg32.png") center;
+}
+.theme5{
+    background: linear-gradient(rgba(248, 249, 255, 0.7), rgba(253, 242, 255, 0.7)), url("../images/bg31.jpg") center;
+}
+.theme6{
+    background: linear-gradient(rgb(255, 254, 253), rgba(251, 249, 255, 0.95)), url("../images/bg18.jpg") center;
+}
+.theme7{
+    background: linear-gradient(rgba(248, 249, 255, 0.92), rgba(255, 255, 255, 0.8)), url("../images/bg22.jpg") center;
+}
+.theme8{
+    background: linear-gradient(rgba(248, 249, 255, 0.9), rgba(255, 255, 255, 0.8)), url("../images/bg19.jpg") center;
+}.theme9{
+     background: linear-gradient(rgba(248, 249, 255, 0.1), rgba(255, 255, 255, 0.4)), url("../images/bg18.jpg") center;
+ }

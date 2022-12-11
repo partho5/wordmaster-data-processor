@@ -1,0 +1,37 @@
+#body-wrapper{
+    margin-top: -20px;
+}
+h2{
+    font-family: 'Langar', cursive;
+    font-size: 1.7em;
+    text-shadow: 3px 2px 4px rgba(0,0,20,0.3);
+    color: #2e6da4;
+}
+label{
+    color: #2e6da4;
+    font-family: 'Zilla Slab', serif;
+    font-size: 1.2em;
+    font-weight: 300;
+}
+#reference-word, #new-index-word{
+    margin-top: 2em;
+}
+#reference-word input, #new-index-word input{
+    background-color: rgba(255, 0, 0, 0.2);
+}
+#reference-word .search-btn, #new-index-word .search-btn{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+#reference-word .search-btn:hover, #new-index-word .search-btn:hover{
+    width: 21px;
+    height: 21px;
+}
+#reference-word .search-btn:active, #new-index-word .search-btn:active{
+    width: 20px;
+    height: 20px;
+}
+#save-wrapper{
+    margin-top: 2em;
+}

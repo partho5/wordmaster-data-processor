@@ -38,7 +38,7 @@ class HomeController extends Controller
         //retutn $ref;
 
         return view('home/featuredHome');
-        //return 'index page';
+
 
         if( null !== $request->w){
             //url parameter
@@ -53,7 +53,7 @@ class HomeController extends Controller
         }
 
         $allWords = $this->getWordDetails($currentWord, 30);// always put even number
-//return $allWords;
+        //return $allWords;
 
         return view('home/index', compact(
             'allWords'
@@ -192,7 +192,7 @@ class HomeController extends Controller
             //new user
             VisitorLog::create([
                 'device_token'  => $deviceToken,
-                'client'        => $request['browser'],
+                'client'        => $request['browser']." -ip=".$_SERVER['REMOTE_ADDR'],
                 'referred_by' => $request->referredBy,
                 'reading_start_at'    =>  $now,
                 'reading_end_at'      => $now,
@@ -231,7 +231,7 @@ class HomeController extends Controller
                     $retVal['msg']= "user came again after exit";
                     VisitorLog::create([
                         'device_token'  => $deviceToken,
-                        'client'   => $request['browser'],
+                        'client'        => $request['browser']." -ip=".$_SERVER['REMOTE_ADDR'],
                         'referred_by' => $request->referredBy,
                         'reading_start_at'    => $now,
                         'reading_end_at'    => $now,

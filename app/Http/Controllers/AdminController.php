@@ -28,6 +28,10 @@ class AdminController extends Controller
 {
     private $minimalView = false;
 
+    function __construct(){
+        $this->middleware('auth');
+    }
+
     public function index(){
         //return $this->extractSynonymWords(12);
 

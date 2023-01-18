@@ -11,6 +11,15 @@
 |
 */
 
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+
+
+Route::get('/partner', [App\Http\Controllers\AffiliateController::class, 'showPartnerHome']);
+
+
+
+
 Route::get('/privacy-policy', [App\Http\Controllers\HomeController::class, 'showPrivacyPolicy']);
 Route::get('/download', [App\Http\Controllers\HomeController::class, 'showDownloadPage']);
 
@@ -114,14 +123,12 @@ Route::match( ['GET', 'POST'], '/api/coupon/verify',  [App\Http\Controllers\User
 
 Auth::routes();
 
+
+
+
+//as url takes optional parameter, so it has been written at last so that it doesn't conflict with other urls
+//Route::get('/{ref?}/{refName?}', [App\Http\Controllers\HomeController::class, 'index']); //check for reference url
+
 Route::get('/home', function (){
     return view('home');
 });
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
-//as url takes optional parameter, so it has been written at last sothat it doesn't conflict with other urls
-Route::get('/{ref?}/{refName?}', [App\Http\Controllers\HomeController::class, 'index']); //check for reference url

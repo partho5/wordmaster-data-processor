@@ -1,0 +1,75 @@
+
+
+
+#body-wrapper{
+    margin-top: -1.2em;
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.79)), url("../../images/bg21.jpg") center;
+    //background: linear-gradient(rgba(162, 162, 162, 0.95), rgba(238, 238, 238, 0.9)), url("../../images/bg26.jpg");
+    font-size: 1.3em;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.section{
+    padding: 5px;
+    color: #000;
+}
+
+
+#common{
+
+}
+
+#simple-curtain{
+    //display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: 2;
+    background-color: #f5f5f5;
+    font-family: arial, sans-serif;
+}
+#simple-curtain h3{
+    font-size: 1.6em;
+    color: #000;
+}
+.site-link{
+    border: 1px solid #bbbbbb;
+    padding: 10px 0;
+    margin-bottom: 2em;
+}
+.site-link button{
+    margin-top: 10px;
+    background-color: #d4d4d4;
+}
+.copied-info{
+    position: absolute;
+    top: 12em;
+    opacity: 0;
+}
+.copied-info span{
+    background-color: #000;
+    color: #fff;
+    padding: 4px 20px;
+    border-radius: 2px;
+}
+.inspire-affiliate{
+
+}
+.inspire-affiliate .text1{
+    margin-top: 1em;
+    font-size: 1.7em;
+    font-family: 'Monda', sans-serif;
+}
+.inspire-affiliate button{
+    margin-top: 0.4em;
+    background-color: #f87000;
+    color: #fff;
+    font-family: 'Monda', sans-serif;
+    font-size: 1.2em;
+}
+.inspire-affiliate button:hover{
+    color: #f87000;
+    border: 1px solid #f87000;
+    background-color: #fff;
+}

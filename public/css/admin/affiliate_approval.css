@@ -1,0 +1,62 @@
+
+
+h2{
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+h2 span{
+    padding: 0.2em 2em;
+    border-bottom: 2px solid #00bad8;
+    color: #00acc8;
+    font-family: 'Roboto Slab', Serif;
+    font-weight: 400;
+}
+
+.table tr:nth-child(2n+1){
+    background-color: rgba(247, 247, 226, 0.61);
+}
+.table tr:nth-child(2n){
+    background-color: #efefef;
+}
+.table tr:nth-child(2n+1) textarea{
+    background-color: rgb(255, 255, 245);
+}
+.table tr:nth-child(2n) textarea{
+    background-color: rgba(248, 248, 248, 0.91);
+}
+.table tr:nth-child(2n+1) .email button.send{
+    background-color: rgba(247, 246, 187, 0.78);
+    border: 1px solid #cdcb7c;
+}
+.table tr:nth-child(2n) .email button.send{
+    background-color: #FFFFFF;
+    border: 1px solid #000;
+}
+.table tr .email button.send{
+    margin: 0.7em 0;
+}
+.table tr:first-child{
+    background-color: rgba(211, 233, 236, 0.62);
+}
+.table .email .gen-info{
+    margin-bottom: 5px;
+}
+.table .email textarea{
+    width: 100%;
+    padding: 8px;
+}
+.email .address{
+    color: #008db7;
+}
+.email .request-time{
+    margin-left: 2em;
+}
+.email button img.icon{
+    width: 20px;
+    height: auto;
+    margin-right: 5px;
+}
+
+.approval-status{
+    color: #00bd00;
+}

@@ -13,6 +13,7 @@ class CreateSelfTestQuestionsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('self_test_questions')) return;
         Schema::create('self_test_questions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('word');

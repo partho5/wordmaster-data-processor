@@ -13,6 +13,7 @@ class CreateSelfTestsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('self_tests')) return;
         Schema::create('self_tests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedMediumInteger('user_id');

@@ -7,6 +7,7 @@
  */
 
 namespace App\Http\Controllers;
+use Config;
 
 
 class MyConstants
@@ -49,5 +50,9 @@ class MyConstants
     ];
 
     public static $adminIds = [1,2,3,4,5,6];
+
+
+    public static $affiliatePostApproveMailSubject = "Your video / link has been reviewed";
+    public static $affiliatePostApproveEmailTemplate = "We saw that you created a nice video. Below we have provided you an affiliate link which you will put in the description of your video. When someone buys from your link, you will get the revenue share.";
 
 }

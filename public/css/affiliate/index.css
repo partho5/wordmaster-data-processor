@@ -3,7 +3,7 @@
 
 #body-wrapper{
     margin-top: -1.2em;
-    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.79)), url("../../images/bg21.jpg") center;
+    //background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.79)), url("../../images/bg21.jpg") center;
     //background: linear-gradient(rgba(162, 162, 162, 0.95), rgba(238, 238, 238, 0.9)), url("../../images/bg26.jpg");
     font-size: 1.3em;
     background-repeat: no-repeat;
@@ -14,10 +14,101 @@
     color: #000;
 }
 
-
-#common{
+#common .instruction1{
+    background-color: rgba(214, 250, 250, 0.35);
+    color: #000;
+    padding: 0.5em 8px;
+    border-left: 2px solid rgb(0, 199, 233);
+}
+#common ol{
 
 }
+#common ol li{
+    margin-top: 20px;
+}
+.last-provided-link{
+    font-size: 0.8em;
+    margin: 10px 0;
+}
+.save-post-btn{
+    margin-bottom: 1em;
+}
+.post-link .success-msg{
+    background-color: #00b1e5;
+    color: #fff;
+    padding: 0.3em 2em;
+
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    width: 90%;
+    text-align: center;
+    transform: translate(-50%, 0);
+    -webkit-animation: sucMsgAppear 1.5s forwards;
+    -moz-animation: sucMsgAppear 1.5s forwards;
+    -o-animation: sucMsgAppear 1.5s forwards;
+    animation: sucMsgAppear 1.5s forwards;
+
+    display: none;
+}
+@keyframes sucMsgAppear {
+    0%{
+        top: 200px;
+        opacity: 0;
+        background-color: #60c060;
+    }
+    20%{
+        opacity: 1;
+        top: 100px;
+    }
+    80%{
+        opacity: 1;
+    }
+    100%{
+        top: 100px;
+        opacity: 0;
+        background-color: #499249;
+    }
+}
+
+.steps ol li{
+
+}
+
+#common .bottom-line{
+    text-align: center;
+    background-color: #00c5ff;
+    color: #fff;
+    padding: 0.5em 0;
+    //border-left: 4px solid #00b4e9;
+}
+#common .contact{
+    padding: 1em;
+}
+
+@media (min-width: 320px) { /* mobile */
+    .contact .for-pc{
+        display: none;
+    }
+}
+@media (min-width: 801px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
+    .contact .for-pc{
+        display: block;
+    }
+    .contact .for-mobile{
+        display: none;
+    }
+}
+
+#last-shareable-post{
+    margin: 0.5em 0;
+}
+
+
+
+
+
+
 
 #simple-curtain{
     display: none;

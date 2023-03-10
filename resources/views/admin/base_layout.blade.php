@@ -69,6 +69,7 @@
                 <li><a href="/admin/tom">Admin</a></li>
                 <li><a href="/admin/tom/visit_log/show">Web Visitor Log</a></li>
                 <li><a href="/admin/tom/app_user_activity/show">App User activity</a></li>
+                <li><a href="/admin/tom/affiliate_approval/show">Affiliate Approval</a></li>
                 <li><a href="/admin/tom/display_index/show">Display index</a></li>
                 <li><a href="/admin/tom/chat/user/all">Chat List</a></li>
                 <li><a href="/test/backup/db" target="_blank">Backup</a></li>

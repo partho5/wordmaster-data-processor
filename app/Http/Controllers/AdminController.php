@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AffiliatePersons;
+use App\Models\AffiliatePosts;
 use App\Models\Antonyms;
 use App\Models\DerivedWords;
 use App\Models\DontConfuseWith;
@@ -13,15 +15,23 @@ use App\Models\Synonyms;
 use App\Models\WordCategories;
 use App\Models\Words;
 use App\Models\WordUsages;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Doctrine\Inflector\Rules\Word;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Kreait\Firebase;
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\ServiceAccount;
+use Mockery\Exception;
+use function Psr\Log\error;
+use function Ramsey\Uuid\Generator\timestamp;
+
+//use Kreait\Firebase;
+//use Kreait\Firebase\Factory;
+//use Kreait\Firebase\ServiceAccount;
 
 
 class AdminController extends Controller
@@ -30,11 +40,20 @@ class AdminController extends Controller
 
     function __construct(){
         $this->middleware('auth');
+
+        $this->middleware(function ($request, $next) {
+            $this->id = Auth::user()->id;
+            if(! in_array(Auth::id(), MyConstants::$adminIds)){
+                abort(403);
+            }
+
+            return $next($request);
+        });
     }
+
 
     public function index(){
         //return $this->extractSynonymWords(12);
-
 
         $partsOfSpeechAndOtherForms = ["noun", "pronoun", "adjective", "verb", "adverb", "preposition", "conjunction", "interjection", "phrasal verb", "past", "pp", "past + pp"];
         $partsOfSpeech = $partsOfSpeechAndOtherForms;
@@ -47,8 +66,90 @@ class AdminController extends Controller
     }
 
 
+    public function showAffiliateApprovalPage(Request $request){
+
+        /* testing purpose
+        $data = [
+            'appName'   => env('APP_NAME'),
+            'userName'  => 'Shakil Ahmed',
+            'msg'       => "We saw that you created a nice video. Below we have provided you an affiliate link which you will put in the description of your video. When someone buys from your link, you will get the revenue share.",
+            'affiliateLink' => 'http://jovoc.com?p=yt643kj'
+        ];
+        return view('mailPages.approve_post_mail', compact('data')); //just test
+         testing purpose */
+
+        $posts = DB::table('users as u')
+            ->select('u.id as uid', 'u.name', 'u.email', 'p.id as postId', 'p.post_link as postLink', 'p.created_at')
+            ->join('affiliate_posts as p', 'u.id', 'p.user_id')
+            ->where('approved', 0)
+            ->get();
+
+        $emailMsg = MyConstants::$affiliatePostApproveEmailTemplate;
+        //this message which might be edited by admin before sending
+
+        return view('admin.affiliate_approval', compact('posts', 'emailMsg'));
+    }
+
+    public function approvePost(Request $request){
+        $result = AffiliatePosts::where('id', $request->postId)
+            ->update(['approved'=>1]);
+        return $result;
+    }
+
+
+    private function createAffiliateLink($userId){
+        $row = AffiliatePersons::where('user_id', $userId)->select('reference_token')->get();
+        if(count($row) > 0){
+            $token = $row[0]->reference_token;
+            return env('BASE_DOMAIN').'?p='.$token;
+        }
+
+        return "ERROR occured. Please contact support !"; //very unlikely case. token should have been existed.
+    }
+
+    public function sendApprovalMail(Request $request){
+        $userId = $request->userId;
+        $row = AffiliatePersons::where('user_id', $userId)->select('reference_token')->get();
+        if(count($row) == 0){
+            //new affiliate. so create their reference token
+            $person = new AffiliatePersons();
+            $person->user_id = $userId;
+            $person->reference_token = (new Library())->forgeAffiliateToken($userId);
+            $person->created_at = Carbon::now();
+            $person->updated_at = Carbon::now();
+            $person->save();
+        }
+
+        $data = [
+            'appName'   => env('APP_NAME'),
+            'userName'  => $request->userName,
+            'mailTo'    => $request->email, //affiliate email
+            'adminEmail'=> config('values.adminEmail'),
+            'msg'       => $request->msg,
+            'subject'   => MyConstants::$affiliatePostApproveMailSubject,
+            'affiliateLink' => $this->createAffiliateLink($userId)
+        ];
+
+        try{
+            Mail::send('mailPages.approve_post_mail', ['data'=>$data], function ($m) use ($data){
+                $m->from($data['adminEmail']);
+                $m->to($data['mailTo'])->subject($data['subject']);
+            });
+        }catch (Exception $exception){
+            return $exception;
+        }
+
+        $result = $this->approvePost($request);
+        if($result == 1){
+            return 'ok';
+        }
+    }
+
+
+
     public function saveWord(Request $request){
         //return $request->all();
+
         $word = Words::where('word', $request->base_word)->get();
         $baseWord = $request->base_word;
 
@@ -379,6 +480,10 @@ class AdminController extends Controller
 
 
     public function fetchWordDetails(Request $request){
+
+        if(! in_array(Auth::id(), MyConstants::$adminIds)){
+            abort(403);
+        }
 
         //return $request->all();
         if($request->clickedBtn == "nextBtn" || $request->clickedBtn == "prevBtn"){
@@ -760,6 +865,115 @@ class AdminController extends Controller
     function someWords(){
         return ["ABNEGATE", "ACCOST", "ACERBIC", "ADDRESS", "AGENDA", "ALLOCATE", "AMORAL", "ANGUISH", "APOCALYPSE", "APPRECIATE", "ARBITRARY", "ARISTOCRATIC", "ATHEIST", "AUTOCRATIC", "AUTONOMOUS", "AVUNCULAR", "AXIOM", "BEGET", "BELABOR", "BELIE", "BELITTLE", "BEMUSED", "BEREAVED", "BLASPHEMY", "CAPITALISM", "CARICATURE", "CHARISMA", "CONCISE", "CONCURRENT", "CONVENTIONAL", "CRITERION", "CULINARY", "DAUNT", "DEBAUCHERY", "DEFAME", "DEMAGOGUE", "DEXTROUS", "DISCRIMINATE", "DISSIPATE", "DISSOLUTION", "DISTINGUISH", "DOCTRINAIRE", "DOGMATIC", "DOMESTIC", "ECLECTIC", "EFFUSION", "EGOCENTRIC", "ELLIPTICAL", "ENDEMIC", "ENFRANCHISE", "EXISTENTIAL", "EXPLICIT", "EXTROVERT", "FIGURATIVE", "FINESSE", "FLAUNT", "FORBEAR", "FOREGO", "FRENETIC", "GENRE", "GRAVITY", "HOMOGENEOUS", "HUSBANDRY", "HYPOTHETICAL", "IDEOLOGY", "IMMUTABLE", "IMPARTIAL", "IMPOTENT", "INAUGURATE", "INCANDESCENT", "INCONGRUOUS", "INCREMENT", "INDIGENOUS", "INERT", "INFINITESIMAL", "INHERENT", "INSIDIOUS", "INTEGRATE", "INTRANSIGENT", "KINETIC", "LATENT", "LUGUBRIOUS", "LUMINOUS", "MANIFEST", "MANIFESTO", "MENDACIOUS", "MENDICANT", "METAMORPHOSIS", "MITIGATE", "MORIBUND", "MYOPIA", "NEFARIOUS", "NOMINAL", "NOTORIOUS", "OBFUSCATE", "OPAQUE", "PACIFY", "PARADOX", "PARSIMONIOUS", "PATRONIZE", "PEDESTRIAN", "PERIPHERY", "PIOUS", "POLARIZE", "POSTULATE", "PRECEDENT", "PRECIPITOUS", "PREEMPT", "PROLETARIAT", "QUIXOTIC", "REDUNDANT", "RENAISSANCE", "REQUISITE", "ROBUST", "SCINTILLATE", "SECULAR", "SENSORY", "SOBRIETY", "STATIC", "SYNTHESIS", "TRANSIENT", "UNIFORM", "ABOMINATION", "ACCESS", "AD-LIB", "ALLOT", "APPALLING", "ARCHIVES", "ASSESS", "ATROPHY", "ATTEST", "ATTRIBUTE", "AUGUR", "AUSPICES", "AUXILIARY", "BEHEST", "BON VIVANT", "CACHE", "CANON", "CANT", "CANVASS", "CAPITAL", "CHANNEL", "CHORTLE", "CLASSIC", "CLONE", "COMPATIBLE", "CONCAVE", "CORRELATION", "DEGRADE", "DEITY", "DEJECTED", "DEPLOY", "DISAFFECT", "DIVINE", "DOLDRUMS", "DOUBLE ENTENDRE", "ECCLESIASTICAL", "ELITE", "EMPOWER", "ENTREPRENEUR", "ETHICS", "FORSWEAR", "FUEL", "GALVANIZE", "GENERIC", "IDIOM", "IMPOVERISH", "INCARNATION", "INFLAMMATORY", "INFRASTRUCTURE", "IRIDESCENT", "JUNCTION", "KARMA", "LASCIVIOUS", "LYRICAL", "MEDIUM", "MODE", "MOMENTUM", "MYSTIC", "NIRVANA", "NOMENCLATURE", "NULLIFY", "ORDINANCE", "OSCILLATE", "OVERRIDE", "OVERTURE", "PARALLEL", "PARTITION", "PILGRIMAGE", "PRESUPPOSE", "PROTOCOL", "PROVOCATION", "PUNDIT", "QUERY", "RESIGNATION", "SALUTATION", "SANCTION", "SARCASM", "STIPEND", "STUPENDOUS", "THESIS", "THRESHOLD", "TOIL", "TOXIC", "UNILATERAL", "WAKE"];
     }
+
+
+    private $highFrequency328 = ["abate","aberrant","abeyance","absconder","abstinent","admonish","adulterate","aesthetic","aggregate","alacrity","alleviate","amalgamate","ambiguous","ambivalence","ameliorate","anachronism","analogous","anarchy","anomalous","antipathy","apathy","appease","apprise","approbation","appropriate","arduous","artless","ascetic","assiduous","assuage","attenuate","audacious","austere","aver","banal","belie","beneficent","bolster","bombastic","boorish","burgeon","burnish","buttress","cacophonous","capricious","castigation","catalyst","caustic","chicanery","coagulate","coda","cogent","commensurate","compendium","complaisant","compliant","conciliatory","condone","confound","connoisseur","contention","contentious","contrite","conundrum","converge","convoluted","craven","daunt","decorum","default","deference","delineate","denigrate","deride","derivative","desiccate","desultory","deterrent","diatribe","dichotomy","diffidence","diffuse","digression","dirge","disabuse","discerning","discordant","discredit","discrepancy","discrete","disingenuous","disinterested","disjointed","dismiss","disparage","disparate","dissemble","disseminate","dissolution","dissonance","distend","distill","diverge","divest","document","dogmatic","dormant","dupe","ebullient","eclectic","efficacy","effrontery","elegy","elicit","embellish","empirical","emulate","endemic","enervate","engender","enhance","ephemeral","equanimity","equivocate","erudite","esoteric","eulogy","euphemism","exacerbate","exculpate","exigency","extrapolation","facetious","facilitate","fallacious","fatuous","fawning","felicitous","fervor","flag","fledgling","flout","foment","forestall","frugality","futile","gainsay","garrulous","goad","gouge","grandiloquent","gregarious","guileless","gullible","harangue","homogenous","hyperbole","iconoclast","idolatry","immutable","impair","impassive","impede","impermeable","imperturbable","impervious","implacable","implicit","implode","inadvertently","inchoate","incongruity","inconsequential","incorporate","indeterminate","indigence","indolent","inert","ingenuous","inherent","innocuous","insensible","insinuate","insipid","insularity","intractable","intransigence","inundate","inured","invective","irascible","irresolute","itinerary","laconic","lassitude","latent","laud","lethargic","levee","levity","log","loquacious","lucid","luminous","magnanimity","malingerer","malleable","maverick","mendacious","metamorphosis","meticulous","misanthrope","mitigate","mollify","morose","mundane","negate","neophyte","obdurate","obsequious","obviate","occlude","officious","onerous","oscillate","ostentatious","paragon","partisan","pathological","paucity","pedantic","penchant","penury","perennial","perfidious","perfunctory","permeable","pervasive","phlegmatic","piety","placate","plasticity","platitude","plethora","plummet","porous","pragmatic","preamble","precarious","precipitate","precursor","presumptuous","prevaricate","pristine","probity","problematic","prodigal","profound","prohibitive","proliferate","propensity","propitiate","propriety","proscribe","pungent","qualified","quibble","quiescent","rarefied","recalcitrant","recant","recluse","recondite","refractory","refute","relegate","reproach","reprobate","repudiate","rescind","resolution","resolve","reticent","reverent","sage","salubrious","sanction","satiate","saturate","savor","secrete","shard","skeptic","soporific","specious","spectrum","sporadic","stigma","stint","stipulate","stolid","strut","subpoena","subside","substantiate","supersede","supposition","tacit","tangential","tenuous","tirade","torpor","tortuous","tractable","transgression","truculence","vacillate","venerate","veracious","verbose","viable","viscous","vituperative","volatile","wary","welter","whimsical","zealot"];
+    //private $highFrequency328 = ["abate","aberrant","abeyance"];
+
+
+    public function exportWordsPdf(Request $request){
+        ini_set("max_execution_time", 30000);
+
+        $time = date('Y-m-d__h-i-s');
+        $savePath = storage_path().'\app\public\exportedPdf\words-'.$time.'.pdf';
+
+        $allWordsData = [];
+        foreach ($this->highFrequency328 as $index => $w){
+            $data = [];
+            $i=0;
+            $row = Words::where('word', $w)->select('id')->get();
+            if(count($row)>0){
+                $wordId = $row[0]->id;
+                $request['id'] = $wordId;
+                $word = $this->fetchWordDetails($request);
+                $data['word'] = $w;
+                $meanings = @$word['meanings'];
+                if($meanings){
+                    if(count($meanings) > 0){
+                        $data['meanings'] = [];
+                        $data['definitions'] = [];
+                        foreach ($meanings as $meaning){
+                            $m = trim( @$meaning['bangla_meaning'] );
+                            if(!is_null($m) && $m != ""){
+                                if(str_starts_with($m, "*")){
+                                    $m = substr($m, 1);
+                                }
+                                if(str_starts_with($m, "#")){
+                                    $m = substr($m, 1);
+                                }
+                                $m = str_replace("\n", "<br>", $m);
+                                if($index <= 5){
+                                    $m = str_replace("[ox]", "[Oxford Dictionary]", $m);
+                                    $m = str_replace("[cam]", "[Cambridge Dictionary]", $m);
+                                }else{
+                                    $m = str_replace("[ox]", "[Oxford]", $m);
+                                    $m = str_replace("[cam]", "[Cambridge]", $m);
+                                }
+
+                                if($i <= 1){
+                                    array_push($data['meanings'], $m);
+                                }else if($i >=2 && $i<=3){
+                                    if(str_starts_with($m, "<span")){ /* #(hash sign) already trailed */
+                                        array_push($data['definitions'], $m);
+                                    }
+                                }
+                            }
+                            if(++$i >= 4) break;
+                        }
+                    }
+
+                    $pof = @$word['parts_of_speech'][0]['parts_of_speech'];
+                    if($pof){
+                        $data['pof'] = $pof;
+                    }
+
+                    $mnemonic = @$word['mnemonic'];
+                    if(!is_null($mnemonic)){
+                        $data['mnemonic'] = @$word['mnemonic'][0]['mnemonic'];
+                    }
+
+                    $note = @$word['notes'][0]['word_note'];
+                    if($note){
+                        $data['note'] = $note;
+                    }
+
+                    $sentences = @$word['uses'];
+                    if($sentences){
+                        if(count($sentences) > 0){
+                            $i = 0;
+                            $data['sentence'] = [];
+                            foreach ($sentences as $sentence){
+                                if( !str_starts_with($sentence, ">") && strlen($sentence->sentence) > 10){
+                                    array_push($data['sentence'], $sentence->sentence);
+                                    if(++$i >= 2) break;
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    //return $w.' no meanings';
+                }
+            }
+            //return $data;
+            array_push($allWordsData, $data);
+
+            if($index >= 15) break;
+        }
+
+        //return $allWordsData;
+        $data = $allWordsData;
+
+        return view('pdf_generator.export_words', compact('data'));
+
+        $html = view('pdf_generator.export_words', compact('data'))->render();
+        $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+
+
+        $pdf = Pdf::loadView('pdf_generator.export_words', compact('data'))->save($savePath);
+    }
+
+
+
 
 
 }

@@ -13,6 +13,7 @@ class CreateDontConfuseWithsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('dont_confuse_with')) return;
         Schema::create('dont_confuse_with', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('word_id');

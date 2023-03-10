@@ -5,7 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+
+                {{--<div class="card-header">{{ __('Dashboard') }}</div>--}}
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +15,14 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{--{{ __('You are logged in!') }}--}}
+                        {{--<hr>--}}
+
+                        <div class="">
+                            <p style="font-size: 1.5em">
+                                Now go to <a href="/partner">Partner Program</a>
+                            </p>
+                        </div>
                 </div>
             </div>
         </div>

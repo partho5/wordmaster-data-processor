@@ -8,6 +8,13 @@
             text-align: center;
             border: 1px solid #dedede;
         }
+        @media(min-width: 601px){
+            #content{
+                max-width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
         .header{
             background-color: rgba(250, 253, 231, 0.8);
             padding: 1em;
@@ -23,7 +30,7 @@
             margin-top: 8px;
         }
         .msg-container{
-            padding: 1em 2em;
+            padding: 1em 1em;
             text-align: left;
             font-weight: 300;
             font-family: "Raleway", Serif;
@@ -36,22 +43,34 @@
             font-size: 1.2em;
         }
         .msg-container .p2{
+            font-size: 1.2em;
             margin-top: 2em;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
         .msg-content .affiliate-link{
             margin-top: 8px;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
         .footer{
-            padding: 4px 2em;
+            padding: 4px 1em;
+        }
+        @media(min-width: 420px){ /* when crosses 420px */
+            .msg-content .p1{
+                font-weight: 400;
+            }
+            .msg-container, .footer{
+                padding-left: 2em;
+                padding-right: 2em;
+            }
         }
         .footer .p1{
             font-size: 1.3em;
             background-color: #000;
             color: #e6e480;
-            padding: 0.5em 0;
-            font-family: "Roboto Slab";
+            padding: 1em 0;
+            font-family: "Roboto Slab", sans-serif;
             font-weight: 300;
+            letter-spacing: 2px;
         }
     </style>
 </head>
@@ -64,7 +83,7 @@
     <div class="msg-container">
         <div class="username">Dear {{ $data['userName'] }}</div>
         <div class="msg-content">
-            <p>{{ $data['msg'] }}</p>
+            <p class="p1">{{ $data['msg'] }}</p>
             <div>
                 <div><b>Your affiliate link :</b></div>
                 <div class="affiliate-link">

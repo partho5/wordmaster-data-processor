@@ -78,7 +78,7 @@
 
                             <li><span>2001-2010</span></li>
 
-                            <li><span>2010-2021</span></li>
+                            <li><span>2010-2022</span></li>
 
                         </ul>
 
@@ -156,7 +156,7 @@
 
                 <span style="font-size: 0.8em">বিগত বছর গুলোতে -</span> <br/>
 
-                <img src="images/icon/tick-orange.svg" class="icon"> <span class="fontCourier">BCS</span> এ কমন ছিল <span class="fontRoman">94-100%,</span>  <br/>
+                <img src="images/icon/tick-orange.svg" class="icon"> <span class="fontCourier">BCS</span> এ কমন ছিল <span class="fontRoman">94-100%</span>  <br/>
 
                 <img src="images/icon/tick-oliv.svg" class="icon"> বাংলাদেশ ব্যাংক এ <span class="fontRoman">96-100%</span> <br/>
 
@@ -302,7 +302,8 @@
 
                     <img src="images/icon/golden_trophy.png" class="icon-large" alt="img">
 
-                    <!-- কোর্সটি --> <b>{{ env('APP_NAME') }}</b>  নিজেই 4-5 টা বইয়ের সমান <b>তথ্যবহুল</b> । কমপ্লিট করতে পারলে আর কোন বই কিনতে হবে না
+                    <!-- <b>{{ env('APP_NAME') }}</b>  নিজেই 4-5 টা বইয়ের সমান <b>তথ্যবহুল</b> । -->  
+                    আপনি নিজেই 4-5 টা ভোকাবুলারি বই দেখুন, আর এই <b>{{ env('APP_NAME') }}</b> অ্যাপটি ভালোমতো যাচাই করে দেখুন। বেস্ট মনে হলে তবেই কিনবেন !
 
                 </div>
 
@@ -314,7 +315,7 @@
 
 
 
-    <div class="col-xs-12 section draw" id="trial">
+    <div class="col-xs-12 section draw hidden" id="trial">
 
         {{--দুই মাস ফ্রী পড়ে মান যাচাই করে নিন  <br/>--}}
 
@@ -330,7 +331,8 @@
 
     <div class="col-xs-12 section" id="download">
         <div class="content text-center">
-            <p>Download <b>{{ env('APP_NAME') }}</b> :</p>
+            <!-- <p>Download <b>{{ env('APP_NAME') }}</b> :</p> -->
+            <p>কিনবেন কিনা সেটা পরের কথা, কিন্তু ফ্রি ইনস্টল করে যাচাই করে দেখুন</p>
             <div class="title" style="all:unset; opacity: 0; font-size:0">download</div>
             <a href="https://play.google.com/store/apps/details?id=com.wordmas.wordmaster">
                 <img src="/images/playstore-link.png" alt="Download App" >
@@ -344,7 +346,7 @@
             <h4>Your feedback is important to us</h4>
             <span>Contact Developer : </span>
             <div>
-                Click on &nbsp; <a href="mailto:word7master@gmail.com">word7master@gmail.com</a>
+                Click on &nbsp; <a href="mailto:{{ env('ADMIN_EMAIL') }}">{{ env('ADMIN_EMAIL') }}</a>
             </div>
         </div>
     </div>
@@ -369,158 +371,160 @@
 
 
 
-<script>
+    <script>
 
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        var wordsLeft = ["abandon", "dextrous", "baffle", "chasm"];
+            var wordsLeft = ["abandon", "dextrous", "baffle", "chasm"];
 
-        var wordsRight = ["zest", "terse", "poignant", "litany"];
+            var wordsRight = ["zest", "terse", "poignant", "litany"];
 
-        if(navigator.userAgent.includes("Android 12")){
-            //$('#trial').html("<b style='color:red'>If your android version is 12 or higher, the app is NOT compatible with your device !!</b>");
-        }else{
-            //$('#trial').append("<br>Download it...");
-        }
-
-
-
-        var urlPath = window.location.pathname; //url path except base domain
-        var queryString = window.location.search;
-        var urlParams = new URLSearchParams(queryString);
-        var referredBy = urlParams.get('ref');//this way gets url parameter written using ?param=value
-
-        //check if url contains reference (ref value)
-        if(urlPath.includes("/ref/")){
-            var refValue = urlPath.substring(urlPath.indexOf("ref")+4); //this approach gets optional url parameter ref value
-        }
-        //console.log(referredBy+" "+refValue);
-        if(referredBy == null){
-            referredBy = refValue;
-        }
-
-        
+            if(navigator.userAgent.includes("Android 12")){
+                //$('#trial').html("<b style='color:red'>If your android version is 12 or higher, the app is NOT compatible with your device !!</b>");
+            }else{
+                //$('#trial').append("<br>Download it...");
+            }
 
 
 
+            var urlPath = window.location.pathname; //url path except base domain
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
 
-        var dom = "";
+            //here we use 'p' instead of 'ref'
+            var referredBy = urlParams.get('p');//this way gets url parameter written using ?param=value
 
-        for(var i=0; i<4;i++){
-
-            var top = 2*i;
-
-            var inclination = i<=1 ? 'downward' : 'upward';
-
-            dom+= "<span class='fly fly-left "+inclination+"' style='top: "+top+"em'> <span class='word'>"+wordsLeft[i]+"</span> </span>";
-
-        }
-
-        $('#brain-container').append(dom);
-
-
-
-        for(var i=0; i<4;i++){
-
-            var top = 2*i;
-
-            var inclination = i<=1 ? 'downward' : 'upward';
-
-            dom+= "<span class='fly fly-right "+inclination+"' style='top: "+top+"em'> <span class='word'>"+wordsRight[i]+"</span> </span>";
-
-        }
-
-        $('#brain-container').append(dom);
-
-
-
-        setTimeout(function(){
-
-            $('.center-words').fadeIn();
-
-        },3000);
+            //check if url contains reference (ref value)
+            if(urlPath.includes("/p/")){
+                var refValue = urlPath.substring(urlPath.indexOf("p")+2); //this approach gets optional url parameter p(reference parameter) value
+            }
+            //console.log(referredBy+" "+refValue);
+            if(referredBy == null){
+                referredBy = refValue;
+            }
 
 
 
 
 
 
+            var dom = "";
 
-        //$('.title').addClass('scaleup');
+            for(var i=0; i<4;i++){
 
+                var top = 2*i;
 
+                var inclination = i<=1 ? 'downward' : 'upward';
 
-        if (!window.IntersectionObserver) {
+                dom+= "<span class='fly fly-left "+inclination+"' style='top: "+top+"em'> <span class='word'>"+wordsLeft[i]+"</span> </span>";
 
-            $('.title').css('opacity', 1).css('transform', 'scale(1)');
+            }
 
-            $('.section .content').css('opacity', 1);   
-
-        }
-
-        
-
+            $('#brain-container').append(dom);
 
 
 
+            for(var i=0; i<4;i++){
 
-        const elements = document.querySelectorAll('.title');
+                var top = 2*i;
 
-        elements.forEach(element=>{
+                var inclination = i<=1 ? 'downward' : 'upward';
 
-            element.classList.remove('scaleup');
+                dom+= "<span class='fly fly-right "+inclination+"' style='top: "+top+"em'> <span class='word'>"+wordsRight[i]+"</span> </span>";
+
+            }
+
+            $('#brain-container').append(dom);
+
+
+
+            setTimeout(function(){
+
+                $('.center-words').fadeIn();
+
+            },3000);
+
+
+
+
+
+
+
+            //$('.title').addClass('scaleup');
+
+
+
+            if (!window.IntersectionObserver) {
+
+                $('.title').css('opacity', 1).css('transform', 'scale(1)');
+
+                $('.section .content').css('opacity', 1);
+
+            }
+
+
+
+
+
+
+
+            const elements = document.querySelectorAll('.title');
+
+            elements.forEach(element=>{
+
+                element.classList.remove('scaleup');
 
             const observer = new IntersectionObserver(entries=>{
 
-                entries.forEach(entry => {
+                    entries.forEach(entry => {
 
                     //$('.title').text("isIntersecting :"+entry.isIntersecting+" intersectionRatio  "+entry.intersectionRatio );
 
                     if(entry.isIntersecting || entry.intersectionRatio>0){
 
-                        element.classList.add('scaleup');
-
-                        
-
-                        //console.log( $(element).text() +" > ajax");
-
-                        $.ajax({
-
-                            url : "/ajax/visit_log/save",
-
-                            type : "post",
-
-                            async : true,
-
-                            data : {
-
-                                _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
-
-                                current_time : Date.now(), browser : navigator.userAgent,
-
-                                url : '/', referredBy : referredBy, meta: "section view= "+($(element).text())
-
-                            },
-
-                            success : function (response) {
-
-                                p(response);
-
-                            },error: function (error) {}
-
-                        });
+                element.classList.add('scaleup');
 
 
 
-                        return;
+                //console.log( $(element).text() +" > ajax");
 
-                    }
+                $.ajax({
 
-                    element.classList.remove('scaleup');
+                    url : "/ajax/visit_log/save",
+
+                    type : "post",
+
+                    async : true,
+
+                    data : {
+
+                        _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
+
+                        current_time : Date.now(), browser : navigator.userAgent,
+
+                        url : '/', referredBy : referredBy, meta: "section view= "+($(element).text())
+
+                    },
+
+                    success : function (response) {
+
+                        p(response);
+
+                    },error: function (error) {}
 
                 });
 
-            });
+
+
+                return;
+
+            }
+
+            element.classList.remove('scaleup');
+
+        });
+
+        });
 
             observer.observe(element);
 
@@ -532,29 +536,29 @@
 
 
 
-        const secContents = document.querySelectorAll('.content');
+            const secContents = document.querySelectorAll('.content');
 
-        secContents.forEach(content=>{
+            secContents.forEach(content=>{
 
-            content.classList.remove('appear');
+                content.classList.remove('appear');
 
             const observer = new IntersectionObserver(entries=>{
 
-                entries.forEach(entry=>{
+                    entries.forEach(entry=>{
 
                     if(entry.isIntersecting || entry.intersectionRatio>0){
 
-                        content.classList.add('appear');
+                content.classList.add('appear');
 
-                        return;
+                return;
 
-                    }
+            }
 
-                    content.classList.remove('appear');
+            content.classList.remove('appear');
 
-                });
+        });
 
-            });
+        });
 
             observer.observe(content);
 
@@ -566,37 +570,43 @@
 
 
 
-        var fp = new Fingerprint({
+            var fp = new Fingerprint({
 
-            canvas: true,
+                canvas: true,
 
-            ie_activex: true,
+                ie_activex: true,
 
-            screen_resolution: true
+                screen_resolution: true
 
-        });
-
-
-
-        var fingerprint = fp.get();
-        setCookie("visitorLogId", fingerprint);
-
-        var intervalTime = 2000  ;
-        setInterval(function () {
-            $.ajax({
-                url : "/ajax/visit_log/save",
-                type : "post",
-                async : true,
-                data : {
-                    _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
-                    current_time : Date.now(), browser : navigator.userAgent, 
-                    url : '/', referredBy : referredBy
-                },
-                success : function (response) {
-                    p(response);
-                },error: function (error) {}
             });
-        }, intervalTime);
+
+
+
+            var fingerprint = fp.get();
+            setCookie("visitorLogId", fingerprint);
+            var screenSize = screen.width+'x'+screen.height;
+            var section = "";
+            try{
+                section = ($(element).text());
+            }catch (e){}
+
+            var intervalTime = 2000  ;
+            setInterval(function () {
+                $.ajax({
+                    url : "/ajax/visit_log/save",
+                    type : "post",
+                    async : true,
+                    data : {
+                        _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
+                        current_time : Date.now(), browser : navigator.userAgent,
+                        url : '/', referredBy : referredBy, screenSize : screenSize,
+                        meta: "section view= "+section
+                    },
+                    success : function (response) {
+                        p(response);
+                    },error: function (error) {}
+                });
+            }, intervalTime);
 
 
 
@@ -604,73 +614,73 @@
 
 
 
-        $('#download').click(function (e) {
+            $('#download').click(function (e) {
 
-            e.preventDefault();
+                e.preventDefault();
 
-            var href = $(this).find('a').attr('href');
+                var href = $(this).find('a').attr('href');
 
-            if(! href){
+                if(! href){
 
-                href = $(this).find('a').prop('href');
+                    href = $(this).find('a').prop('href');
+
+                }
+
+                p( href );
+
+                $.ajax({
+
+                    url : "/ajax/visit_log/save",
+
+                    type : "post",
+
+                    async : true,
+
+                    data : {
+
+                        _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
+
+                        current_time : Date.now(), browser : navigator.userAgent,
+
+                        url : href, referredBy : referredBy,
+
+                    },
+
+                    success : function (response) {
+
+                        //p(response);
+
+                    },error: function (error) {}
+
+                });
+
+
+
+                window.location = href;
+
+            });
+
+
+
+
+
+            function p(data) {
+
+                console.log(data);
 
             }
 
-            p( href );
-
-            $.ajax({
-
-                url : "/ajax/visit_log/save",
-
-                type : "post",
-
-                async : true,
-
-                data : {
-
-                    _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
-
-                    current_time : Date.now(), browser : navigator.userAgent,
-
-                    url : href, referredBy : referredBy,
-
-                },
-
-                success : function (response) {
-
-                    //p(response);
-
-                },error: function (error) {}
-
-            });
 
 
 
-            window.location = href;
+
+
+
+
 
         });
 
-
-
-
-
-        function p(data) {
-
-            console.log(data);
-
-        }
-
-
-
-
-
-
-
-
-
-    });
-
-</script>
+    </script>
 
 
 

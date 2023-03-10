@@ -492,3 +492,11 @@ body {
     background-image: -webkit-linear-gradient(left, #00c5ff 0%, #00c5ff 47%, #0383a9 50%, #0383a9 100%);
     background-image: linear-gradient(to right, #00c5ff 0%, #00c5ff 47%, #0383a9 50%, #0383a9 100%);
 }
+
+
+
+#footer{
+    background: linear-gradient(rgba(246, 246, 246, 0.89), rgba(244, 244, 244, 0.87)), url("../../images/bg48.jpg") center;
+    color: #333;
+    padding: 1em 0;
+}

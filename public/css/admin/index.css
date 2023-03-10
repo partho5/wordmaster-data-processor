@@ -13,6 +13,7 @@ html { //scroll-behavior: smooth; }
 
 #body-wrapper{
     margin-top: -24px;
+    background-color: #c2c2c2;
 }
 #heading1{
     background-color: #107383;
@@ -211,6 +212,17 @@ html { //scroll-behavior: smooth; }
 #save-btn{
     font-size: 1.5em;
     padding-bottom: 1.8em;
+}
+.save-status, .fetch-loading{
+    background-color: #00bd00;
+    color: #fff;
+    padding: 4px 4em;
+    font-weight: 400;
+
+    display: none;
+}
+.fetch-loading{
+    background-color: #000;
 }
 
 

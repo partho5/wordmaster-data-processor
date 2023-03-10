@@ -14,6 +14,7 @@ use App\Models\Synonyms;
 use App\Models\Antonyms;
 use App\Models\DerivedWords;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Mockery\Exception;
 use App\Models\User;
@@ -161,13 +162,16 @@ class ApiController extends Controller
 
 
     function prepareWordsForAndroid(){
+        if(! Auth::id()){
+            abort(403);
+        }
         ini_set("max_execution_time", 30000);
         $wordsPerFile = 100;
         $startIndex = 1;
 
         $start = round(microtime(true)*1000);
 
-        for($fileNo=1; $fileNo <= 29; $fileNo++){
+        for($fileNo=1; $fileNo <= 29; $fileNo++){ //<=29
             $wordData = [];
             $words = $this->wordsToFetch($startIndex, $wordsPerFile);
             //return $words;

@@ -12,12 +12,15 @@
 */
 
 
+
+
+Route::get('/partner', [App\Http\Controllers\AffiliateController::class, 'showAffiliateHome']);
+Route::get('/partner/proposal', [App\Http\Controllers\AffiliateController::class, 'showAffiliateLandingPage']);
+Route::get('/partner/terms-of-service', [App\Http\Controllers\AffiliateController::class, 'showTermsOfService']);
+
+
+
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
-
-
-Route::get('/partner', [App\Http\Controllers\AffiliateController::class, 'showPartnerHome']);
-
-
 
 
 Route::get('/privacy-policy', [App\Http\Controllers\HomeController::class, 'showPrivacyPolicy']);
@@ -28,9 +31,27 @@ Route::post('/ajax/visit_log/save', [App\Http\Controllers\HomeController::class,
 
 
 
+Route::post('/ajax/post_link/save', [\App\Http\Controllers\AffiliateController::class, 'savePostLink']);
+
+
+
+
+Route::get('/admin/tom/affiliate/all', [\App\Http\Controllers\AdminAffiliateManageController::class, 'index']);
+Route::get('/admin/tom/affiliate/id/{id}/show', [\App\Http\Controllers\AdminAffiliateManageController::class, 'showIndividual']);
+
+
+
+
 Route::get('/admin/tom',  [App\Http\Controllers\AdminController::class, 'index']);
 Route::get('/admin/tom/visit_log/show',  [App\Http\Controllers\HomeController::class, 'showVisitLog']);
 Route::get('/admin/tom/app_user_activity/show', [App\Http\Controllers\HomeController::class, 'showAppUserActivity']);
+Route::get('/admin/tom/affiliate_approval/show', [App\Http\Controllers\AdminController::class, 'showAffiliateApprovalPage']);
+
+Route::get('/admin/tom/pdf/generate/export-words', [\App\Http\Controllers\AdminController::class, 'exportWordsPdf']);
+
+
+Route::post('/admin/tom/ajax/post/send_approval_mail', [\App\Http\Controllers\AdminController::class, 'sendApprovalMail']);
+
 
 Route::get('/admin/tom/sentence/search', [App\Http\Controllers\AdminController::class, 'showSearchSentence']);
 Route::post('/admin/ajax/senSearch', [App\Http\Controllers\AdminController::class, 'doSearchSentence']);

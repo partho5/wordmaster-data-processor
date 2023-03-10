@@ -13,7 +13,7 @@
         <div class="col-md-4 col-md-offset-4 col-xs-12" style="border: 1px solid #ababab; padding: 1em; margin-top: 1em">
             <h2 class="text-center">Modify display index</h2>
             <div id="new-index-word" class="col-md-12 col-xs-12 no-padding">
-                <div class="text-left"><label>Word to re-assign above</label></div>
+                <div class="text-left"><label>Word to re-assign above (<strong>You must write this at first !</strong>)</label></div>
                 <div class="col-md-9 col-xs-9 no-padding vcenter"><input id="ni-word" type="text" class="form-control"></div>
                 <div class="col-md-2 col-xs-2 vcenter"><img class="search-btn" src="/images/icon/search_btn_blue.png" alt=""></div>
             </div>

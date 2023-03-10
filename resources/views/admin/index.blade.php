@@ -28,6 +28,8 @@
                         <span>id: </span>
                         <span id="wid"></span>
                         <span id="di"></span>
+                        <span class="save-status">Saving...</span>
+                        <span class="fetch-loading">Loading...</span>
                     </label>
                     <div class="col-xs-10 vcenter">
                         <input type="text" class="form-control" id="base-word" value="">
@@ -545,6 +547,7 @@
             var usageNote = $("#usage-note").val().trim();
             var confusingHint = $("#confusing-hint").val().trim();
 
+            $('.save-status').fadeIn();
 
             if(baseWord){
                 $.ajax({
@@ -726,6 +729,8 @@
                         showPopupMsg("success", "Successfully saved !");
                         playTingTone();
 
+                        $('.save-status').fadeOut();
+
                     }, error : function (error) {
                         p(error);
                         showPopupMsg("error", "Oops ! error occurred");
@@ -766,6 +771,10 @@
         $("#base-word-wrapper .search-btn, #prevBtn, #nextBtn").on("click", function (e) {
             nextId = $("#nextBtn").attr('next-id');
             prevId = $("#prevBtn").attr('prev-id');
+
+            if( $("#base-word").val() ){
+                $('.fetch-loading').fadeIn();
+            }
 
             $.ajax({
                 url : '/admin/ajax/fetch_word',
@@ -978,6 +987,8 @@
 
                         $("#save-btn").text("Save");
                         $("#heading1").text("Edit this word");
+
+                        $('.fetch-loading').fadeOut();
                     }else{
                         $("#save-btn").text("Add this word");
                         $("#save-btn-tmp").hide();
@@ -1203,8 +1214,8 @@
             else if (event.keyCode == 191){
                 //alert("forward slash /");
                 if(! inputFieldActive){
-                    event.preventDefault();
-                    $('#base-word').focus();
+//                    event.preventDefault();
+//                    $('#base-word').focus();
                 }
             }
         });

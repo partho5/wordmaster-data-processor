@@ -13,6 +13,7 @@ class CreateUserPaymentsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('user_payments')) return;
         Schema::create('user_payments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('user_id')->nullable();

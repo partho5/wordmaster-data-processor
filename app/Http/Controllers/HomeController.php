@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AffiliatePosts;
 use App\Models\User;
 use App\Models\VisitorLog;
 use App\Models\Meanings;
@@ -14,6 +15,7 @@ use App\Models\Words;
 use App\Models\WordUsages;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -39,7 +41,7 @@ class HomeController extends Controller
 
         return view('home/featuredHome');
 
-
+/*
         if( null !== $request->w){
             //url parameter
             $currentWord = $request->w;
@@ -58,6 +60,7 @@ class HomeController extends Controller
         return view('home/index', compact(
             'allWords'
         ));
+*/
     }
 
 
@@ -188,11 +191,12 @@ class HomeController extends Controller
         $retVal = [];
 
         $now = round(microtime(true) * 1000);
+        $clientInfo = $request['browser']." -ip=".$_SERVER['REMOTE_ADDR'].' -screenSize='.$request['screenSize'];
         if(count($log) == 0){
             //new user
             VisitorLog::create([
                 'device_token'  => $deviceToken,
-                'client'        => $request['browser']." -ip=".$_SERVER['REMOTE_ADDR'],
+                'client'        => $clientInfo,
                 'referred_by' => $request->referredBy,
                 'reading_start_at'    =>  $now,
                 'reading_end_at'      => $now,
@@ -215,6 +219,7 @@ class HomeController extends Controller
                     if(count($lastLog)>0){
                         $meta = $request->meta;
                         if(isset($meta) || !is_null($meta)){
+                            //this appending meta info is primarily designed for getting data about user interaction in homepage
                             $meta = $lastLog[0]->meta.', '.$request->meta;
                             //echo $meta;
                         }else{
@@ -231,7 +236,7 @@ class HomeController extends Controller
                     $retVal['msg']= "user came again after exit";
                     VisitorLog::create([
                         'device_token'  => $deviceToken,
-                        'client'        => $request['browser']." -ip=".$_SERVER['REMOTE_ADDR'],
+                        'client'        => $clientInfo,
                         'referred_by' => $request->referredBy,
                         'reading_start_at'    => $now,
                         'reading_end_at'    => $now,
@@ -259,7 +264,7 @@ class HomeController extends Controller
                 }
             }
         }
-        return "";
+        return "logged";
         return $retVal;
     }
 

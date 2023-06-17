@@ -17,6 +17,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class HomeController extends Controller
 {
@@ -67,6 +69,31 @@ class HomeController extends Controller
     function showDownloadPage(){
         return view('home.download');
     }
+
+    function showPdfDownload(Request $request){
+        $type = $request->type;
+        if(!isset($type)){
+            return view('pdf_generator.show_download_pdf');
+        }
+        else{ /* same page. just url has 'type' paramater such as '?type=1' */
+            if($type == 1){ /* 330 high frequency words pdf */
+                $filePath = Storage::path("/public/330-high-frequency-words.pdf");
+                $response = response()->file($filePath);
+                //return $response;
+                $downloadName = "330-high-frequency-words.pdf";
+                // Create a ResponseHeaderBag object to set the headers
+                $headers = new ResponseHeaderBag();
+                $headers->set('Content-Type', 'application/pdf');
+                $headers->set('Content-Disposition', "attachment; filename=$downloadName");
+
+                // Set the headers on the BinaryFileResponse object
+                $response->headers = $headers;
+
+                return $response;
+            }
+        }
+    }
+
 
 
 

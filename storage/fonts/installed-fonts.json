@@ -7,5 +7,8 @@
     },
     "noto sans": {
         "normal": "noto_sans_normal_819ca19e3935acadfbe254d2ae7ce9e8"
+    },
+    "noto sans bengali": {
+        "normal": "noto_sans_bengali_normal_9285346d1e124c6ce3587a9f546cbbf1"
     }
 }

@@ -9,6 +9,8 @@ use Carbon\Carbon;
 
 class UserPaymentController extends Controller
 {
+
+    //when bkash sms arrives, payment app inserts that trxId using this function
     public function insertPayment(Request $request){
         //return $request->all();
         $authKey = $request->authKey;
@@ -73,6 +75,7 @@ class UserPaymentController extends Controller
 
 
 
+
     public function verifyPayment(Request $request){
         $isValid = 0;
         $userId = $request->userId;
@@ -88,20 +91,47 @@ class UserPaymentController extends Controller
         
         if($userId && $trxId){
             $query = UserPayment::where('auth_token', $trxId)
-                ->where('paid_amount', '>=', MyConstants::$amountToBePaid-$couponValue )
+                ->where('paid_amount', '>=', MyConstants::$amountToBePaid - MyConstants::$paymentCharge - $couponValue) //we will bear the payment charge
                 ->whereNull('verified_at') //i.e. this trxId is not used before
                 ->get();
             if(count($query) == 1){
                 $isValid = 1;
 
-                UserPayment::where('auth_token', $trxId)->update(['user_id'=>$userId, 'verified_at'=>Carbon::now(), 'coupon_code'=>$request->coupon ]);
-                CouponCodes::where('code', $request->coupon)->update(['used_at'=>Carbon::now(), 'used_by'=>$userId]);
+                UserPayment::where('auth_token', $trxId)
+                    ->update(['user_id'=>$userId, 'verified_at'=>Carbon::now(), 'coupon_code'=>$request->coupon ]);
+                CouponCodes::where('code', $request->coupon)
+                    ->update(['used_at'=>Carbon::now(), 'used_by'=>$userId]);
             }
         }
 
         return response()->json([
-            'valid' => $isValid
+            'isValid' => $isValid
         ],200);
     }
+
+
+
+    public function showBuyApp(Request $request){
+        $netAmountToPay = MyConstants::$amountToBePaid - MyConstants::$paymentCharge;
+        return view('payment.buy_app', compact('netAmountToPay'));
+    }
+
+
+    public function verificationStatus(Request $request){
+        //return $request->all();
+        $query = UserPayment::where('user_id', $request->userId)
+            ->whereNotNull('verified_at')
+            ->get();
+        $isVerified = 0;
+        if(count($query)  == 1){
+            $isVerified = 1;
+        }
+
+        return response()->json([
+            'isVerified'    => $isVerified
+        ], 200);
+    }
+
+
 
 }

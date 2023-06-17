@@ -867,8 +867,11 @@ class AdminController extends Controller
     }
 
 
-    private $highFrequency328 = ["abate","aberrant","abeyance","absconder","abstinent","admonish","adulterate","aesthetic","aggregate","alacrity","alleviate","amalgamate","ambiguous","ambivalence","ameliorate","anachronism","analogous","anarchy","anomalous","antipathy","apathy","appease","apprise","approbation","appropriate","arduous","artless","ascetic","assiduous","assuage","attenuate","audacious","austere","aver","banal","belie","beneficent","bolster","bombastic","boorish","burgeon","burnish","buttress","cacophonous","capricious","castigation","catalyst","caustic","chicanery","coagulate","coda","cogent","commensurate","compendium","complaisant","compliant","conciliatory","condone","confound","connoisseur","contention","contentious","contrite","conundrum","converge","convoluted","craven","daunt","decorum","default","deference","delineate","denigrate","deride","derivative","desiccate","desultory","deterrent","diatribe","dichotomy","diffidence","diffuse","digression","dirge","disabuse","discerning","discordant","discredit","discrepancy","discrete","disingenuous","disinterested","disjointed","dismiss","disparage","disparate","dissemble","disseminate","dissolution","dissonance","distend","distill","diverge","divest","document","dogmatic","dormant","dupe","ebullient","eclectic","efficacy","effrontery","elegy","elicit","embellish","empirical","emulate","endemic","enervate","engender","enhance","ephemeral","equanimity","equivocate","erudite","esoteric","eulogy","euphemism","exacerbate","exculpate","exigency","extrapolation","facetious","facilitate","fallacious","fatuous","fawning","felicitous","fervor","flag","fledgling","flout","foment","forestall","frugality","futile","gainsay","garrulous","goad","gouge","grandiloquent","gregarious","guileless","gullible","harangue","homogenous","hyperbole","iconoclast","idolatry","immutable","impair","impassive","impede","impermeable","imperturbable","impervious","implacable","implicit","implode","inadvertently","inchoate","incongruity","inconsequential","incorporate","indeterminate","indigence","indolent","inert","ingenuous","inherent","innocuous","insensible","insinuate","insipid","insularity","intractable","intransigence","inundate","inured","invective","irascible","irresolute","itinerary","laconic","lassitude","latent","laud","lethargic","levee","levity","log","loquacious","lucid","luminous","magnanimity","malingerer","malleable","maverick","mendacious","metamorphosis","meticulous","misanthrope","mitigate","mollify","morose","mundane","negate","neophyte","obdurate","obsequious","obviate","occlude","officious","onerous","oscillate","ostentatious","paragon","partisan","pathological","paucity","pedantic","penchant","penury","perennial","perfidious","perfunctory","permeable","pervasive","phlegmatic","piety","placate","plasticity","platitude","plethora","plummet","porous","pragmatic","preamble","precarious","precipitate","precursor","presumptuous","prevaricate","pristine","probity","problematic","prodigal","profound","prohibitive","proliferate","propensity","propitiate","propriety","proscribe","pungent","qualified","quibble","quiescent","rarefied","recalcitrant","recant","recluse","recondite","refractory","refute","relegate","reproach","reprobate","repudiate","rescind","resolution","resolve","reticent","reverent","sage","salubrious","sanction","satiate","saturate","savor","secrete","shard","skeptic","soporific","specious","spectrum","sporadic","stigma","stint","stipulate","stolid","strut","subpoena","subside","substantiate","supersede","supposition","tacit","tangential","tenuous","tirade","torpor","tortuous","tractable","transgression","truculence","vacillate","venerate","veracious","verbose","viable","viscous","vituperative","volatile","wary","welter","whimsical","zealot"];
-    //private $highFrequency328 = ["abate","aberrant","abeyance"];
+
+
+
+
+    private $highFrequency328 = ["admonish","aesthetic","abeyance","abstinent","alacrity","amalgamate","anarchy","anomaly","antipathy","abate","aberration","absconder","adulterate","aggregate","alleviate","ambiguous","ambivalent","ameliorate","anachronism","analogy","apathy","appease","apprise","approbation","appropriate","arduous","artless","ascetic","assiduous","assuage","attenuate","audacity","austere","aver","banal","belie","benefactor","bolster","bombast","boorish","burgeon","burlesque","buttress","cacophony","capricious","castigate","catalyst","caustic","chicanery","coagulate","cognitive","cogent","commensurate","compendium","complaisant","compliant","conciliatory","condone","confound","connoisseur","contention","contentious","contrite","conundrum","converge","convene","craven","daunt","dearth","debacle","deference","delineate","denigrate","deride","derogatory","desiccate","desultory","deterrent","diatribe","dichotomy","diffident","diffuse","digress","dirge","dilate","dilemma","discord","discourteous","discrepancy","discrete","disdain","disinterested","dismay","dismiss","disparage","disparate","dissemble","disseminate","dissolution","dissuade","distend","distinct","divergence","divest","document","dogmatic","dormant","dupe","ebullient","eclectic","efficacy","effrontery","elegy","elicit","embellish","empirical","emulate","endemic","enervate","engender","epicure","ephemeral","equanimity","equivocal","erudite","esoteric","eulogy","euphemism","exacerbate","exculpate","exigency","extrapolate","facetious","facilitate","fallacy","fatuous","fawning","fiasco","fervor","flamboyant","fledgling","flout","foment","forestall","frugal","futile","gainsay","garrulous","fuel","fulminate","grandiloquent","gregarious","guile","gullible","hackneyed","homogeneous","hyperbole","iconoclast","idiosyncrasy","immutable","impair","impassive","impede","impermeable","imperturbable","impervious","implacable","imposter","impregnable","inadvertent","insouciant","incongruous","inconsequential","instigate","indeterminate","indigent","indolent","inert","ingenuous","inherent","innocuous","insensible","insinuate","insipid","insular","intractable","intransigent","inundate","inure","invective","irascible","irresolute","itinerant","laconic","lassitude","latent","laud","lethargic","libel","levity","listless","loquacious","lucid","luminous","magnanimous","malinger","malleable","maverick","mendacity","metamorphosis","meticulous","misogyny","misanthrope","mitigate","mollify","morose","mundane","negate","neophyte","obdurate","obsequious","obviate","occult","officious","onerous","oscillate","ostentatious","paragon","partisan","pathological","paucity","pedantic","penchant","penurious","perennial","perfidy","perfunctory","peril","pervasive","phlegmatic","piety","placate","plasticity","platitude","plethora","plummet","porous","pragmatic","preamble","precarious","precipitate","precursor","presumptuous","prevaricate","pristine","probity","proclaim","prodigal","profound","prohibit","proliferate","propensity","propitiate","propriety","proscribe","pungent","qualified","quibble","quiescent","rarefied","recalcitrant","recant","recluse","recondite","refractory","refute","relegate","reproach","reprobate","repudiate","rescind","resolve","reticent","revere","sage","salubrious","sanction","satiate","saturate","savor","secrete","skeptical","soporific","specious","spectrum","sporadic","stigmatize","stint","stipulate","stolid","strut","subside","substantiate","supersede","supposition","tacit","tangential","tenuous","tirade","torpor","tortuous","tractable","transgress","truculence","vacillate","venerate","veracious","verbose","viable","viscous","vituperative","volatile","wary","whimsical","zealot"];
 
 
     public function exportWordsPdf(Request $request){
@@ -920,50 +923,67 @@ class AdminController extends Controller
                             }
                             if(++$i >= 4) break;
                         }
-                    }
 
-                    $pof = @$word['parts_of_speech'][0]['parts_of_speech'];
-                    if($pof){
-                        $data['pof'] = $pof;
-                    }
+                        $pof = @$word['parts_of_speech'][0]['parts_of_speech'];
+                        if($pof){
+                            $data['pof'] = $pof;
+                        }
 
-                    $mnemonic = @$word['mnemonic'];
-                    if(!is_null($mnemonic)){
-                        $data['mnemonic'] = @$word['mnemonic'][0]['mnemonic'];
-                    }
+                        $mnemonic = @$word['mnemonic'];
+                        if(!is_null($mnemonic)){
+                            $mn = @$word['mnemonic'][0]['mnemonic'];
+                            // remove font size assigned by nicEdit
+                            $mn = str_replace("font-size:", "", $mn); //it works !
+                            $data['mnemonic'] = $mn;
+                        }
 
-                    $note = @$word['notes'][0]['word_note'];
-                    if($note){
-                        $data['note'] = $note;
-                    }
+                        $note = @$word['notes'][0]['word_note'];
+                        if($note){
+                            $data['note'] = $note;
+                        }
 
-                    $sentences = @$word['uses'];
-                    if($sentences){
-                        if(count($sentences) > 0){
-                            $i = 0;
-                            $data['sentence'] = [];
-                            foreach ($sentences as $sentence){
-                                if( !str_starts_with($sentence, ">") && strlen($sentence->sentence) > 10){
-                                    array_push($data['sentence'], $sentence->sentence);
-                                    if(++$i >= 2) break;
+                        $sentences = @$word['uses'];
+                        if($sentences){
+                            if(count($sentences) > 0){
+                                $i = 0;
+                                $data['sentence'] = [];
+                                foreach ($sentences as $sentence){
+                                    if( !str_starts_with($sentence, ">") && strlen($sentence->sentence) > 10){
+                                        array_push($data['sentence'], $sentence->sentence);
+                                        if(++$i >= 2) break;
+                                    }
                                 }
                             }
                         }
+
+                        $synonyms = $word['synonyms'];
+                        if(isset($synonyms) && count($synonyms) > 0){
+                            $synoList = [];
+                            foreach ($synonyms as $synonym){
+                                if($synonym->importance_level >= 80){
+                                    array_push($synoList, $synonym->synoword);
+                                }
+                            }
+                            $data['synonyms'] = $synoList;
+                        }
+                    } //no meaning
+                    else{
+                        //as meaning doesn't exist. don't take this
+                        //return $w.' no meanings';
                     }
-                }else{
-                    //return $w.' no meanings';
                 }
             }
-            //return $data;
+
             array_push($allWordsData, $data);
 
-            if($index >= 15) break;
+            //if($index >= 14) break;
         }
 
         //return $allWordsData;
         $data = $allWordsData;
+        $appLink = "https://jovoc.com?p=highF330";
 
-        return view('pdf_generator.export_words', compact('data'));
+        return view('pdf_generator.export_words', compact('data', 'appLink'));
 
         $html = view('pdf_generator.export_words', compact('data'))->render();
         $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');

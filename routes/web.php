@@ -25,6 +25,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 Route::get('/privacy-policy', [App\Http\Controllers\HomeController::class, 'showPrivacyPolicy']);
 Route::get('/download', [App\Http\Controllers\HomeController::class, 'showDownloadPage']);
+Route::get('/download/pdf', [App\Http\Controllers\HomeController::class, 'showPdfDownload']);
 
 
 Route::post('/ajax/visit_log/save', [App\Http\Controllers\HomeController::class, 'saveVisitLog']);
@@ -137,7 +138,10 @@ Route::get('/api/mobile/exportForAndroid',  [App\Http\Controllers\ApiController:
 
 
 Route::match( array('GET', 'POST'), '/api/payment/create', [App\Http\Controllers\UserPaymentController::class, 'insertPayment']);
-Route::match( array('GET', 'POST'), '/api/payment/verify',  [App\Http\Controllers\UserPaymentController::class, 'verifyPayment']);
+Route::match( array('GET', 'POST'), '/api/user/payment/verification_status',  [App\Http\Controllers\UserPaymentController::class, 'verificationStatus']);
+
+Route::get('/buy/app',  [App\Http\Controllers\UserPaymentController::class, 'showBuyApp']);
+Route::post('/buy/app/payment/verify',  [App\Http\Controllers\UserPaymentController::class, 'verifyPayment']);
 
 Route::match( ['GET', 'POST'], '/api/coupon/verify',  [App\Http\Controllers\UserPaymentController::class, 'verifyCoupon']);
 

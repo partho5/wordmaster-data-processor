@@ -1,0 +1,112 @@
+
+
+body{
+    background-size: cover;
+    //background: linear-gradient(rgba(234, 233, 238, 0.54), rgba(242, 242, 242, 0.61)), url("/images/bg35.jpg") center;
+    min-height: 100vh;
+}
+.no-padding{
+    margin: 0;
+    padding: 0;
+}
+input{
+//border-radius: 20px !important;
+    padding: 2px 5px;
+}
+#content .section{
+
+}
+.section1{
+    margin-top: 0.5em;
+    text-align: center;
+    font-size: 2em;
+}
+.section1 .app-name{
+    padding: 0 0.5em 0.2em 0.5em;
+    border-bottom: 2px solid #000bf8;
+    color: #000ae9;
+}
+.section2{
+    margin-top: 1em;
+    font-size: 1.3em;
+}
+#coupon-container{
+    border-bottom: 1px solid #9f9f9f;
+    padding-bottom: 1em;
+}
+#apply-coupon-btn{
+    margin-top: 0.5em;
+    padding: 0.5em 2em;
+}
+#concession{
+    font-size: 0.9em;
+    color: #636363;
+}
+#payment-method-holder{
+    margin-left: 1em;
+    margin-top: 1em;
+    background: #e060b2;
+    color: #ffffff;
+}
+#steps{
+    margin-top: 0.2em;
+}
+#steps li{
+    margin-top: 1em;
+}
+.field{
+    background-color: rgb(255, 254, 239);
+    padding: 2px 4px;
+    border-radius: 5px;
+}
+#trxId{
+    border : 1px solid #000;
+}
+.logs{
+
+    color: #00007a;
+}
+.loading{
+    display: none;
+}
+.msg-success{
+    display: none;
+    color: #00b410;
+}
+.msg-error{
+    display: none;
+    text-align: left;
+    background: rgba(247, 185, 190, 0.31);
+    border-radius: 5px;
+    padding-top: 8px;
+    color: #db241c;
+}
+.msg-error li{
+    padding-top: 10px;
+}
+
+.section3{
+    display: none;
+    margin-top: 2em;
+}
+.section3 h3{
+    color: #00cf27;
+}
+.section3 .p1{
+    color: #8f8f8f;
+}
+.section3 .instruction2{
+    display: none;/* currently not needed */
+    color: #e06c5c;
+    font-size: 1.5em;
+}
+
+footer{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f9f9f9;
+    text-align: center;
+    padding: 20px 0;
+}

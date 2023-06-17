@@ -24,6 +24,7 @@ class MyConstants
 
     /*
      * importance_level=90 ---- word smart 1,2
+     * importance_level=85 ---- 330 high frequency words which were not in 80 or 90 lists
      * importance_level=80 ---- saifurs pani out of word smart 1,2
      * importance_level=75 ---- previous year question words out of above categories
      * importance_level=60 ---- derived words
@@ -33,8 +34,9 @@ class MyConstants
 
     public static $minImportanceLevelForMainWords = 75;
 
-    //if you change value, also MUST change in user end (in android course_fee.html)
-    public static $amountToBePaid = 220;
+    //if you change value, also MUST change in user end (in android index.html   const payablePrice=)
+    public static $amountToBePaid = 150; //Tk
+    public static $paymentCharge = 5; //bKash send money charge 5 Tk
 
 
     //value for word_categories table

@@ -38,6 +38,15 @@
             margin-left: 1em;
             color: #999;
         }
+        .admin-device{
+            display: none;
+            background: #00aa11;
+        }
+        .general-device h4{
+            background: #000;
+            color: #dedede;
+            padding: 5px 0;
+        }
     </style>
 
 </head>
@@ -45,10 +54,15 @@
 
 <div id="container">
     <h2 class="text-center">Visitor Log</h2>
-    <?php $i=1; ?>
+    <?php
+    $i=1;
+    $adminDevices = ["703968647", "2633596126", "3611826085", "2746203542", "2013181607", "1943572267", "2657667095", "2729225889", "786356722", "2308038079", "2015841309", "2034330327"];
+    ?>
     @foreach ($groups as $group)
-        <div class="device-token">
-            <h4>Device Token : {{ $group[0]->device_token }}  <small>browser</small> : {{ $group[0]->client }}</h4>
+        <div class="device-token {{ in_array($group[0]->device_token, $adminDevices) ? 'admin-device':'general-device' }}">
+            <h4>
+                Device Token : {{ $group[0]->device_token }}  <small>browser</small> : {{ $group[0]->client }}
+            </h4>
             @foreach ($group as $log)
                 <p>
                     <small>[{{ $i++ }}]</small> <span>{{ date('d M, y -- h:i A', $log->reading_start_at/1000) }}</span>

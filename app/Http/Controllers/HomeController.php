@@ -89,6 +89,9 @@ class HomeController extends Controller
                 // Set the headers on the BinaryFileResponse object
                 $response->headers = $headers;
 
+                //add visitor log
+
+
                 return $response;
             }
         }

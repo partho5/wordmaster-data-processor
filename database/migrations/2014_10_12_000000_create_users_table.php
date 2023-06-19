@@ -32,7 +32,7 @@ class CreateUsersTable extends Migration
             $table->string('device_os')->nullable();
             $table->string('os_version')->nullable();
             $table->string('device_name')->nullable();
-            $table->unsignedBigInteger('downloaded_max_word_id')->nullable();
+            $table->string('meta', 256)->nullable();
             $table->string('token2')->nullable();
             $table->string('country')->nullable();
             $table->timestamps();

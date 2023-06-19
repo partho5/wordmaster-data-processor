@@ -226,6 +226,7 @@ class ApiController extends Controller
         $deviceOS = $request->os;
         $osVersion = $request->osV;
         $deviceName = $request->deviceName;
+        $ip = $request->ip;
         
     	$user = User::where('device_id', $deviceId)->get();
     	if( count($user) > 0 ){
@@ -238,6 +239,7 @@ class ApiController extends Controller
             $user->device_os = $deviceOS;
             $user->os_version = $osVersion;
             $user->device_name = $deviceName;
+            $user->meta = "ip=".$ip;
     	    $user->created_at = Carbon::now();
     	    $user->save();
 

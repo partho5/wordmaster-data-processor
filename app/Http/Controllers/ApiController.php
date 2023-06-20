@@ -226,12 +226,19 @@ class ApiController extends Controller
         $deviceOS = $request->os;
         $osVersion = $request->osV;
         $deviceName = $request->deviceName;
-        $ip = $request->ip;
+        $ip = $_SERVER['REMOTE_ADDR'];
         
     	$user = User::where('device_id', $deviceId)->get();
     	if( count($user) > 0 ){
     	    //user id for this device id exists
     	    $userId = $user[0]->id;
+
+    	    //concatenate IP with meta column
+    	    User::where('id', $userId)
+                ->where('meta', 'not like', '%ip=%.%.%.%') //if meta already contains ip, don't concatenate
+                ->update([
+                'meta'  => $user[0]->meta." ip=".$ip."," //whenever concatenate a data to meta field; add a comma(,) at the end so that the newly added data in future get a comma(,) at it's beginning
+            ]);
     	}else{
     	    //user id for this device NOT exist. so create user. remember about $fillable before inserting method
     	    $user = new User();
@@ -248,7 +255,8 @@ class ApiController extends Controller
 
     	
     	$data = [
-    	    'userId' => $userId
+    	    'userId' => $userId,
+            //'ip'     => $ip
     	];
 
     	return response()->json($data);

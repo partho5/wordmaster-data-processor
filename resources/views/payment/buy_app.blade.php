@@ -119,6 +119,7 @@
 
 
         var userId = new URLSearchParams(window.location.search).get('userId');
+        userId = parseInt(userId); //3 characters have been concatenated at the end of userId to prevent possible accidental modification of get parameter. Even if last character get modified we still get the userId by parseInt
 
         $('.verify-btn').click(function () {
             var trxId = $('#trxId').val().trim();

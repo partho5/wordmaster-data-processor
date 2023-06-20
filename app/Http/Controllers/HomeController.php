@@ -92,6 +92,7 @@ class HomeController extends Controller
                 //add visitor log
 
 
+
                 return $response;
             }
         }

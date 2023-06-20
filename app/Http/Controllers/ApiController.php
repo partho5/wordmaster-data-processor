@@ -7,6 +7,7 @@ use App\Models\Mnemonics;
 use App\Models\Notes;
 use App\Models\PartsOfSpeech;
 use App\Models\UserActivityLog;
+use App\Models\UserPayment;
 use App\Models\WordCategories;
 use App\Models\Words;
 use App\Models\WordUsages;
@@ -253,10 +254,23 @@ class ApiController extends Controller
     	    $userId = $user->id;
     	}
 
+
+        $paymentVerified = 0;
+        try{
+            $payment = UserPayment::where('user_id', $userId)
+                ->whereNotNull('verified_at')
+                ->get();
+            if(count($payment) > 0){
+                //payment verified for this userId. That means this user has reinstalled the app
+                $paymentVerified = 1;
+            }
+        }catch (\Exception $e){}
+
     	
     	$data = [
     	    'userId' => $userId,
-            //'ip'     => $ip
+            //'ip'     => $ip,
+            'paymentVerified'   => $paymentVerified
     	];
 
     	return response()->json($data);

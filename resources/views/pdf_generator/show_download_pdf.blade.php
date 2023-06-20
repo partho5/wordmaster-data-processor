@@ -57,6 +57,39 @@
             setTimeout(function () {
                 $('.dn-status').hide();
             }, 2000);
+
+            //save download log
+            var fp = new Fingerprint({
+
+                canvas: true,
+
+                ie_activex: true,
+
+                screen_resolution: true
+
+            });
+
+
+
+            var fingerprint = fp.get();
+            setCookie("visitorLogId", fingerprint);
+            var screenSize = screen.width+'x'+screen.height;
+
+            $.ajax({
+                url : "/ajax/visit_log/save",
+                type : "post",
+                async : true,
+                data : {
+                    _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
+                    current_time : Date.now(), browser : navigator.userAgent,
+                    url : window.location.pathname, referredBy : "", screenSize : screenSize,
+                },
+                success : function (response) {
+                    console.log(response);
+                },error: function (error) {}
+            });
+
+
         });
     });
 </script>

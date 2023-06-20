@@ -332,7 +332,7 @@
     <div class="col-xs-12 section" id="download">
         <div class="content text-center">
             <!-- <p>Download <b>{{ env('APP_NAME') }}</b> :</p> -->
-            <p>কিনবেন কিনা সেটা পরের কথা, কিন্তু ফ্রি ইনস্টল করে যাচাই করে দেখুন</p>
+            <p class="p1">কিনবেন কিনা সেটা পরের কথা, কিন্তু ফ্রি ইনস্টল করে যাচাই করে দেখুন</p>
             <div class="title" style="all:unset; opacity: 0; font-size:0">download</div>
             <a href="https://play.google.com/store/apps/details?id=com.wordmas.wordmaster">
                 <img src="/images/playstore-link.png" alt="Download App" >

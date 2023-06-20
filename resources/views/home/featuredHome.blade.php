@@ -585,6 +585,10 @@
             var fingerprint = fp.get();
             setCookie("visitorLogId", fingerprint);
             var screenSize = screen.width+'x'+screen.height;
+            if(! screen.width){
+                screenSize = "window.inner:"+window.innerWidth+'x'+window.innerHeight;
+            }
+            p("screenSize="+screenSize);
             var section = "";
             try{
                 section = ($(element).text());

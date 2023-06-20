@@ -152,7 +152,7 @@ Auth::routes();
 
 
 //as url takes optional parameter, so it has been written at last so that it doesn't conflict with other urls
-//Route::get('/{ref?}/{refName?}', [App\Http\Controllers\HomeController::class, 'index']); //check for reference url
+Route::get('/ref/{refName?}', [App\Http\Controllers\HomeController::class, 'index']); //check for reference url
 
 Route::get('/home', function (){
     return view('home');

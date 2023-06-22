@@ -386,7 +386,7 @@
             }
 
 
-
+            var baseDomain = new URL(window.location.href).hostname;
             var urlPath = window.location.pathname; //url path except base domain
             var queryString = window.location.search;
             var urlParams = new URLSearchParams(queryString);
@@ -404,6 +404,10 @@
             }
 
 
+
+            // Remove URL parameters without page reloading, so that only base domain is visible to user.
+            // !!!!!!!!       But do this only after storing all URL params in variables.       !!!!!!!
+            window.history.replaceState({}, document.title, window.location.pathname);
 
 
 

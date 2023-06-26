@@ -59,7 +59,7 @@
         @foreach($logData as $userId=>$logs)
             <div class="col-xs-12 col-md-12 user">
                 <span class="uid">user id : {{ $userId }} </span>
-                <span class="device-name">{{ \App\Models\User::find($userId)->device_name }}</span>
+                <span class="device-name">{{ @\App\Models\User::find($userId)->device_name }}</span>
                 <span class="os-v">{{ @$osV[\App\Models\User::find($userId)->os_version] }}</span>
             </div>
             @foreach($logs as $rows)

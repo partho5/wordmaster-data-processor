@@ -7,10 +7,14 @@
     <title>{{ env('APP_NAME') }}</title>
 
 
+    <meta property="og:type" content="website">
+    <meta property="fb:app_id" content="YOUR_APP_ID">
 
-    <meta property="og:title" content="প্রিলিমিনারি তে 94-100% কমন  ||  রিটেন এ 
+    {{--<meta property="og:title" content="প্রিলিমিনারি তে 94-100% কমন  ||  রিটেন এ --}}
 
- মানসম্মত  Writing || Smart Speaking - এর জন্য যেভাবে words পড়া প্রয়োজন">
+ {{--মানসম্মত  Writing || Smart Speaking - এর জন্য যেভাবে words পড়া প্রয়োজন">--}}
+
+    <meta property="og:title" content="যে 2900 words থেকে সব পরীক্ষায় কমন আসে। 3-4 টা বইয়ের সমান information এই একটি অ্যাপে">
 
     <meta property="og:description" content="(1)Explanation (2)Example Sentence (3)Guarenteed memorizing (4)Question Bank (5)Synonyms (6)Revision (7)Exam">
 

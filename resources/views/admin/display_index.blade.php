@@ -12,8 +12,13 @@
     <div class="col-md-12 text-center">
         <div class="col-md-4 col-md-offset-4 col-xs-12" style="border: 1px solid #ababab; padding: 1em; margin-top: 1em">
             <h2 class="text-center">Modify display index</h2>
+            <div class="text-left">
+                Example : normal words sequence is <b>A B C</b> <br>
+                I want to rearrange order as <b>A C B</b> <br>
+                Then write <b>C</b> in first field and <b>B</b> in the second field
+            </div>
             <div id="new-index-word" class="col-md-12 col-xs-12 no-padding">
-                <div class="text-left"><label>Word to re-assign above (<strong>You must write this at first !</strong>)</label></div>
+                <div class="text-left"><label>Word to re-assign above</label></div>
                 <div class="col-md-9 col-xs-9 no-padding vcenter"><input id="ni-word" type="text" class="form-control"></div>
                 <div class="col-md-2 col-xs-2 vcenter"><img class="search-btn" src="/images/icon/search_btn_blue.png" alt=""></div>
             </div>
@@ -45,8 +50,8 @@
                     $("#ni-word").hide().css('background-color', '#fff').fadeIn();
 
                     //suggest reference word
-                    $("#ref-word").val(response['nextWord'][0]['word']);
-                    $("#ref-word").data("ref_id", response['nextWord'][0]['id']).hide().fadeIn();
+//                    $("#ref-word").val(response['nextWord'][0]['word']);
+//                    $("#ref-word").data("ref_id", response['nextWord'][0]['id']).hide().fadeIn();
                 }else{
                     $("#ni-word").data("ni_id", null);
                     $("#ni-word").hide().css('background-color', 'rgba(255, 0, 0, 0.2)').fadeIn();

@@ -5,6 +5,7 @@
 @section('title')
 
     <title>{{ env('APP_NAME') }}</title>
+    <link rel="icon" type="image/png" href="/images/jovoc_app_logo.png">
 
 
     <meta property="og:type" content="website">
@@ -384,6 +385,7 @@
             var wordsRight = ["zest", "terse", "poignant", "litany"];
 
             if(navigator.userAgent.includes("Android 12")){
+                // UPDATE: now it supports android 12
                 //$('#trial').html("<b style='color:red'>If your android version is 12 or higher, the app is NOT compatible with your device !!</b>");
             }else{
                 //$('#trial').append("<br>Download it...");
@@ -398,9 +400,10 @@
             //here we use 'p' instead of 'ref'
             var referredBy = urlParams.get('p');//this way gets url parameter written using ?param=value
 
-            //check if url contains reference (ref value)
+            //check if url contains reference (use p instead of ref).
+            //Along with "domain.com?p=referenceName" this pattern we also use "domain.com/p/referenceName" this pattern. Because in youtube description ?p= this type url parameter is omitted. But /url/ style works.
             if(urlPath.includes("/p/")){
-                var refValue = urlPath.substring(urlPath.indexOf("p")+2); //this approach gets optional url parameter p(reference parameter) value
+                var refValue = urlPath.substring(urlPath.indexOf("p")+2); //this approach gets optional url parameter p(reference parameter) value.
             }
             //console.log(referredBy+" "+refValue);
             if(referredBy == null){
@@ -411,8 +414,26 @@
 
             // Remove URL parameters without page reloading, so that only base domain is visible to user.
             // !!!!!!!!       But do this only after storing all URL params in variables.       !!!!!!!
-            window.history.replaceState({}, document.title, window.location.pathname);
+            //window.history.replaceState({}, document.title, window.location.pathname);
 
+            window.history.replaceState({}, document.title, extractDomainNameFromFullUrl());
+
+
+
+            function extractDomainNameFromFullUrl() {
+                var directoryPath = window.location.pathname;
+                var fullUrl = window.location.href;
+                //p(directoryPath);
+                var replaceWhat = directoryPath;
+                if(directoryPath === '/'){
+                    //otherwise one slash from "http://" will get replaced !
+                    replaceWhat = "";
+                }
+                var urlExceptDirectoryPath = (fullUrl).replace(replaceWhat, '');
+                var fullDomain = urlExceptDirectoryPath.split("?")[0];
+                //p(fullDomain);
+                return fullDomain;
+            }
 
 
 

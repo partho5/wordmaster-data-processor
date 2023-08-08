@@ -168,11 +168,15 @@ class ApiController extends Controller
         }
         ini_set("max_execution_time", 30000);
         $wordsPerFile = 100;
+        $wordsPerFile = 500;
         $startIndex = 1;
+
+        $fetchableWordsCount = count($this->wordsToFetch($startIndex, "8000"));//8000 is just an assumed max value, we won't extract more words than this number.
+        $numOfFiles = ceil( $fetchableWordsCount/$wordsPerFile );
 
         $start = round(microtime(true)*1000);
 
-        for($fileNo=1; $fileNo <= 29; $fileNo++){ //<=29
+        for($fileNo=1; $fileNo <= $numOfFiles; $fileNo++){
             $wordData = [];
             $words = $this->wordsToFetch($startIndex, $wordsPerFile);
             //return $words;

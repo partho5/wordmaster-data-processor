@@ -4,7 +4,7 @@
 
 @section('title')
 
-    <title>Download Word Master</title>
+    <title>Download {{ env('APP_NAME') }}</title>
 
 @endsection
 
@@ -36,7 +36,7 @@
 
         <div class="vname col-xs-12 no-padding">
 
-            <u> Version <span class="version">1.4.1</span> </u> <sup>Latest</sup>
+            <u> Version <span class="version">1.5</span> </u> <sup>Latest</sup>
 
         </div>
 
@@ -228,7 +228,7 @@
 
                         current_time : Date.now(), browser : navigator.userAgent,
 
-                        url : '/download'
+                        url : window.location.pathname
 
                     },
 

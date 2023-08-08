@@ -251,7 +251,15 @@ class HomeController extends Controller
                         $meta = $request->meta;
                         if(isset($meta) || !is_null($meta)){
                             //this appending meta info is primarily designed for getting data about user interaction in homepage
-                            $meta = $lastLog[0]->meta.', '.$request->meta;
+                            $existingInfo = $lastLog[0]->meta;
+                            $newInfo = $request->meta;
+                            if (strpos($existingInfo, $newInfo) === false) {
+                                // New data is not present in existing data. so concatenate it.
+                                $meta = $lastLog[0]->meta.', '.$request->meta;
+                                //echo $existingInfo . " doesn't contain " . $newInfo;
+                            } else {
+                                //echo $newInfo . " exists";
+                            }
                             //echo $meta;
                         }else{
                             $meta = $lastLog[0]->meta;

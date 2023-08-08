@@ -72,9 +72,10 @@
                 <li><a href="/admin/tom/affiliate_approval/show">Affiliate Approval</a></li>
                 <li><a href="/admin/tom/display_index/show">Display index</a></li>
                 <li><a href="/admin/tom/chat/user/all">Chat List</a></li>
-                <li><a href="/test/backup/db" target="_blank">Backup</a></li>
-                <li><a href="/test/backup/dropbox" target="_blank">Save to dropbox</a></li>
-                <li><a href="/admin/tom/sentence/search" target="_blank">Search Sentence</a></li>
+                <li><a href="/test/backup/db" target="_blank" class="hidden">Backup</a></li>
+                <li><a href="/test/backup/dropbox" target="_blank" class="hidden">Save to dropbox</a></li>
+                <li><a href="/admin/tom/sentence/search" target="_blank" class="hidden">Search Sentence</a></li>
+                <li><a href="/admin/notific" target="_blank">Notification</a></li>
             </ul>
         </div>
         <!--/.nav-collapse -->

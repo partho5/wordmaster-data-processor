@@ -25,7 +25,7 @@
         {{--@endforeach--}}
 
 
-        <?php $osV['21']='Lollipop 5.0'; $osV['22']='Lollipop 5.1'; $osV['23']='Marshmallow'; $osV['24']='Nougat 7.0'; $osV['25']='Nougat 7.1+'; $osV['26']='Oreo 8.0'; $osV['27']='Oreo 8.1';$osV['28']='Pie 9.0'; $osV['29']='Android 10'; $osV['30']='Android 11'; ?>
+        <?php $osV['21']='Lollipop 5.0'; $osV['22']='Lollipop 5.1'; $osV['23']='Marshmallow'; $osV['24']='Nougat 7.0'; $osV['25']='Nougat 7.1+'; $osV['26']='Oreo 8.0'; $osV['27']='Oreo 8.1';$osV['28']='Pie 9.0'; $osV['29']='Android 10'; $osV['30']='Android 11'; $osV['31']='Android 12'; $osV['32']='Android 12 L'; ?>
 
         @foreach($users as  $deviceId=>$device)
             <div class="col-md-6 col-md-offset-3 col-xs-12 text-left device">
@@ -34,7 +34,7 @@
                     @if(! $info->seen_at)
                         <!-- i.e. there's unseen msg -->
                         <span class="green-dot"></span>
-                        <div> {{ $info->device_name }} <i style="color: #219610">{{ $osV['23'] }}</i> </div>
+                        <div> {{ $info->device_name }} <i style="color: #219610">{{ @$osV[$info->os_version] }}</i> </div>
                         @break
                     @endif
                 @endforeach

@@ -146,13 +146,16 @@ Route::post('/buy/app/payment/verify',  [App\Http\Controllers\UserPaymentControl
 Route::match( ['GET', 'POST'], '/api/coupon/verify',  [App\Http\Controllers\UserPaymentController::class, 'verifyCoupon']);
 
 
+Route::get('/api/fb_group/jovoc/post', [App\Http\Controllers\TestSampleController::class, 'postInfbGroupJovoc']);
+
+
 Auth::routes();
 
 
 
 
 //as url takes optional parameter, so it has been written at last so that it doesn't conflict with other urls
-Route::get('/ref/{refName?}', [App\Http\Controllers\HomeController::class, 'index']); //check for reference url
+Route::get('/p/{referenceName?}', [App\Http\Controllers\HomeController::class, 'index']); //check for reference url
 
 Route::get('/home', function (){
     return view('home');

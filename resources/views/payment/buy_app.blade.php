@@ -96,7 +96,8 @@
 
 
 
-
+<script type="text/javascript" src="/js/fingerprint.js"></script>
+<script type="text/javascript" src="/js/library.js"></script>
 
 <script>
     $(document).ready(function (){
@@ -120,6 +121,7 @@
 
         var userId = new URLSearchParams(window.location.search).get('userId');
         userId = parseInt(userId); //3 characters have been concatenated at the end of userId to prevent possible accidental modification of get parameter. Even if last character get modified we still get the userId by parseInt
+        //p("userId="+userId);
 
         $('.verify-btn').click(function () {
             var trxId = $('#trxId').val().trim();
@@ -149,7 +151,7 @@
                                 $('.loading, .msg-error').hide();//in case currently being shown
                                 $('.section1 .app-name, .section2').hide();
                                 $('.section3').fadeIn();
-                                //localStorage.setItem('verified7', 1);
+                                localStorage.setItem('verified7', 1);
                             }else {
                                 $('.loading').hide();//in case currently being shown
                                 $('.msg-error').fadeIn();
@@ -168,6 +170,30 @@
                 }
             }
         });
+
+
+
+
+        var fingerprint = fp.get();
+        setCookie("visitorLogId", fingerprint);
+
+        var referredBy = "app";
+        var intervalTime = 2000  ;
+        setInterval(function () {
+            $.ajax({
+                url : "/ajax/visit_log/save",
+                type : "post",
+                async : true,
+                data : {
+                    _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
+                    current_time : Date.now(), browser : navigator.userAgent,
+                    url : window.location.pathname, referredBy : referredBy, meta : 'userId='+userId
+                },
+                success : function (response) {
+                    p(response);
+                },error: function (error) {}
+            });
+        }, intervalTime);
 
 
 

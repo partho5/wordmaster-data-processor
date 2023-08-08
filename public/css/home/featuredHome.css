@@ -219,6 +219,11 @@ img.icon-large{
     text-decoration: underline;
 }
 
+#download .content{
+    background: #fff none;
+    border: 1px solid #000;
+    border-radius: 4px;
+}
 #download img{
     width: 80%;
     height: auto;

@@ -247,24 +247,9 @@ class HomeController extends Controller
 
                     $lastLog = VisitorLog::where('device_token', $deviceToken)
                         ->orderBy('id', 'desc')->limit(1)->get();
+
                     if(count($lastLog)>0){
-                        $meta = $request->meta;
-                        if(isset($meta) || !is_null($meta)){
-                            //this appending meta info is primarily designed for getting data about user interaction in homepage
-                            $existingInfo = $lastLog[0]->meta;
-                            $newInfo = $request->meta;
-                            if (strpos($existingInfo, $newInfo) === false) {
-                                // New data is not present in existing data. so concatenate it.
-                                $meta = $lastLog[0]->meta.', '.$request->meta;
-                                //echo $existingInfo . " doesn't contain " . $newInfo;
-                            } else {
-                                //echo $newInfo . " exists";
-                            }
-                            //echo $meta;
-                        }else{
-                            $meta = $lastLog[0]->meta;
-                            //echo "meta not set";
-                        }
+                        $meta = $lastLog[0]->meta.', '.$request->meta; //if newly arrived meta data is null just comma (,) will be being concatenated repeatedly. And if again new metadata has value it will be added. So metadata like "some data ,,,,, another data" means there was no activity for a while
                         VisitorLog::where('id', $lastLog[0]->id)->update([
                             'reading_end_at'    => $request['current_time'],
                             'meta'              => $meta

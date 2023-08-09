@@ -406,7 +406,7 @@
                 var refValue = urlPath.substring(urlPath.indexOf("p")+2); //this approach gets optional url parameter p(reference parameter) value.
             }
             //console.log(referredBy+" "+refValue);
-            if(referredBy == null){
+            if(referredBy === null){
                 referredBy = refValue;
             }
 
@@ -418,9 +418,11 @@
 
             window.history.replaceState({}, document.title, extractDomainNameFromFullUrl());
 
-            //attach that referredBy parameter to /download url
-            var downLink = $(".navbar-nav a[href*='/download']");
-            downLink.attr('href', "download?p="+referredBy);
+            if(referredBy !== undefined){
+                //attach that referredBy parameter to /download url
+                var downLink = $(".navbar-nav a[href*='/download']");
+                downLink.attr('href', "download?p="+referredBy);
+            }
 
 
 
@@ -535,7 +537,8 @@
 
                         current_time : Date.now(), browser : navigator.userAgent,
 
-                        url : '/', referredBy : referredBy, meta: "section view= "+($(element).text())
+                        url : '/', referredBy : referredBy,
+                        meta: $(element).text() === '' ? null : "section view="+($(element).text())
 
                     },
 
@@ -622,7 +625,7 @@
                 screenSize = "window.inner:"+window.innerWidth+'x'+window.innerHeight;
             }
             p("screenSize="+screenSize);
-            var section = "";
+            var section = '';
             try{
                 section = ($(element).text());
             }catch (e){}
@@ -637,7 +640,7 @@
                         _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
                         current_time : Date.now(), browser : navigator.userAgent,
                         url : '/', referredBy : referredBy, screenSize : screenSize,
-                        meta: "section view= "+section
+                        meta: section === '' ? null : "section view="+section
                     },
                     success : function (response) {
                         p(response);

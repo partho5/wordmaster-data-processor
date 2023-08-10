@@ -76,7 +76,10 @@
 
         <div class="section3 col-xs-12 no-padding text-center">
             <h3>Payment Successful !</h3>
-            <p class="p1">Now start learning vocabulary</p> <br>
+            <p class="p1">
+                Now start learning vocabulary. <br>
+                Additionally you get access to <a href="/download/pdf" target="_blank">330 high frequency words PDF</a> for short preparation
+            </p> <br>
             <h4 class="instruction2">অ্যাপ টি exit করে আবার open করুন</h4>
         </div>
 

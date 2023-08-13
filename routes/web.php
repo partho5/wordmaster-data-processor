@@ -142,6 +142,7 @@ Route::match( array('GET', 'POST'), '/api/user/payment/verification_status',  [A
 
 Route::get('/buy/app',  [App\Http\Controllers\UserPaymentController::class, 'showBuyApp']);
 Route::post('/buy/app/payment/verify',  [App\Http\Controllers\UserPaymentController::class, 'verifyPayment']);
+Route::get('/buy/app/payment/issue/report/show',  [App\Http\Controllers\UserPaymentController::class, 'verifyPaymentIssueReport']);
 
 Route::match( ['GET', 'POST'], '/api/coupon/verify',  [App\Http\Controllers\UserPaymentController::class, 'verifyCoupon']);
 

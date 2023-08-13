@@ -279,18 +279,18 @@
 
 
 
-    <div class="section col-xs-12 hidden">
-
-        <div class="col-xs-12">
-
-            <p>
-
-                <b>{{ env('APP_NAME') }}</b> থেকে আপনি যা যা শিখবেন :
-
-                <a href="/features">Features</a>
-
-            </p>
-
+    <div class="section col-xs-12" id="mnemonic">
+        <div class="title col-xs-10 col-xs-offset-1">এত পড়েন কিন্তু ভুলে যান ?</div>
+        <div class="col-xs-12 no-padding content">
+            <div class="col-xs-6 no-padding">
+                <img src="/images/words/abnegate.jpg" alt="abnegate" width="100%">
+            </div>
+            <div class="col-xs-6 no-padding" style="border-left: 1px solid #e92ce7;">
+                <img src="/images/words/accountability.jpg" alt="accountability" width="100%">
+            </div>
+            <div class="col-xs-12 no-padding" style="border-top: 1px solid #e92ce7;">
+                <img src="/images/words/accomplice.jpg" alt="accomplice" width="100%">
+            </div>
         </div>
 
     </div>
@@ -303,12 +303,13 @@
 
             <div>
 
-                <div style="font-size: 0.9em">
+                <div style="font-size: 0.9em; padding-bottom: 8px; color: #000ae9">
 
                     <img src="images/icon/golden_trophy.png" class="icon-large" alt="img">
 
                     <!-- <b>{{ env('APP_NAME') }}</b>  নিজেই 4-5 টা বইয়ের সমান <b>তথ্যবহুল</b> । -->  
-                    আপনি নিজেই 4-5 টা ভোকাবুলারি বই দেখুন, আর এই <b>{{ env('APP_NAME') }}</b> অ্যাপটি ভালোমতো যাচাই করে দেখুন। বেস্ট মনে হলে তবেই কিনবেন !
+                    {{--আপনি নিজেই 4-5 টা ভোকাবুলারি বই দেখুন, আর এই <b>{{ env('APP_NAME') }}</b> অ্যাপটি ভালোমতো যাচাই করে দেখুন। বেস্ট মনে হলে তবেই কিনবেন !--}}
+                    4-5 টা ভোকাবুলারি বই এর summary এই একটি App এ ! যাচাই করে দেখুন !
 
                 </div>
 

@@ -125,6 +125,12 @@
         var userId = new URLSearchParams(window.location.search).get('userId');
         userId = parseInt(userId); //3 characters have been concatenated at the end of userId to prevent possible accidental modification of get parameter. Even if last character get modified we still get the userId by parseInt
         //p("userId="+userId);
+        var meta = 'userId='+userId; //sent in ajax call meta data
+
+
+        $('#payment-method-holder').click(function () {
+            meta+= 'clicked payment method';
+        });
 
         $('.verify-btn').click(function () {
             var trxId = $('#trxId').val().trim();
@@ -172,6 +178,8 @@
                     THIS.prop('disabled', false);//re enable button to become clickable
                 }
             }
+
+            meta+= ' TrxId='+trxId
         });
 
 
@@ -190,10 +198,11 @@
                 data : {
                     _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
                     current_time : Date.now(), browser : navigator.userAgent,
-                    url : window.location.pathname, referredBy : referredBy, meta : 'userId='+userId
+                    url : window.location.pathname, referredBy : referredBy, meta : meta || null
                 },
                 success : function (response) {
                     p(response);
+                    meta = '';
                 },error: function (error) {}
             });
         }, intervalTime);

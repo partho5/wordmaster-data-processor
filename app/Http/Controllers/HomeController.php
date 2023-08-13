@@ -297,8 +297,6 @@ class HomeController extends Controller
 
     public function showVisitLog(Request $request){
         $groups = VisitorLog::where('id', '>=', 1)
-            ->where('device_token', '!=', '3401224208')//that is my mobile 
-            ->where('device_token', '!=', '2635464682')//that is my PC
             ->orderBy('updated_at', 'desc')
             ->get(['device_token', 'client', 'referred_by', 'reading_start_at', 'reading_end_at', 'url', 'meta'])
             ->groupBy('device_token');

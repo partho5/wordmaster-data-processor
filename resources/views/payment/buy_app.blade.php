@@ -108,7 +108,7 @@
 
         var payableAmount = 150;
         payableAmount = payableAmount - 5;//5 tk bkash send money charge
-        var  bkashNum = "01811971068";
+        var  bkashNum = "01811971069";
         var paymentMethod = "bKash";
 
 

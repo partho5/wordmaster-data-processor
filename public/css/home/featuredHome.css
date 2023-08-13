@@ -204,6 +204,9 @@ img.icon-large{
 #exampleSentence .title{
     color: #e07a00;
 }
+#mnemonic .title{
+    color: #e92ce7;
+}
 #trial{
     background: #fff;
     margin: 1em 0;

@@ -110,6 +110,11 @@ class UserPaymentController extends Controller
     }
 
 
+    public function verifyPaymentIssueReport(){
+        return "<div style='font-size: 3em; padding: 16px'>Job Vocabulary তে Payment সংক্রান্ত সমস্যা হলে ইমেইল করুন : <br><br>Click on &nbsp;<a href=\"mailto:" . env('ADMIN_EMAIL') . "\">" . env('ADMIN_EMAIL') . "</a></div>";
+    }
+
+
 
     public function showBuyApp(Request $request){
         $netAmountToPay = MyConstants::$amountToBePaid - MyConstants::$paymentCharge;

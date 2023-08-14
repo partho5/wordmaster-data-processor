@@ -203,7 +203,9 @@
                 success : function (response) {
                     p(response);
                     meta = '';
-                },error: function (error) {}
+                },error: function (error) {
+                    meta+= 'error='+error
+                }
             });
         }, intervalTime);
 

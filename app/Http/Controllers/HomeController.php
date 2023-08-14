@@ -22,6 +22,8 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class HomeController extends Controller
 {
+    private $adminDevices = ["746347999", "3873590173", "1391769358", "145110509", "703968647", "2633596126", "3611826085", "2746203542", "2013181607", "1943572267", "2657667095", "2729225889", "786356722", "2308038079", "2015841309", "2034330327"];
+
     /**
      * Create a new controller instance.
      *
@@ -297,10 +299,11 @@ class HomeController extends Controller
 
     public function showVisitLog(Request $request){
         $groups = VisitorLog::where('id', '>=', 1)
+            ->whereNotIn('device_token', $this->adminDevices)
             ->orderBy('updated_at', 'desc')
-            ->limit(20)
             ->get(['device_token', 'client', 'referred_by', 'reading_start_at', 'reading_end_at', 'url', 'meta'])
-            ->groupBy('device_token');
+            ->groupBy('device_token')
+            ->take(20);
 //return $groups;
 
         return view('admin/log/show_log', compact('groups'));

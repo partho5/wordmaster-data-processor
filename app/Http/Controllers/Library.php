@@ -43,4 +43,20 @@ class Library
         return $token;
     }
 
+
+
+    /*
+     * Unicode supported
+     * */
+    public function replaceFirstOccurrence($originalString, $search, $replacement) {
+        $pos = mb_strpos($originalString, $search, 0, 'UTF-8');
+
+        if ($pos !== false) {
+            $newString = mb_substr($originalString, 0, $pos, 'UTF-8') . $replacement . mb_substr($originalString, $pos + mb_strlen($search, 'UTF-8'), null, 'UTF-8');
+            return $newString;
+        }
+
+        return $originalString;
+    }
+
 }

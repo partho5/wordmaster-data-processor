@@ -868,6 +868,17 @@ class AdminController extends Controller
 
 
 
+    public function nextDisplayableWord($givenWord){
+        $nextWord = Words::where('display_index', '>', function ($query) use ($givenWord){
+            $query->select('display_index')
+                ->from('words')
+                ->where('word', $givenWord);})
+            ->where('importance_level', '>', MyConstants::$minImportanceLevelForMainWords)
+            ->orderBy('display_index', 'asc')
+            ->pluck('word')
+            ->first();
+        return $nextWord; //null if no value
+    }
 
 
 

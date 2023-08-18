@@ -147,7 +147,7 @@ Route::get('/buy/app/payment/issue/report/show',  [App\Http\Controllers\UserPaym
 Route::match( ['GET', 'POST'], '/api/coupon/verify',  [App\Http\Controllers\UserPaymentController::class, 'verifyCoupon']);
 
 
-Route::get('/api/fb_group/jovoc/post', [App\Http\Controllers\TestSampleController::class, 'postInfbGroupJovoc']);
+Route::get('/api/fb_group/jovoc/post', [App\Http\Controllers\TestSampleController::class, 'postInfbPageJobVocabulary']);
 
 
 Auth::routes();

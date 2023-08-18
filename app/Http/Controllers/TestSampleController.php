@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Contents\FacebookPagePostingHelper;
+use App\Http\Controllers\Processor\ImageProcessor;
 use App\Models\Antonyms;
 use App\Models\DerivedWords;
 use App\Models\Meanings;
@@ -28,7 +30,7 @@ use Mockery\Exception;
 //use Spatie\Dropbox\Client;
 //use Spatie\FlysystemDropbox\DropboxAdapter;
 
-use App\Http\Controllers\GroupPostContents;
+use App\Http\Controllers\Contents\SocialMediaPostContents;
 
 
 class TestSampleController extends Controller
@@ -936,84 +938,39 @@ class TestSampleController extends Controller
 
 
 
-    use GroupPostContents;
-    public function postInfbGroupJovoc(Request $request){
-        $userAgent = 'Mozilla/5.0 (Linux; Android 12; CPH2269 Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/103.0.5060.129 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/393.0.0.35.106;';
 
-        //$userAgent = "Mozilla/5.0 (Linux; Android 8.1.0; TECNO B1p) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Mobile Safari/537.36 -ip=197.239.13.114 -screenSize=";
+    /* if want to post something that shouldn't be repeated in future, then post it from page manually.
+       All types listed below can be repeated in future, albeit not essential
+    */
+    use SocialMediaPostContents;
+    public function postInfbPageJobVocabulary(Request $request){
+        $postType = 'words';
+        $myAuthKey = "belekana"; //coming request should have this key, otherwise it is likely to be unauthorized
+        if($request->input('authKey') != $myAuthKey) return abort('403'); //as it will be called from API, we don't require admin login. just 'authKey' has to bet set in url
 
-        //$patternAndroidVersion = '/Android\s([0-9]+);/'; //extracts only android version number
-        $patternBuild = '/Android\s?(\d+(?:\.\d+)*);\s?(.*?)\s?(?:Build|\))/'; //first sub group ([0-9]+) gives android version number and second sub group gives builb name
+        $postingHelper = new FacebookPagePostingHelper();
+        $contentToPost = $postingHelper->processContentSelection($postType);
+        $additionalData = [];
 
+        /* post content that can be fetched directly from hardcoded array are simply handled. But contents need to be dynamically generated are customized */
+        if($postType == 'words'){
+            //$contentToPost gives us only the word. Now data associated with this word has to be queried
+            $word = $contentToPost;
+            $readableContent = $postingHelper->wordDetailsReadableContent($word);
+            $contentToPost = $readableContent; //newly processed content has been assigned
 
-
-        //-----------------------
-        $filePath = storage_path()."/app/visitor_log_user_agents.json";
-        $dataArray = json_decode(file_get_contents($filePath), true);
-        foreach ($dataArray as $client){
-            $userAgent = $client['client'];
-
-            if (preg_match($patternBuild, $userAgent, $matches)) {
-                //dd($matches);
-                $androidVersionNumber = $matches[1];
-                $build = $matches[2];
-                echo "<p>vCode=<b>$androidVersionNumber</b> buildName=<b>$build</b> <span style='color: #00970e'>$userAgent</span> </p>";
-            } else {
-                echo "No match found for <span style='color:red'>$userAgent</span>";
-            }
-        }
-        //-----------------------
-
-
-        if (preg_match($patternBuild, $userAgent, $matches)) {
-            //dd($matches);
-            $androidVersionNumber = $matches[1];
-            $build = $matches[2];
-            echo 'vCode=<b>'.$androidVersionNumber.'</b> buildName=<b>'.$build.'</b>'; 
-        } else {
-            echo "No match found.";
+            $additionalData['word'] = $word;
         }
 
 
-        return;
 
-        $postType = $request->input('type');
-        $contents = [];
-        $path = "groupPost/jovoc/";// storage/app/
-        if($postType == "words"){
-            $contents = $this->content_words();
-            $path = $path."lastArrIndex_words.txt";
-        }
-        else if($postType == "triggerPeople"){
-            $contents = $this->content_triggerPeople();
-            $path = $path."lastArrIndex_triggerPeople.txt";
-        }
-        else if($postType == "funnyRelevant"){
-            $contents = $this->content_funnyRelevant();
-            $path = $path."lastArrIndex_funnyRelevant.txt";
-        }
-        
-        if( sizeof($contents) == 0 ){
-            //something unexpected happened
-            return 'NO CONTENT AVAILABLE';
-        }
+        return $postingHelper->postInJovoc($contentToPost, $additionalData);
 
-        
-        $lastArrIndex = Storage::get($path);
-
-        if(is_null($lastArrIndex)){
-            //in case file path doesn't exist, value will be null
-            $lastArrIndex = 0;
-        }
-
-        if($lastArrIndex >= sizeof($contents)){
-            $lastArrIndex = 0;
-            //and notify admin via email that contents run out
-        }
-        Storage::put($path, $lastArrIndex+1);//don't use increment operator, because original value will be used later
-
-        return $contents[$lastArrIndex];
     }
+
+
+
+
 
 
 

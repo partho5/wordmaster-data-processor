@@ -263,6 +263,27 @@
 
 
 
+    <div class="section col-xs-12" id="mnemonic">
+        <div class="title col-xs-10 col-xs-offset-1">মনে রাখার Tricks</div>
+        <div class="col-xs-12 no-padding content">
+            <div class="col-xs-12">
+                <p>যদি এমনিতে মনে রাখতে পারেন সেটাই ভাল। আর যদি ভুলে যান ? Tricks তো আছেই ।</p>
+                <p class="text-center text-small">উদাহরণ হিসেবে এটি দেখুন :</p>
+            </div>
+            {{--<div class="col-xs-6 no-padding">--}}
+                {{--<img src="/images/words/abnegate.jpg" alt="abnegate" width="100%">--}}
+            {{--</div>--}}
+            {{--<div class="col-xs-6 no-padding bdr-left">--}}
+                {{--<img src="/images/words/accountability.jpg" alt="accountability" width="100%">--}}
+            {{--</div>--}}
+            <div class="col-xs-12 no-padding">
+                <img src="/images/words/accomplice.png" alt="accomplice" width="100%">
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="section col-xs-12 " id="exampleSentence">
 
         <div class="title col-xs-10 col-xs-offset-1">How to use in sentence</div>
@@ -279,20 +300,14 @@
 
 
 
-    {{--<div class="section col-xs-12" id="mnemonic">--}}
-        {{--<div class="title col-xs-10 col-xs-offset-1">এত পড়েন কিন্তু ভুলে যান ?</div>--}}
-        {{--<div class="col-xs-12 no-padding content">--}}
-            {{--<div class="col-xs-6 no-padding">--}}
-                {{--<img src="/images/words/abnegate.jpg" alt="abnegate" width="100%">--}}
-            {{--</div>--}}
-            {{--<div class="col-xs-6 no-padding" style="border-left: 1px solid #e92ce7;">--}}
-                {{--<img src="/images/words/accountability.jpg" alt="accountability" width="100%">--}}
-            {{--</div>--}}
-            {{--<div class="col-xs-12 no-padding" style="border-top: 1px solid #e92ce7;">--}}
-                {{--<img src="/images/words/accomplice.jpg" alt="accomplice" width="100%">--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
+    <div class="section col-xs-12 " id="synonym">
+        <div class="title col-xs-10 col-xs-offset-1">Synonym</div>
+        <div class="col-xs-12 content no-padding">
+            <div class="col-xs-12">
+                <p>প্রত্যেকটি word এর যত উল্লেখযোগ্য Synonym আছে, যেগুলো পরীক্ষায় আসে, সেগুলোর লিস্ট</p>
+            </div>
+        </div>
+    </div>
 
 
 

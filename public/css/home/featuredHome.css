@@ -202,9 +202,18 @@ img.icon-large{
     color: #049112;
 }
 #exampleSentence .title{
-    color: #e07a00;
+    color: #ff4501;
 }
 #mnemonic .title{
+    color: #00a7ca;
+}
+#mnemonic .bdr-left{
+    border-left: 1px solid #000;
+}
+#mnemonic .bdr-top{
+    border-top: 1px solid #000;
+}
+#synonym .title{
     color: #e92ce7;
 }
 #trial{

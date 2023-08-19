@@ -271,7 +271,7 @@ class FacebookPagePostingHelper{
         $readableContent = "---   ".$wordDetails['word']."   ---\n\n";
 
         foreach ($wordDetails['definitions'] as $i=>$definition){
-            $readableContent = $readableContent. $definition."\n";
+            $readableContent = $readableContent. $definition."\n\n";
             if($i == 1){
                 $readableContent = $readableContent."\n";
             }
@@ -281,7 +281,7 @@ class FacebookPagePostingHelper{
             $readableContent = $readableContent. "\nParts of speech: ".$wordDetails['parts_of_speech'];
         }
 
-        $readableContent = $readableContent."\n\nsentence এ প্রয়োগ: \n";
+        $readableContent = $readableContent."\n\nsentence এ প্রয়োগ: \n\n";
         foreach ($wordDetails['sentences'] as $i=>$sentence){
             $readableContent = $readableContent.($i+1).'. '.$sentence."\n";
         }

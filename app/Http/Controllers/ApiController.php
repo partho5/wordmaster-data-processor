@@ -207,6 +207,7 @@ class ApiController extends Controller
         $userId = $request->userId;
         $meta = $request->meta;
         $versionCode = $request->versionCode;
+        $oneSignalId = @$request->oneSignalId; //for previous versions of app, this key may not exist
         $meta = $meta.",vCode=".$versionCode;
         //$logJson = json_decode($log, true);
         //return $logJson;
@@ -214,6 +215,10 @@ class ApiController extends Controller
         	'user_id'		=> $userId,
             'log'   		=> $log,
             'meta'  		=> $meta,
+        ]);
+
+        User::where('id', $userId)->update([
+            'onesignal_id'  => @$oneSignalId
         ]);
 
 

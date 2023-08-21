@@ -4,7 +4,7 @@
 
 @section('title')
 
-    <title>{{ env('APP_NAME') }}</title>
+    <title>{{ env('APP_NAME') }} - Improve Your Vocabulary for Job Exams</title>
     <link rel="icon" type="image/png" href="/images/jovoc_app_logo.png">
 
 
@@ -19,9 +19,9 @@
 
     <meta property="og:description" content="(1)Explanation (2)Example Sentence (3)Guarenteed memorizing (4)Question Bank (5)Synonyms (6)Revision (7)Exam">
 
-    <meta property="og:image" content="http://jovoc.com/images/jovoc-og.png">
+    <meta property="og:image" content="https://jovoc.com/images/jovoc-og.png">
 
-    <meta property="og:url" content="jovoc.com">
+    <meta property="og:url" content="https://jovoc.com">
 
 
 
@@ -33,9 +33,17 @@
 
 
 
-    <meta name="keywords" content="Government (Govt) job BCS Bank vocabulary preparation সরকারী চাকরী ভোকাবুলারি প্রস্তুতি Sairfurs vocabulary pdf word smart 1, word smart 2 pdf ওয়ার্ড মনে রাখার টেকনিক মুখস্ত করারা কৌশল rivision exam example sentence parts of speech" charset="utf-8">
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="https://jovoc.com/images/jovoc-og.png">
+    <meta name="twitter:title" content="Job Vocabulary - Improve Your Vocabulary for Job Exams">
+    <meta name="twitter:description" content="Enhance your vocabulary for job exams with Job Vocabulary app. Learn common words, synonyms, example sentences, and more. Prepare effectively for BCS, bank, and government job exams.">
+    <meta name="twitter:image" content="https://jovoc.com/images/jovoc-og.png">
 
-    <meta name="description" content="" charset="utf-8">
+
+
+    <meta name="description" content="Enhance your vocabulary for job exams with Job Vocabulary app. Learn common words, synonyms, example sentences, and more. Prepare effectively for BCS, bank, and government job exams.">
+    <meta name="keywords" content="Job Vocabulary, vocabulary preparation, job exams, BCS, bank jobs, government jobs, word memorizing, example sentences, synonyms, সরকারী চাকরী, ভোকাবুলারি প্রস্তুতি, Sairfurs vocabulary pdf, word smart 1, word smart 2 pdf, ওয়ার্ড মনে রাখার টেকনিক, মুখস্ত করারা কৌশল, rivision, MCQ test, parts of speech">
+    <meta name="author" content="Job Vocabulary">
 
 @endsection
 

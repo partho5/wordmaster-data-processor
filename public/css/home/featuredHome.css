@@ -251,6 +251,11 @@ img.icon-large{
     color: orangered;
 }
 
+#download a.apk{
+    background: linear-gradient(to bottom, #fffbfb, #ebe4cc);
+    padding: 8px 16px;
+    border-radius: 4px;
+}
 
 
 /*--------------border animate----------------*/

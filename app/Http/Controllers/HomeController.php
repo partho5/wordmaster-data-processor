@@ -43,7 +43,10 @@ class HomeController extends Controller
 
         //retutn $ref;
 
-        return view('home/featuredHome');
+        $appDistributionThrough = 'playstore';
+        //$appDistributionThrough = 'apk';
+
+        return view('home/featuredHome', compact('appDistributionThrough'));
 
 /*
         if( null !== $request->w){

@@ -357,10 +357,19 @@
         <div class="content text-center">
             <!-- <p>Download <b>{{ env('APP_NAME') }}</b> :</p> -->
             <p class="p1">কিনবেন কিনা সেটা পরের কথা, কিন্তু ফ্রি ইনস্টল করে যাচাই করে দেখুন</p>
-            <div class="title" style="all:unset; opacity: 0; font-size:0">download</div>
-            <a href="https://play.google.com/store/apps/details?id=com.wordmas.wordmaster">
-                <img src="/images/playstore-link.png" alt="Download App" >
-            </a>
+            @if(isset($appDistributionThrough))
+                @if($appDistributionThrough === 'playstore')
+                        <a href="https://play.google.com/store/apps/details?id=com.wordmas.wordmaster">
+                            <img src="/images/playstore-link.png" alt="Download App" >
+                        </a>
+                @elseif($appDistributionThrough === 'apk')
+                        <div class="col-xs-12">
+                            <a href="/apk/latest-version-app.apk" class="apk">
+                                <div class="title" style="all:unset; font-size:1.4em">Download</div>
+                            </a>
+                        </div>
+                @endif
+            @endif
         </div>
     </div>
 

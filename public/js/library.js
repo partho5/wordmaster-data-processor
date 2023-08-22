@@ -24,6 +24,15 @@ function getCookie(cookieName) {
 }
 
 
+function copyToClipboard(text) {
+    const tempInput = $('<input>');
+    $('body').append(tempInput);
+    tempInput.val(text).select();
+    document.execCommand('copy');
+    tempInput.remove();
+}
+
+
 function saveVisitLog() {
     p("to save visit log");
     var fp = new Fingerprint({

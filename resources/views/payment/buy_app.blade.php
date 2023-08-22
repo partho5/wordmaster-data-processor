@@ -49,9 +49,19 @@
 
             <div id="steps" class="col-xs-12">
                 <ol>
-                    <li>“send money” অপশনে যান </li>
-                    <li>Enter number : <span class="field bkash-num"></span> </li>
-                    <li>Amount : <span class="field payable-amount"></span> </li>
+                    <li class="bkash-app">
+                        <img src="/images/icon/bkash-app-icon.png" class="icon" alt="bkash app">
+                        bKash অ্যাপে যান
+                    </li>
+                    <li class="send-money">
+                        <img src="/images/icon/bkash-send-money-icon.jpg" class="icon" alt="send money">
+                        “সেন্ড মানি” অপশনে যাবেন
+                    </li>
+                    <li class="bkash-num-li">
+                        নাম্বার বসাবেন : <span class="field bkash-num"></span>
+                        <span class="success-msg">নাম্বারটি copy করা হয়েছে</span>
+                    </li>
+                    <li>পরিমাণ ৳‎ : <span class="field payable-amount"></span> </li>
                     <li>bKash মেসেজ থেকে প্রাপ্ত TrxID টা Copy করে এনে এখানে লিখুন <input type="text" id="trxId" placeholder="TrxID"> </li>
                     <li>Click <button class="btn btn-success verify-btn">Verify Payment</button> </li>
                 </ol>
@@ -137,7 +147,7 @@
             var code = $('#coupon-code').val(); //not implemented yet
             var THIS = $(this);
             var verified = localStorage.getItem('verified7');
-            if(verified == 1){
+            if(false && verified == 1){ /* false &  -will always skip this section, tentatively */
                 $('.msg-success').text("Already Verified !");
                 $('.msg-success').show();
             }else{
@@ -182,6 +192,23 @@
             meta+= ' TrxId='+trxId
         });
 
+
+
+
+        $('.bkash-num').click(function() {
+            const amountText = $(this).text();
+            copyToClipboard(amountText);
+            //p('Amount copied: ' + amountText);
+            $('.bkash-num-li .success-msg').show();
+            $('.bkash-num-li .success-msg').animate({
+                bottom : '12em'
+            }, 500, function () {
+                var $this = $(this);
+                setTimeout(function () {
+                    $this.css('bottom', '-50em');
+                }, 2000);
+            });
+        });
 
 
 

@@ -54,10 +54,34 @@ input{
 #steps li{
     margin-top: 1em;
 }
+#steps li.bkash-app img.icon{
+    width: 20px;
+    height: 20px;
+    margin-top: -5px;
+}
+#steps li.send-money img.icon{
+    width: 20px;
+    height: 20px;
+    border: 1px solid #bfbfbf;
+    margin-top: -5px;
+}
+#steps img.icon{
+    margin-right: 0.3em;
+}
 .field{
     background-color: rgb(255, 254, 239);
     padding: 2px 4px;
     border-radius: 5px;
+}
+.bkash-num-li .success-msg{
+    position: absolute;
+    right: 5%;
+    bottom: -50em;
+    background: #000;
+    color: #f9f9f9;
+    padding: 3px 6px;
+    border-radius: 5px;
+    font-size: 0.8em;
 }
 #trxId{
     border : 1px solid #000;

@@ -4,12 +4,12 @@
 
 @section('title')
 
-    <title>{{ env('APP_NAME') }} - Improve Your Vocabulary for Job Exams</title>
+    <title>Bank + BCS + Any Job Exam - Vocabulary Preparation with {{ env('APP_NAME') }}</title>
     <link rel="icon" type="image/png" href="/images/jovoc_app_logo.png">
 
 
     <meta property="og:type" content="website">
-    <!-- <meta property="fb:app_id" content="YOUR_APP_ID"> -->
+    <meta property="fb:app_id" content="1472570683494634">
 
     <meta property="og:title" content="প্রিলিমিনারি তে 94-100% কমন  ||  রিটেন এ 
 
@@ -55,7 +55,7 @@
 
 
 
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
+    {{--<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">--}}
 
     <!-- https://fonts.google.com/specimen/Raleway?query=raleway -->
 
@@ -187,43 +187,43 @@
 
 
 
-    <div class="section col-xs-12 " id="remembering">
+    {{--<div class="section col-xs-12 " id="remembering">--}}
 
-        <div class="title col-xs-10 col-xs-offset-1">
+        {{--<div class="title col-xs-10 col-xs-offset-1">--}}
 
-            Revision + Exam <br/> <small>= words মনে থাকতে বাধ্য</small>
+            {{--Revision + Exam <br/> <small>= words মনে থাকতে বাধ্য</small>--}}
 
-        </div>
+        {{--</div>--}}
 
-        <div class="col-xs-12 content no-padding">
+        {{--<div class="col-xs-12 content no-padding">--}}
 
-            <div class="col-xs-12 text-center no-padding" id="brain-container">
+            {{--<div class="col-xs-12 text-center no-padding" id="brain-container">--}}
 
-                <img src="/images/super-brain.jpg" alt="word memorizing" style="width: 100%; height: 100%">
+                {{--<img src="/images/super-brain.jpg" alt="word memorizing" style="width: 100%; height: 100%">--}}
 
-                <span class="center-words">curmudgeon</span>
+                {{--<span class="center-words">curmudgeon</span>--}}
 
-                <span class="center-words">Amalgamate</span>
+                {{--<span class="center-words">Amalgamate</span>--}}
 
-                <span class="center-words">debacle</span>
+                {{--<span class="center-words">debacle</span>--}}
 
-                <span class="center-words">Curtail</span>
+                {{--<span class="center-words">Curtail</span>--}}
 
-            </div>
+            {{--</div>--}}
 
-            <div class="col-xs-12 no-padding" style="margin: 0.6em 8px">
+            {{--<div class="col-xs-12 no-padding" style="margin: 0.6em 8px">--}}
 
-                systematic ভাবে নিয়মিত <b style="color: #0000d5">রিভিশন</b> + বার বার
+                {{--systematic ভাবে নিয়মিত <b style="color: #0000d5">রিভিশন</b> + বার বার--}}
 
-                <b style="color: #0000d5">পরীক্ষা</b> দেওয়ার ব্যবস্থা রয়েছে ; যার ফলে -
+                {{--<b style="color: #0000d5">পরীক্ষা</b> দেওয়ার ব্যবস্থা রয়েছে ; যার ফলে ---}}
 
-                <br/> ব্রেইনে দৃঢ়ভাবে গেঁথে যাবে &nbsp; |Sure|
+                {{--<br/> ব্রেইনে দৃঢ়ভাবে গেঁথে যাবে &nbsp; |Sure|--}}
 
-            </div>
+            {{--</div>--}}
 
-        </div>
+        {{--</div>--}}
 
-    </div>
+    {{--</div>--}}
 
 
 
@@ -268,6 +268,18 @@
         </div>
 
     </div>
+
+
+
+
+    <div class="section col-xs-12">
+        <div class="col-xs-12 content">
+            <div class="text-center" style="font-size: 1em; padding-bottom: 8px; color: #000ae9">
+                4-5 টা ভোকাবুলারি বই এর তথ্য এই একটি App এ !
+            </div>
+        </div>
+    </div>
+
 
 
 
@@ -319,22 +331,42 @@
 
 
 
-    <div class="section col-xs-12 ">
 
-        <div class="col-xs-12 content">
+    <div class="section col-xs-12 " id="remembering">
 
-            <div>
+        <div class="title col-xs-10 col-xs-offset-1">
 
-                <div style="font-size: 1em; padding-bottom: 8px; color: #000ae9">
+            Revision + Exam <br/> <small>= words মনে থাকতে বাধ্য</small>
 
-                    <img src="images/icon/golden_trophy.png" class="icon-large" alt="img">
+        </div>
 
-                    <!-- <b>{{ env('APP_NAME') }}</b>  নিজেই 4-5 টা বইয়ের সমান <b>তথ্যবহুল</b> । -->  
-                    {{--আপনি নিজেই 4-5 টা ভোকাবুলারি বই দেখুন, আর এই <b>{{ env('APP_NAME') }}</b> অ্যাপটি ভালোমতো যাচাই করে দেখুন। বেস্ট মনে হলে তবেই কিনবেন !--}}
-                    4-5 টা ভোকাবুলারি বই এর তথ্য এই একটি App এ ! যাচাই করে দেখুন !
+        <div class="col-xs-12 content no-padding">
 
+            <div class="col-xs-12 text-center no-padding" id="brain-container">
+
+                <img src="/images/super-brain.jpg" alt="word memorizing" style="width: 100%; height: 100%">
+
+                <span class="center-words">curmudgeon</span>
+
+                <span class="center-words">Amalgamate</span>
+
+                <span class="center-words">debacle</span>
+
+                <span class="center-words">Curtail</span>
+
+            </div>
+
+            <div class="col-xs-12 no-padding" style="margin: 0.6em 8px">
+                বই থেকে MCQ Test দেয়া যায় না । কিন্তু App টি তে যতগুলো words পড়বেন, সেই কয়টার মধ্যে থেকে <b style="color: #0000d5">MCQ Test</b> দিতে পারবেন।
+                <br><br>আবার প্রতি 20 টি words পড়ার পর  App টি আপনাকে <b style="color: #0000d5">Revision</b> দেওয়াবে, পদ্ধতিটা ও বেশ দারুণ !
+                <br>
+                <div class="col-xs-12 text-center">
+                    <img src="images/icon/golden_trophy.png" class="trophy" alt="effective">
                 </div>
+            </div>
 
+            <div class="col-xs-12 text-center" style="margin-top: 0.5em; color: orangered">
+                মস্তিষ্কে স্থায়ী ভাবে গেঁথে ফেলতে বই এর চেয়ে effective !
             </div>
 
         </div>
@@ -343,20 +375,12 @@
 
 
 
-    {{--<div class="col-xs-12 section draw hidden" id="trial">--}}
-
-        {{--এটি এখনো পর্যন্ত FREE <br/>--}}
-
-        {{--Paid হয়ে যাওয়ার আগেই নিয়ে নিন--}}
-
-    {{--</div>--}}
-
-
 
     <div class="col-xs-12 section" id="download">
         <div class="content text-center">
             <!-- <p>Download <b>{{ env('APP_NAME') }}</b> :</p> -->
-            <p class="p1">কিনবেন কিনা সেটা পরের কথা, কিন্তু ফ্রি ইনস্টল করে যাচাই করে দেখুন</p>
+            {{--<p class="p1">কিনবেন কিনা সেটা পরের কথা, কিন্তু ইনস্টল করে যাচাই করে দেখুন</p>--}}
+            <p class="p1">Vocabulary বই কিনবেন নাকি এই App টি -<br>install করে যাচাই করে দেখুন</p>
             @if(isset($appDistributionThrough))
                 @if($appDistributionThrough === 'playstore')
                         <a href="https://play.google.com/store/apps/details?id=com.wordmas.wordmaster">

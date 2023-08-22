@@ -50,9 +50,9 @@ img.icon{
     width: 15px;
     height: 15px;
 }
-img.icon-large{
-    width: 30px;
-    height: 30px;
+img.trophy{
+    width: 50px;
+    height: 50px;
 }
 
 #remembering .title{
@@ -249,6 +249,8 @@ img.icon-large{
 }
 #download .p1{
     color: orangered;
+    color: #000;
+    padding: 0 1px;
 }
 
 #download a.apk{

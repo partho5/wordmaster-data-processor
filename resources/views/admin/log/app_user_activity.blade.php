@@ -65,11 +65,10 @@
             @foreach($logs as $rows)
                 @foreach($rows as $row)
                     <div class="log col-xs-12 col-md-12">
-                        <div class="col-xs-6 col-md-2 hidden"></div>
                         <div class="col-xs-6 col-md-2">{{ $row['start'] }}</div>
                         <div class="col-xs-6 col-md-1 diff">{{ $row['diff'] }} sec</div>
                         <div class="col-xs-6 col-md-2 ">{{ $row['end'] }}</div>
-                        <div class="col-xs-6 col-md-1">{{ $row['activity'] }}  {{ $row['details'] }}</div>
+                        <div class="col-xs-6 col-md-4">{{ $row['activity'] }}  {{ $row['details'] }}</div>
                         <div class="col-xs-6 col-md-2">{{ $row['wordIndex'] }}</div>
                     </div>
                 @endforeach

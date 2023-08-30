@@ -40,7 +40,8 @@
 .section h3{
     font-family: 'Monda', sans-serif;
     font-size: 2em;
-    color: #0095c5;
+    color: #0003a2;
+    padding-bottom: 1em;
 }
 .section3{
     //background-color: rgba(169, 240, 255, 0.4);
@@ -55,12 +56,13 @@
 
 
 .section4{
-    background-color: rgba(0, 197, 255, 0.6);
+    background-color: rgba(142, 228, 255, 0.31);
     padding-top: 6px;
 }
 .section4 .inner {
     //border: 1px solid #778;
     color: #ffffff;
+    color: #0006f5;
 }
 .section4 .left, .section4 .right{
     font-size: 1.6em;

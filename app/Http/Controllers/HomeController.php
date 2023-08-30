@@ -319,7 +319,7 @@ class HomeController extends Controller
             ->get()
             ->groupBy('user_id')
             ->map(function($row) {
-                $logPerUser = 2;
+                $logPerUser = 10;
                 return $row->take($logPerUser);
             })
             ->take($numOfUsersToShow);

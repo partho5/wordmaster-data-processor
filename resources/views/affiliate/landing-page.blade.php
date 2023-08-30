@@ -41,11 +41,11 @@
 
         <div class="section section3 col-xs-12 no-padding" id="">
             <div class="col-xs-12 col-md-8 no-padding pad-ls text transform">
-                <h3>You get 15-20% per app sale</h3>
+                <h3>You get 15-25 Tk per app sale</h3>
                 <div class="col-xs-12 no-padding desc">
                     আপনার একটি পোস্ট বা ভিডিও তে প্রদত্ত লিঙ্ক থেকে অ্যাপটি যখন কেউ ক্রয় করবে, ইন্সট্যান্টলি আপনি রেভিনিউ
-                    এর শেয়ার পেয়ে যাবেন । একটি ভিডিও দেখে যদি 1000 মানুষ ক্রয় করে, তো ওই একটি ভিডিও থেকে আপনার
-                    আয় হবে প্রায় 24,000 টাকা ।
+                    এর শেয়ার পেয়ে যাবেন । একটি পোস্ট দেখে যদি 1000 মানুষ ক্রয় করে, তো ওই একটি পোস্ট থেকে আপনার
+                    আয় হবে 24,250 টাকা ।
                 </div>
             </div>
             <div class="col-xs-12 col-md-4 text-right no-padding pad-ls">

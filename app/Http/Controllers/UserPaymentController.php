@@ -75,7 +75,7 @@ class UserPaymentController extends Controller
 
 
 
-
+    /* when user submits TrxID from payment page, TrxID is verified bu this function */
     public function verifyPayment(Request $request){
         $isValid = 0;
         $userId = $request->userId;
@@ -95,8 +95,10 @@ class UserPaymentController extends Controller
                 ->whereNull('verified_at') //i.e. this trxId is not used before
                 ->get();
             if(count($query) == 1){
+                //TrxID exists but not verified by any user yet
                 $isValid = 1;
 
+                //now set: that user has verified with that TrxID
                 UserPayment::where('auth_token', $trxId)
                     ->update(['user_id'=>$userId, 'verified_at'=>Carbon::now(), 'coupon_code'=>$request->coupon ]);
                 CouponCodes::where('code', $request->coupon)

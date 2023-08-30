@@ -61,7 +61,7 @@
                         নাম্বার বসাবেন : <span class="field bkash-num"></span>
                         <span class="success-msg">নাম্বারটি copy করা হয়েছে</span>
                     </li>
-                    <li>পরিমাণ ৳‎ : <span class="field payable-amount"></span> </li>
+                    <li>পরিমাণ ৳‎ : <span class="field payable-amount">{{ $netAmountToPay }}</span> </li>
                     <li>bKash মেসেজ থেকে প্রাপ্ত TrxID টা Copy করে এনে এখানে লিখুন <input type="text" id="trxId" placeholder="TrxID"> </li>
                     <li>Click <button class="btn btn-success verify-btn">Verify Payment</button> </li>
                 </ol>
@@ -116,13 +116,13 @@
     $(document).ready(function (){
 
 
-        var payableAmount = 150;
-        payableAmount = payableAmount - 5;//5 tk bkash send money charge
+        //var payableAmount = 150;
+        //payableAmount = payableAmount - 5;//5 tk bkash send money charge
         var  bkashNum = "01811971069";
         var paymentMethod = "bKash";
 
 
-        $('.payable-amount').text(payableAmount);
+        //$('.payable-amount').text(payableAmount);
         $('.bkash-num').text(bkashNum);
 
 

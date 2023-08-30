@@ -34,8 +34,9 @@ class MyConstants
 
     public static $minImportanceLevelForMainWords = 75;
 
+
     //if you change value, also MUST change in user end (in android index.html   const payablePrice=)
-    public static $amountToBePaid = 150; //Tk
+    public static $amountToBePaid = 200; //Tk (excluding payment charge)
     public static $paymentCharge = 5; //bKash send money charge 5 Tk
 
 

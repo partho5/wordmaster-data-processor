@@ -11,7 +11,7 @@ class AffiliateController extends Controller
     /* Affiliates are partners. The word 'affiliate' and 'affiliate' has been used interchangeably */
 
     function __construct(){
-        $this->middleware('auth')->except(['showAffiliateLandingPage']);
+        $this->middleware('auth')->except(['showAffiliateLandingPage', 'showTermsOfService']);
     }
 
     public function showAffiliateLandingPage(Request $request){

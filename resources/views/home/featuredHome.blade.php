@@ -379,8 +379,8 @@
     <div class="col-xs-12 section" id="download">
         <div class="content text-center">
             <!-- <p>Download <b>{{ env('APP_NAME') }}</b> :</p> -->
-            <p class="p1">কিনবেন কিনা সেটা পরের কথা, কিন্তু ইনস্টল করে যাচাই করে দেখুন</p>
-            {{--<p class="p1">Vocabulary বই কিনবেন নাকি এই App টি -<br>install করে যাচাই করে দেখুন</p>--}}
+            {{--<p class="p1">কিনবেন কিনা সেটা পরের কথা, কিন্তু ইনস্টল করে যাচাই করে দেখুন</p>--}}
+            <p class="p1">App টি কেনার আগে ইন্সটল করে full ডেমো দেখে নেওয়ার সুযোগ রয়েছে</p>
             @if(isset($appDistributionThrough))
                 @if($appDistributionThrough === 'playstore')
                         <a href="https://play.google.com/store/apps/details?id=com.wordmas.wordmaster">

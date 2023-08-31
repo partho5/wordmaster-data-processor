@@ -47,7 +47,17 @@
                 </select>
             </div>
 
+            @if(isset($appPrice) && isset($paymentCharge) && isset($netAmountToPay))
+                <div class="col-xs-12 payment-charge-notice">
+                    Send Money চার্জ বহন করবে {{ env('APP_NAME') }} <br>
+                    তাই আপনি সেন্ড করবেন ({{ $appPrice }}-{{ $paymentCharge }}) = {{ $netAmountToPay }} Tk
+                </div>
+            @endif
+
             <div id="steps" class="col-xs-12">
+                <div class="heading1">
+                    <span>ক্রয়ের পদ্ধতি :</span>
+                </div>
                 <ol>
                     <li class="bkash-app">
                         <img src="/images/icon/bkash-app-icon.png" class="icon" alt="bkash app">
@@ -62,7 +72,7 @@
                         <span class="success-msg">নাম্বারটি copy করা হয়েছে</span>
                     </li>
                     <li>পরিমাণ ৳‎ : <span class="field payable-amount">{{ $netAmountToPay }}</span> </li>
-                    <li>bKash মেসেজ থেকে প্রাপ্ত TrxID টা Copy করে এনে এখানে লিখুন <input type="text" id="trxId" placeholder="TrxID"> </li>
+                    <li>bKash থেকে মেসেজ আসবে। সেখান থেকে TrxID টা Copy করে এনে এখানে লিখুন <input type="text" id="trxId" placeholder="TrxID"> </li>
                     <li>Click <button class="btn btn-success verify-btn">Verify Payment</button> </li>
                 </ol>
             </div>
@@ -186,6 +196,8 @@
                     $('.loading').hide();//in case currently being shown
                     $('.msg-error').fadeIn();
                     THIS.prop('disabled', false);//re enable button to become clickable
+
+                    $('.payment-charge-notice, #steps .heading1').slideUp(); // to ensure error msg section is visible without scrolling
                 }
             }
 

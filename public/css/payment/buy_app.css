@@ -17,9 +17,9 @@ input{
 
 }
 .section1{
-    margin-top: 0.5em;
+    margin-top: 0.3em;
     text-align: center;
-    font-size: 2em;
+    font-size: 1.8em;
 }
 .section1 .app-name{
     padding: 0 0.5em 0.2em 0.5em;
@@ -27,7 +27,7 @@ input{
     color: #000ae9;
 }
 .section2{
-    margin-top: 1em;
+    margin-top: 0.5em;
     font-size: 1.3em;
 }
 #coupon-container{
@@ -48,8 +48,17 @@ input{
     background: #e060b2;
     color: #ffffff;
 }
+.payment-charge-notice{
+    margin-top: 1em;
+    font-size: 0.8em;
+    border-left: 4px solid #00a7ca;
+}
 #steps{
-    margin-top: 0.2em;
+    margin-top: 1em;
+}
+#steps .heading1 {
+    text-align: center;
+    border-bottom: 1px solid #11a7e1;
 }
 #steps li{
     margin-top: 1em;
@@ -69,7 +78,7 @@ input{
     margin-right: 0.3em;
 }
 .field{
-    background-color: rgb(255, 254, 239);
+    background-color: rgb(255, 252, 225);
     padding: 2px 4px;
     border-radius: 5px;
 }

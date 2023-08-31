@@ -36,7 +36,7 @@
 
         <div class="vname col-xs-12 no-padding">
 
-            <u> Version <span class="version">1.5</span> </u> <sup>Latest</sup>
+            <u> Version <span class="version">1.10</span> </u> <sup>Latest</sup>
 
         </div>
 

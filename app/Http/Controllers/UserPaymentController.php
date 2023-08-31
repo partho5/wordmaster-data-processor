@@ -119,8 +119,10 @@ class UserPaymentController extends Controller
 
 
     public function showBuyApp(Request $request){
+        $appPrice = MyConstants::$amountToBePaid;
+        $paymentCharge = MyConstants::$paymentCharge;
         $netAmountToPay = MyConstants::$amountToBePaid - MyConstants::$paymentCharge;
-        return view('payment.buy_app', compact('netAmountToPay'));
+        return view('payment.buy_app', compact('appPrice', 'paymentCharge', 'netAmountToPay'));
     }
 
 

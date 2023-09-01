@@ -31,6 +31,7 @@ use Mockery\Exception;
 //use Spatie\FlysystemDropbox\DropboxAdapter;
 
 use App\Http\Controllers\Contents\SocialMediaPostContents;
+use function Symfony\Component\Finder\size;
 
 
 class TestSampleController extends Controller
@@ -631,31 +632,53 @@ class TestSampleController extends Controller
 
 
 
-    function epizy2localTransfer(){
-        ini_set("max_execution_time", 30000);
-        @ob_start();
-        for($i=700;$i<5000;$i++){
-            $synoObj = Synonyms::where('word_id', $i)->where('take', 1)->get();
-            if(count($synoObj)==0){
-                //echo $i." - ";
-                $w = Words::where('id', $i)->where('importance_level', '>=', 80)->get();
-                if(count($w)>0){
-                    echo $w[0]->word;
-                    echo " - ";
+    function questionBankAddMeanings(){
+
+        ini_set('max_execution_time', 3000000);
+
+        $path = storage_path().'/app/public/word_data_for_android';
+        $Lib = new Library();
+
+        $WordsPath = $path.'/bcs_questions.json';
+        $questionWords = json_decode(file_get_contents($WordsPath), true);
+
+        //return $bcsWords;
+
+        foreach ($questionWords as $i => $json){
+            $wordList = $json['wordList'];
+            foreach ($wordList as $j => $word){
+                $bangla = "";
+                $meaning = Meanings::where('word_id', function ($query) use ($word){
+                    $query->select('id')
+                        ->from('words')
+                        ->where('word', $word);
+                })
+                    ->where('bangla_meaning', '!=', '*')
+                    ->where('bangla_meaning', '!=', '#')
+                    ->limit(1)
+                    ->get();
+
+                if(count($meaning) > 0){
+                    $bangla = $meaning[0]['bangla_meaning'];
+                    $bangla = $Lib->replaceFirstOccurrence($bangla, "*", "");
+                    $bangla = $Lib->replaceFirstOccurrence($bangla, "#", "");
+                    $bangla = trim($bangla);
+
+                    if (preg_match('/^[0-9]+\.\s*/', $bangla)) {
+                        //remove numbering 1. , 2. etc. if exists. because we will add numbering manually. If we dont remove starting number, some definition may look like: "1.1. definition here"
+                        $bangla = preg_replace('/^[0-9]+\.\s*/', '', $bangla);
+                    }
                 }
-            }
 
-            @ob_flush();
-            @flush();
-            @ob_end_flush();
+                $questionWords[$i]['wordList'][$j] = $word.' - '.$bangla;
 
-            if($i > 10000){
-                break;
-                ob_end_flush();
+                //return $bcsWords;
             }
         }
 
-        return "<br> <br>--------done--------";
+        return $questionWords;
+
+
     }
 
     function insertTestCategories(){
@@ -974,7 +997,7 @@ class TestSampleController extends Controller
 
 
 
-    
+
 
 
 

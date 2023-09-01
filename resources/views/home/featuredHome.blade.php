@@ -394,6 +394,12 @@
                         </div>
                 @endif
             @endif
+
+            <p class="p2">
+                <img class="icon icon-love" src="/images/icon/love_symbol_red.png">
+                ঢাকা বিশ্ববিদ্যালয়ের উদ্যমী তরুণদের একটি উদ্যোগ
+                <img class="icon icon-love" src="/images/icon/love_symbol_red.png">
+            </p>
         </div>
     </div>
 

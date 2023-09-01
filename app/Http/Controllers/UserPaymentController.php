@@ -88,7 +88,13 @@ class UserPaymentController extends Controller
                 $couponValue = $coupon['value'];
             }
         }
-        
+
+
+        /* ************* tentative ************** */
+        MyConstants::$amountToBePaid = 150; //tentative, for older version
+
+
+
         if($userId && $trxId){
             $query = UserPayment::where('auth_token', $trxId)
                 ->where('paid_amount', '>=', MyConstants::$amountToBePaid - MyConstants::$paymentCharge - $couponValue) //we will bear the payment charge
@@ -106,6 +112,7 @@ class UserPaymentController extends Controller
             }
         }
 
+
         return response()->json([
             'isValid' => $isValid
         ],200);
@@ -121,7 +128,15 @@ class UserPaymentController extends Controller
     public function showBuyApp(Request $request){
         $appPrice = MyConstants::$amountToBePaid;
         $paymentCharge = MyConstants::$paymentCharge;
-        $netAmountToPay = MyConstants::$amountToBePaid - MyConstants::$paymentCharge;
+
+        $versionCode = $request->version;
+        if( !isset($versionCode) ){
+            //for older version. Override app price.
+            $appPrice = 150;
+        }
+
+        $netAmountToPay = $appPrice - MyConstants::$paymentCharge;
+
         return view('payment.buy_app', compact('appPrice', 'paymentCharge', 'netAmountToPay'));
     }
 

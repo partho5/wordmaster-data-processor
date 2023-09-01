@@ -108,7 +108,8 @@
             <div class="col-xs-12 text-center">
                 যেকোনো সমস্যা হলে ইমেইল করুন
                 <div>
-                    Click on &nbsp; <a href="mailto:{{ env('ADMIN_EMAIL') }}?subject=Problem from user id {{ request()->query('userId') }}&body=My problem is: ">{{ env('ADMIN_EMAIL') }}</a>
+                    Click on &nbsp;
+                    <a href="mailto:{{ env('ADMIN_EMAIL') }}?subject=Problem from user id {{ request()->query('userId') }}&body=My problem is: ">{{ env('ADMIN_EMAIL') }}</a>
                 </div>
             </div>
         </footer>
@@ -185,6 +186,8 @@
                                 $('.loading').hide();//in case currently being shown
                                 $('.msg-error').fadeIn();
                                 THIS.prop('disabled', false);//re enable button to become clickable
+
+                                $('.payment-charge-notice, #steps .heading1').slideUp(); // to ensure error msg section is visible without scrolling
                             }
                         }, error: function (error) {
                             p(error);

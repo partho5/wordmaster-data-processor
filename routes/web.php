@@ -79,7 +79,7 @@ Route::match(array('GET', 'POST'), '/admin/ajax/fetch_word', [App\Http\Controlle
 Route::get('/test/cam', [App\Http\Controllers\TestSampleController::class, 'cambridgeWordsBulkInsert']);
 Route::get('/test/saw', 'TestSampleController@synAntWebster');
 Route::get('/test/bn', 'TestSampleController@extractBanglaContainingText');
-Route::get('/test/tns', 'TestSampleController@epizy2localTransfer');
+Route::get('/test/tns', [App\Http\Controllers\TestSampleController::class, 'questionBankAddMeanings']);
 Route::get('/test/t', 'TestSampleController@test');
 Route::post('/test/t/ajax', 'TestSampleController@testAjax');
 Route::get('/test/insertTestCategories', 'TestSampleController@insertTestCategories');

@@ -78,7 +78,7 @@ input{
     margin-right: 0.3em;
 }
 .field{
-    background-color: rgb(255, 252, 225);
+    background-color: rgba(211, 252, 255, 0.5);
     padding: 2px 4px;
     border-radius: 5px;
 }

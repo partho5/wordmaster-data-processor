@@ -125,6 +125,9 @@ input{
 .section3 h3{
     color: #00cf27;
 }
+.section3 img.tick{
+    width: 30%;
+}
 .section3 .p1{
     color: #8f8f8f;
 }

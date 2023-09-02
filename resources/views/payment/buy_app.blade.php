@@ -95,10 +95,11 @@
         </div>
 
         <div class="section3 col-xs-12 no-padding text-center">
+            <img src="/images/green_tick_in_circle.png" class="tick">
             <h3>Payment Successful !</h3>
             <p class="p1">
                 Now start learning vocabulary. <br>
-                Additionally you get access to <a href="/download/pdf" target="_blank">330 high frequency words PDF</a> for short preparation
+                <b>Bonus</b> : you get access to <a href="/download/pdf" target="_blank">330 high frequency words PDF</a> for short preparation
             </p> <br>
             <h4 class="instruction2">অ্যাপ টি exit করে আবার open করুন</h4>
         </div>
@@ -157,7 +158,7 @@
             var trxId = $('#trxId').val().trim();
             var code = $('#coupon-code').val(); //not implemented yet
             var THIS = $(this);
-            var verified = localStorage.getItem('verified7');
+            var verified = localStorage.getItem('verified7'); // 'verified7' is just a unique identifier
             if(false && verified == 1){ /* false &  -will always skip this section, tentatively */
                 $('.msg-success').text("Already Verified !");
                 $('.msg-success').show();

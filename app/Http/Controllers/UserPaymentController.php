@@ -78,6 +78,7 @@ class UserPaymentController extends Controller
     /* when user submits TrxID from payment page, TrxID is verified bu this function */
     public function verifyPayment(Request $request){
         $isValid = 0;
+
         $userId = $request->userId;
         $trxId = $request->trxId;
 
@@ -109,6 +110,18 @@ class UserPaymentController extends Controller
                     ->update(['user_id'=>$userId, 'verified_at'=>Carbon::now(), 'coupon_code'=>$request->coupon ]);
                 CouponCodes::where('code', $request->coupon)
                     ->update(['used_at'=>Carbon::now(), 'used_by'=>$userId]);
+            }else{
+                /* ************* tentative ************** */
+                /* As payment verification based on my android phone is not guaranteed to work always. so if user pays and in that moment my verification doesn't work, to avoid such case insert whatever TrxId user tried. as request arrives here means he entered a 10 chars TrxId, so most like it's valid suggesting he made a payment */
+                $isValid = 1;
+
+                $payment = new UserPayment();
+                $payment->user_id = $userId;
+                $payment->payment_method = 'NOT SURE';
+                $payment->paid_at = date('Y-m-d H:i:s');
+                $payment->auth_token = $trxId;
+                $payment->verified_at = date('Y-m-d H:i:s');
+                $payment->save();
             }
         }
 

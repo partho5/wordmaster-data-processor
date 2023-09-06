@@ -227,7 +227,7 @@
 
 
 
-    <div class="section col-xs-12 " id="question-bank">
+    <div class="section col-xs-12 hidden" id="question-bank">
 
         <div class="title col-xs-10 col-xs-offset-1">20 বছরের প্রশ্ন ব্যাংক</div>
 

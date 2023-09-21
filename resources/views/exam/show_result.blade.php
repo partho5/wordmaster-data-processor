@@ -104,13 +104,14 @@
                                 "                </div>\n" +
                                 "\n" +
                                 "                <div class='col-xs-12 no-padding'>\n" +
+                                "<hr>"+
                                 "                    <div class='col-xs-9 labels'>Correct</div>\n" +
                                 "                    <div class='col-xs-3 val'>"+correct+"</div>\n" +
                                 "                </div>\n" +
                                 "\n" +
                                 "                <div class='col-xs-12 no-padding'>\n" +
                                 "                    <div class='col-xs-9 labels'>Incorrect <small>(-"+incorrectMinus+" for each)</small></div>\n" +
-                                "                    <div class='col-xs-3 val'>"+incorrect+"</div>\n" +
+                                "                    <div class='col-xs-3 val'>-"+incorrectMinus+" x "+incorrect+"</div>\n" +
                                 "                </div>\n" +
                                 "\n" +
                                 "                <div class='col-xs-12 no-padding' style='border-top: 1px solid #c5c5c5'>\n" +

@@ -213,7 +213,7 @@ img.trophy{
 #mnemonic .bdr-top{
     border-top: 1px solid #000;
 }
-#synonym .title{
+#synonym .title, #words-quantity .title{
     color: #e92ce7;
 }
 #trial{

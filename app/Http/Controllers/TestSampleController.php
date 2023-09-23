@@ -897,7 +897,7 @@ class TestSampleController extends Controller
 //                        echo $lastXmPostY." - ".'<br>';
 //                        echo implode(", ", $wordList).'<hr>';
 
-                        $data['exam'] = $lastExam;
+                        $data['bank'] = $lastExam;
                         $data['postName'] = $lastPostName;
                         $data['year'] = $lastYear;
                         $data['wordList'] = $wordList;
@@ -919,7 +919,7 @@ class TestSampleController extends Controller
         sort($wordList);
 //        echo $lastExam." - ".$lastPostName." - ".$lastYear.'<br>';
 //        echo implode(", ", $wordList).'<hr>';
-        $data['exam'] = $lastExam;
+        $data['bank'] = $lastExam;
         $data['postName'] = $lastPostName;
         $data['year'] = $lastYear;
         $data['wordList'] = $wordList;

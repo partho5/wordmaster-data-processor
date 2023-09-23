@@ -22,7 +22,7 @@ class MyConstants
     public $phrasalVerb = 21;
 
 
-    /*
+    /***************** THIS IS IMPORTANT TO KEEP IN MIND ******************
      * importance_level=90 ---- word smart 1,2
      * importance_level=85 ---- 330 high frequency words which were not in 80 or 90 lists
      * importance_level=80 ---- saifurs pani out of word smart 1,2
@@ -40,16 +40,25 @@ class MyConstants
     public static $paymentCharge = 5; //bKash send money charge 5 Tk
 
 
+
+    /*
+     * currently it's not being used
+     * */
     //value for word_categories table
     public static $WORD_CATEGORIES = [
-        'BCS'               => 30,
-        'Bangladesh Bank'   => 35,
-        'All Gov\'t Banks'  => 40,
-        'Private Bank'      => 45,
-        'Word Smart 1'      => 50,
-        'Word Smart 2'      => 55,
-        'Saifurs Pani'      => 60,
-        'GRE'               => 65,
+
+        'phrase'            => 19,
+        'idiom'             => 20,
+
+
+//        'BCS'               => 30,
+//        'Bangladesh Bank'   => 35,
+//        'All Gov\'t Banks'  => 40,
+//        'Private Bank'      => 45,
+//        'Word Smart 1'      => 50,
+//        'Word Smart 2'      => 55,
+//        'Saifurs Pani'      => 60,
+//        'GRE'               => 65,
     ];
 
     public static $adminIds = [1,2,3,4,5,6];

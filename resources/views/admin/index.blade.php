@@ -69,7 +69,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 no-padding field-wrapper hidden" id="category-wrapper">
+                <div class="col-xs-12 no-padding field-wrapper" id="category-wrapper">
                     <div class="heading">Categories</div>
 
                     <div id="categories">

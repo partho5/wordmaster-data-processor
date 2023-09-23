@@ -85,10 +85,11 @@ Route::post('/test/t/ajax', 'TestSampleController@testAjax');
 Route::get('/test/insertTestCategories', 'TestSampleController@insertTestCategories');
 Route::get('/test/insertDerived', 'TestSampleController@insertDerivedWords');
 Route::get('/test/insertMnemonics', 'TestSampleController@insertMnemonics');
-Route::get('/test/prevW', 'TestSampleController@exportPrevWords');
+Route::get('/test/prevW', [App\Http\Controllers\TestSampleController::class, 'exportPrevWords']);
 Route::get('/test/dropbox', 'TestSampleController@dropboxTest');
 Route::get('/test/backup/db', 'TestSampleController@dbBackup');
 Route::get('/test/backup/dropbox', [App\Http\Controllers\TestSampleController::class, 'saveToDropbox']);
+
 
 
 
@@ -135,6 +136,8 @@ Route::match( array('GET', 'POST'), '/api/mobile/log/save',  [App\Http\Controlle
 Route::match( array('GET', 'POST'), '/api/mobile/register', [App\Http\Controllers\ApiController::class, 'registerDevice']);
 Route::get('/api/mobile/exportForAndroid',  [App\Http\Controllers\ApiController::class, 'prepareWordsForAndroid']);
 
+/* Previous year question bank export */
+Route::get('/mobile_app/data/export/prev_year_questions', [App\Http\Controllers\Processor\AppReadyDataExporter::class, 'exportPrevYearQuestions']);
 
 
 Route::match( array('GET', 'POST'), '/api/payment/create', [App\Http\Controllers\UserPaymentController::class, 'insertPayment']);

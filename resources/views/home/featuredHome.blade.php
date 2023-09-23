@@ -227,6 +227,15 @@
 
 
 
+    <div class="section col-xs-12" id="words-quantity">
+        <div class="title col-xs-10 col-xs-offset-1">সবচেয়ে গুরুত্বপূর্ণ 2900+ words</div>
+        <div class="col-xs-12 text-center content no-padding">
+            এই words গুলো আয়ত্ত করবেন । জীবনে Vocabulary তে আটকাবেন না !
+        </div>
+    </div>
+
+
+
     <div class="section col-xs-12 hidden" id="question-bank">
 
         <div class="title col-xs-10 col-xs-offset-1">20 বছরের প্রশ্ন ব্যাংক</div>

@@ -59,8 +59,6 @@ class AppReadyDataExporter{
                 if($lastXmPostY != $xmPostY){
                     if(sizeof($wordList)>0){
                         sort($wordList);
-//                        echo $lastXmPostY." - ".'<br>';
-//                        echo implode(", ", $wordList).'<hr>';
 
                         $data['bank'] = $lastExam;
                         $data['postName'] = $lastPostName;
@@ -80,10 +78,23 @@ class AppReadyDataExporter{
                 array_push($wordList, $wordAndMeaning);
 
 
+
                 $lastXmPostY = $xmPostY;
                 $lastExam = $row->exam;
                 $lastPostName = $row->post_name;
                 $lastYear = $row->year;
+
+
+                /************** ESSENTIAL ************
+                 * uncommenting this chunk will show which words/phrases don't have meaning set in database.
+                 * Need to update raw file / database word field in `previous_job_exams` table.
+                 * Decide later when app grows significantly
+                 * ***********************************/
+                /*
+                if(! isset($meaning) || empty($meaning)){
+                    echo $word."  --at $xmPostY <br>";
+                }
+                */
             }
         }
 
@@ -94,14 +105,70 @@ class AppReadyDataExporter{
     public function exportPrevYearQuestions(){
         ini_set("max_execution_time", 30000);
 
+        $savePath = "/private/word_data_for_android";
+
         $bcsDataSet = $this->prepareBcsQuestionBank();
         //return $bcsDataSet;
-        Storage::disk('public')->put('bcs_questions_with_bangla_meaning.json', json_encode($bcsDataSet));
+        Storage::disk('local')->put($savePath.'/'.'bcs_questions_with_bangla_meaning.json', json_encode($bcsDataSet));
+        //echo "BCS words save in $savePath<br>";
 
         $bankDataSet = $this->prepareBankExamsQuestionBank();
         return $bankDataSet;
-        Storage::disk('public')->put('bank_questions_with_bangla_meaning.json', json_encode($bankDataSet));
+        Storage::disk('local')->put($savePath.'/'.'bank_questions_with_bangla_meaning.json', json_encode($bankDataSet));
+        echo "Bank words save in $savePath<br>";
     }
+
+
+
+
+
+
+    public function importPrevYearQuestions(){
+        ini_set("max_execution_time", 30000);
+
+        $this->insertWordsFromQuestionBank();
+    }
+
+    private function insertWordsFromQuestionBank(){
+        $startFileNo = 49;
+        $endFileNo = 54;
+        $fileDir = storage_path("app/private/bank_question_words");
+        for($i = $startFileNo; $i <= $endFileNo; $i++){
+            $filePath = $fileDir.'/'.$i.'.json';
+            $this->insertWordsFromFile($filePath);
+            echo "$filePath inserted<br>";
+        }
+    }
+
+    private function insertWordsFromFile($filePath){
+        $json = json_decode(file_get_contents($filePath));
+
+        $dataToInsert = []; // Initialize an array to store data for bulk insert
+
+        foreach ($json as $object) {
+            // Check if 'wordList' property exists and is an array
+            if (isset($object->wordList) && is_array($object->wordList)) {
+                foreach ($object->wordList as $word) {
+                    // Create data for each word and add it to the bulk insert array
+                    $dataToInsert[] = [
+                        'word' => $word, // Insert each word separately
+                        'exam' => $object->bankName,
+                        'post_name' => $object->postName,
+                        'year' => $object->examYear,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+            }
+        }
+
+        //dd($dataToInsert);
+
+        // Perform a single bulk insert operation
+        PreviousJobExams::insert($dataToInsert);
+    }
+
+
 
 
 

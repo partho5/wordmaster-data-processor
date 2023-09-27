@@ -12,32 +12,38 @@
 @section('body_container')
     <div class="col-md-6 col-md-offset-3 col-xs-12" id="content">
         <div id="intro">
-            <p class="p1">I am going to test myself for a <br> <strong>strong preparation</strong> </p>
-            <div class="instruction">
+            <p class="p1">
+                অনেক সময় মনে হয় কেউ যদি আমাকে একটা একটা করে word ধরতো, তাহলে নিজেকে টেস্ট করতে পারতাম ।
+            </p>
+            <p class="p2">
+                ধরুন 20 টি  word পড়লেন, ঠিক ওই 20 টি word এর মধ্য থেকে সফটওয়্যার আপনাকে প্রশ্ন তৈরি করে দিবে ! MCQ
+                <br>
+
+            </p>
+            <div class="instruction text-center">
                 <div style="font-size: 0.8em">
                     <hr>
-                    You need to know these
                     <button class="btn btn-dark ins-btn" data-toggle="collapse" data-target="#ins-list">Instructions</button>
                     <hr>
                 </div>
 
-                <ul class="collapse" id="ins-list">
-                    <li> নির্ধারিত সময়ের মধ্যে উত্তর  submit না  করলে  স্বয়ংক্রিয়ভাবে submit হয়ে যাবে  </li>
-                    <li>কতগুলো প্রশ্নে পরীক্ষা দিতে চান সেটা পরবর্তী পেজে সিলেক্ট করবেন</li>
+                <ul class="collapse text-left" id="ins-list">
+                    <li>নির্ধারিত সময়ের মধ্যে উত্তর  submit করতে হবে</li>
+                    {{--<li>কতগুলো প্রশ্নে পরীক্ষা দিতে চান সেটা পরবর্তী পেজে সিলেক্ট করবেন</li>--}}
                 </ul>
             </div>
         </div>
 
         <div id="get-question" class="col-xs-12 no-padding text-center" style="margin-top:4em">
-            <div class="text-left p1">well, now </div>
+            <div class=" p1">well, now </div>
             <button class="btn-get">Get Question Paper</button>
 
             <div class="text-left col-xs-12  panel panel-hidden">
-                <div class="col-xs-8 no-padding">Number of questions</div>
+                <div class="col-xs-8 no-padding">কতগুলো প্রশ্নে পরীক্ষা দিতে চান</div>
                 <div class="col-xs-4">
-                    <input type="number" min="1" max="1000" value="50" id="num-of-q" class="form-control">
+                    <input type="number" min="1" max="1000" value="20" id="num-of-q" class="form-control">
                 </div>
-                <p class="text-center" style="color: #0c5460"><i>the more, the better.....</i></p>
+                <p class="text-center hidden" style="color: #0c5460"><i>the more, the better.....</i></p>
                 <div class="col-xs-12" style="margin-top:2em">
                     <button class="btn btn-primary fetch-btn col-xs-6 col-xs-offset-3" >Okk, Start Exam</button>
                 </div>

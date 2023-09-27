@@ -26,7 +26,7 @@ class ExamController extends Controller
             $deviceId = $request->deviceId;
             $u = User::where('device_id', $deviceId)->get(['id']);
             if(count($u)>0){
-                return view('exam.index');
+                return view('exam/index');
             }
         }
         return "<div style='text-align: center; font-size: 1.3em'> Invalid Link. <p> Please click <b>MCQ Test</b> option from Word Master app menu</p> </div>";

@@ -20,10 +20,13 @@ body{
 }
 
 #intro{
-    font-size: 1.2em;
+    margin-top: 10px;
 }
 #intro .p1{
 
+}
+#intro .p2{
+    margin-top: 30px;
 }
 #intro .ins-btn{
     color: #0000d5;
@@ -55,6 +58,7 @@ body{
 .panel-shown{
     display: block;
     background: #eee;
+    background: rgba(199, 214, 255, 0.2);
     bottom: 2em;
     padding: 1em 8px;
 }

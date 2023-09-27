@@ -36,7 +36,7 @@
 
         <div class="vname col-xs-12 no-padding">
 
-            <u> Version <span class="version">1.10</span> </u> <sup>Latest</sup>
+            <u> Version <span class="version">1.11</span> </u> <sup>Latest</sup>
 
         </div>
 
@@ -210,7 +210,7 @@
 
 
 
-            var intervalTime = 500  ;
+            var intervalTime = 5000  ;
 
             setInterval(function () {
 

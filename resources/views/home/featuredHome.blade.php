@@ -91,7 +91,7 @@
 
                             <li><span>2001-2010</span></li>
 
-                            <li><span>2010-2022</span></li>
+                            <li><span>2010-2023</span></li>
 
                         </ul>
 
@@ -236,9 +236,9 @@
 
 
 
-    <div class="section col-xs-12 hidden" id="question-bank">
+    <div class="section col-xs-12 " id="question-bank">
 
-        <div class="title col-xs-10 col-xs-offset-1">20 বছরের প্রশ্ন ব্যাংক</div>
+        <div class="title col-xs-10 col-xs-offset-1">23 বছরের প্রশ্ন ব্যাংক</div>
 
         <div class="col-xs-12 content no-padding">
 
@@ -246,7 +246,7 @@
 
                 <p>আলাদা করে কোনো প্রশ্ন ব্যাংকের বই কিনতে হবে না</p>
 
-                <p>2001 - 2020 পর্যন্ত সরকারি ব্যাংক, বেসরকারি ব্যাংক, বিসিএস এর ভোকাবুলারি  অংশের প্রশ্ন রয়েছে</p>
+                <p>2001 - 2023 পর্যন্ত বাংলাদেশ ব্যাংক, সরকারি ব্যাংক, প্রাইভেট ব্যাংক, বিসিএস এ আসা সকল Vocabulary কালেকশন রয়েছে</p>
 
             </div>
 
@@ -697,7 +697,7 @@
                 section = ($(element).text());
             }catch (e){}
 
-            var intervalTime = 2000  ;
+            var intervalTime = 6000  ;
             setInterval(function () {
                 $.ajax({
                     url : "/ajax/visit_log/save",

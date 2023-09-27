@@ -131,26 +131,38 @@ Route::post('/student/exam/ajax/fetch_result',  [App\Http\Controllers\ExamContro
 
 
 
-Route::get('/api/mobile', [App\Http\Controllers\ApiController::class, 'fetchWordData']);
+//Route::get('/api/mobile', [App\Http\Controllers\ApiController::class, 'fetchWordData']);
 Route::match( array('GET', 'POST'), '/api/mobile/log/save',  [App\Http\Controllers\ApiController::class, 'saveAppLog']);
 Route::match( array('GET', 'POST'), '/api/mobile/register', [App\Http\Controllers\ApiController::class, 'registerDevice']);
-Route::get('/api/mobile/exportForAndroid',  [App\Http\Controllers\ApiController::class, 'prepareWordsForAndroid']);
+
+Route::match( array('GET', 'POST'), '/api/payment/create', [App\Http\Controllers\UserPaymentController::class, 'insertPayment']);
+Route::match( array('GET', 'POST'), '/api/user/payment/verification_status',  [App\Http\Controllers\UserPaymentController::class, 'verificationStatus']);
+
+Route::get('/api/fb_group/jovoc/post', [App\Http\Controllers\TestSampleController::class, 'postInfbPageJobVocabulary']);
+
+
+
+
+
+/************ Word import export for mobile app ******************/
+
+Route::get('/mobile/exportForAndroid',  [App\Http\Controllers\Processor\AppReadyDataExporter::class, 'prepareWordsForAndroid']);
+
+Route::get('/question_bank/data/import/banks/prev_year_questions', [App\Http\Controllers\Processor\AppReadyDataExporter::class, 'importPrevYearQuestions']);
 
 /* Previous year question bank export */
 Route::get('/mobile_app/data/export/prev_year_questions', [App\Http\Controllers\Processor\AppReadyDataExporter::class, 'exportPrevYearQuestions']);
 
+/************ Word import export ******************/
 
-Route::match( array('GET', 'POST'), '/api/payment/create', [App\Http\Controllers\UserPaymentController::class, 'insertPayment']);
-Route::match( array('GET', 'POST'), '/api/user/payment/verification_status',  [App\Http\Controllers\UserPaymentController::class, 'verificationStatus']);
+
+
 
 Route::get('/buy/app',  [App\Http\Controllers\UserPaymentController::class, 'showBuyApp']);
 Route::post('/buy/app/payment/verify',  [App\Http\Controllers\UserPaymentController::class, 'verifyPayment']);
 Route::get('/buy/app/payment/issue/report/show',  [App\Http\Controllers\UserPaymentController::class, 'verifyPaymentIssueReport']);
 
 Route::match( ['GET', 'POST'], '/api/coupon/verify',  [App\Http\Controllers\UserPaymentController::class, 'verifyCoupon']);
-
-
-Route::get('/api/fb_group/jovoc/post', [App\Http\Controllers\TestSampleController::class, 'postInfbPageJobVocabulary']);
 
 
 Auth::routes();

@@ -91,17 +91,13 @@ class UserPaymentController extends Controller
         }
 
 
-        /* ************* tentative ************** */
-        MyConstants::$amountToBePaid = 150; //tentative, for older version
-
-
 
         if($userId && $trxId){
             $query = UserPayment::where('auth_token', $trxId)
                 ->where('paid_amount', '>=', MyConstants::$amountToBePaid - MyConstants::$paymentCharge - $couponValue) //we will bear the payment charge
                 ->whereNull('verified_at') //i.e. this trxId is not used before
                 ->get();
-            if(count($query) == 1){
+            if(count($query) >= 1){
                 //TrxID exists but not verified by any user yet
                 $isValid = 1;
 
@@ -112,7 +108,7 @@ class UserPaymentController extends Controller
                     ->update(['used_at'=>Carbon::now(), 'used_by'=>$userId]);
             }else{
                 /* ************* tentative ************** */
-                /* As payment verification based on my android phone is not guaranteed to work always. so if user pays and in that moment my verification doesn't work, to avoid such case insert whatever TrxId user tried. as request arrives here means he entered a 10 chars TrxId, so most like it's valid suggesting he made a payment */
+                /* As payment verification based on my android phone is not guaranteed to work always. so if user pays and in that moment my verification doesn't work, to avoid such case insert whatever TrxId user tried. as request arrives here means he entered a 10 chars TrxId, so most likely it's valid suggesting he made a payment */
                 $isValid = 1;
 
                 $payment = new UserPayment();

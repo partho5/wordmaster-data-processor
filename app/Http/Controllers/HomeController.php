@@ -225,6 +225,7 @@ class HomeController extends Controller
         $deviceToken = isset($request['visitorLogId']) ? $request['visitorLogId'] : null;
         $log = VisitorLog::where('device_token', $deviceToken)->orderBy('id', 'desc')->limit(1)->get();
         $retVal = [];
+        $logInterval = 6; //second. if duration between two or more save request is less than this value, those requests will be counted saved in single row, no another new row will be created
 
         $now = round(microtime(true) * 1000);
         $clientInfo = $request['browser']." -ip=".$_SERVER['REMOTE_ADDR'].' -screenSize='.$request['screenSize'];
@@ -246,8 +247,8 @@ class HomeController extends Controller
                 ->orderBy('id', 'desc')->limit(1)->get(['reading_end_at', 'url']);
             if(count($sessionEnd)>0){
                 $lastEndTime = $sessionEnd[0]->reading_end_at;
-                if( abs($lastEndTime - $request['current_time'])/1000 < 5  && $sessionEnd[0]->url == $request->url){
-                    //no dormancy within 5 seconds, so user is active continuously
+                if( abs($lastEndTime - $request['current_time'])/1000 < $logInterval  && $sessionEnd[0]->url == $request->url){
+                    //no dormancy within $logInterval seconds, so user is active continuously
                     $retVal['msg']= "user active continuously";
 
                     $lastLog = VisitorLog::where('device_token', $deviceToken)

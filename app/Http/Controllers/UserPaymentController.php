@@ -124,7 +124,8 @@ class UserPaymentController extends Controller
 
         return response()->json([
             'isValid' => $isValid
-        ],200);
+        ],200)
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
     }
 
 

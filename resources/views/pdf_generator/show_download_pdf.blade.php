@@ -58,21 +58,15 @@
                 $('.dn-status').hide();
             }, 2000);
 
+
+
             //save download log
-            var fp = new Fingerprint({
+            var visitorLogId = getCookie("visitorLogId");
+            if(! visitorLogId){
+                visitorLogId = generateVisitorLogId();
+                setCookie("visitorLogId", visitorLogId);
+            }
 
-                canvas: true,
-
-                ie_activex: true,
-
-                screen_resolution: true
-
-            });
-
-
-
-            var fingerprint = fp.get();
-            setCookie("visitorLogId", fingerprint);
             var screenSize = screen.width+'x'+screen.height;
 
             $.ajax({
@@ -80,7 +74,7 @@
                 type : "post",
                 async : true,
                 data : {
-                    _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
+                    _token : "{{ csrf_token() }}", visitorLogId : visitorLogId,
                     current_time : Date.now(), browser : navigator.userAgent,
                     url : window.location.pathname, referredBy : "", screenSize : screenSize,
                 },

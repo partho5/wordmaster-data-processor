@@ -685,8 +685,12 @@
 
 
 
-            var fingerprint = fp.get();
-            setCookie("visitorLogId", fingerprint);
+            var visitorLogId = getCookie("visitorLogId");
+            if(! visitorLogId){
+                visitorLogId = generateVisitorLogId();
+                setCookie("visitorLogId", visitorLogId);
+            }
+
             var screenSize = screen.width+'x'+screen.height;
             if(! screen.width){
                 screenSize = "window.inner:"+window.innerWidth+'x'+window.innerHeight;
@@ -697,14 +701,14 @@
                 section = ($(element).text());
             }catch (e){}
 
-            var intervalTime = 6000  ;
+            var intervalTime = 4000  ;
             setInterval(function () {
                 $.ajax({
                     url : "/ajax/visit_log/save",
                     type : "post",
                     async : true,
                     data : {
-                        _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
+                        _token : "{{ csrf_token() }}", visitorLogId : visitorLogId,
                         current_time : Date.now(), browser : navigator.userAgent,
                         url : '/', referredBy : referredBy, screenSize : screenSize,
                         meta: section === '' ? null : "section view="+section

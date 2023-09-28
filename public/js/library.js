@@ -33,32 +33,32 @@ function copyToClipboard(text) {
 }
 
 
-function saveVisitLog() {
-    p("to save visit log");
+function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var randomString = '';
+    for (var i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        randomString += characters.charAt(randomIndex);
+    }
+    return randomString;
+}
+
+function getCurrentTimestamp() {
+    return new Date().getTime();
+}
+
+
+function generateVisitorLogId() {
     var fp = new Fingerprint({
         canvas: true,
         ie_activex: true,
         screen_resolution: true
     });
-
     var fingerprint = fp.get();
-    setCookie("visitorLogId", fingerprint);
-
-
-    var intervalTime = 2000  ;
-    setInterval(function () {
-        $.ajax({
-            url : "/ajax/visit_log/save",
-            type : "post",
-            async : true,
-            data : {
-                _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
-                current_time : Date.now(), browser : navigator.userAgent,
-                url : '/'
-            },
-            success : function (response) {
-                //p(response);
-            },error: function (error) {}
-        });
-    }, intervalTime);
+    var randomString = generateRandomString(5);
+    var timestamp = getCurrentTimestamp();
+    var separator = '-';
+    var visitorLogId = `${fingerprint}${separator}${randomString}${separator}${timestamp}`;
+    return visitorLogId;
 }
+

@@ -228,8 +228,12 @@
 
 
 
-        var fingerprint = fp.get();
-        setCookie("visitorLogId", fingerprint);
+
+        var visitorLogId = getCookie("visitorLogId");
+        if(! visitorLogId){
+            visitorLogId = generateVisitorLogId();
+            setCookie("visitorLogId", visitorLogId);
+        }
 
         var referredBy = "app";
         var intervalTime = 2000  ;
@@ -239,7 +243,7 @@
                 type : "post",
                 async : true,
                 data : {
-                    _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
+                    _token : "{{ csrf_token() }}", visitorLogId : visitorLogId,
                     current_time : Date.now(), browser : navigator.userAgent,
                     url : window.location.pathname, referredBy : referredBy, meta : meta || null
                 },

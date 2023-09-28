@@ -138,23 +138,22 @@ and so #simple-curtain is currently display:none; */
             }
 
 
-            var fp = new Fingerprint({
-                canvas: true,
-                ie_activex: true,
-                screen_resolution: true
-            });
 
-            var fingerprint = fp.get();
-            setCookie("visitorLogId", fingerprint);
 
-            var intervalTime = 2000  ;
+            var visitorLogId = getCookie("visitorLogId");
+            if(! visitorLogId){
+                visitorLogId = generateVisitorLogId();
+                setCookie("visitorLogId", visitorLogId);
+            }
+
+            var intervalTime = 4000  ;
             setInterval(function () {
                 $.ajax({
                     url : "/ajax/visit_log/save",
                     type : "post",
                     async : true,
                     data : {
-                        _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
+                        _token : "{{ csrf_token() }}", visitorLogId : visitorLogId,
                         current_time : Date.now(), browser : navigator.userAgent,
                         url : urlPath, referredBy : clickedFrom, screenSize : screenSize
                     },

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Admin\Affiliate\AdminAffiliate;
 use App\Models\AffiliatePersons;
 use App\Models\AffiliatePosts;
 use App\Models\Antonyms;
@@ -17,7 +18,11 @@ use App\Models\Words;
 use App\Models\WordUsages;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Dacastro4\LaravelGmail\Facade\LaravelGmail;
 use Doctrine\Inflector\Rules\Word;
+use Google\Auth\Credentials\UserRefreshCredentials;
+use Google\Auth\OAuth2;
+use Google\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +31,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Mockery\Exception;
+use PhpParser\Node\Stmt\Return_;
 use function Psr\Log\error;
 use function Ramsey\Uuid\Generator\timestamp;
 
@@ -84,66 +90,13 @@ class AdminController extends Controller
             ->where('approved', 0)
             ->get();
 
-        $emailMsg = MyConstants::$affiliatePostApproveEmailTemplate;
+        $emailMsg = config('values.affiliatePostApproveEmailTemplate');
         //this message which might be edited by admin before sending
 
         return view('admin.affiliate_approval', compact('posts', 'emailMsg'));
     }
 
-    public function approvePost(Request $request){
-        $result = AffiliatePosts::where('id', $request->postId)
-            ->update(['approved'=>1]);
-        return $result;
-    }
 
-
-    private function createAffiliateLink($userId){
-        $row = AffiliatePersons::where('user_id', $userId)->select('reference_token')->get();
-        if(count($row) > 0){
-            $token = $row[0]->reference_token;
-            return env('BASE_DOMAIN').'?p='.$token;
-        }
-
-        return "ERROR occured. Please contact support !"; //very unlikely case. token should have been existed.
-    }
-
-    public function sendApprovalMail(Request $request){
-        $userId = $request->userId;
-        $row = AffiliatePersons::where('user_id', $userId)->select('reference_token')->get();
-        if(count($row) == 0){
-            //new affiliate. so create their reference token
-            $person = new AffiliatePersons();
-            $person->user_id = $userId;
-            $person->reference_token = (new Library())->forgeAffiliateToken($userId);
-            $person->created_at = Carbon::now();
-            $person->updated_at = Carbon::now();
-            $person->save();
-        }
-
-        $data = [
-            'appName'   => env('APP_NAME'),
-            'userName'  => $request->userName,
-            'mailTo'    => $request->email, //affiliate email
-            'adminEmail'=> config('values.adminEmail'),
-            'msg'       => $request->msg,
-            'subject'   => MyConstants::$affiliatePostApproveMailSubject,
-            'affiliateLink' => $this->createAffiliateLink($userId)
-        ];
-
-        try{
-            Mail::send('mailPages.approve_post_mail', ['data'=>$data], function ($m) use ($data){
-                $m->from($data['adminEmail']);
-                $m->to($data['mailTo'])->subject($data['subject']);
-            });
-        }catch (Exception $exception){
-            return $exception;
-        }
-
-        $result = $this->approvePost($request);
-        if($result == 1){
-            return 'ok';
-        }
-    }
 
 
 

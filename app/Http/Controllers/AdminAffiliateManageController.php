@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Admin\Affiliate\AdminAffiliate;
+use App\Models\AffiliatePersons;
+use App\Models\AffiliatePosts;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AdminAffiliateManageController extends Controller
@@ -48,4 +52,60 @@ class AdminAffiliateManageController extends Controller
 
         //return "AdminAffiliateManageController";
     }
+
+
+
+
+
+    public function approvePost(Request $request){
+        $result = AffiliatePosts::where('id', $request->postId)
+            ->update(['approved'=>1]);
+        return $result;
+    }
+
+
+    public function sendApprovalMail(Request $request){
+        $adminAffiliate = new AdminAffiliate();
+        $userId = $request->userId;
+        $row = AffiliatePersons::where('user_id', $userId)->select('reference_token')->get();
+        if(count($row) == 0){
+            //new affiliate. so create their reference token
+            $affiliateToken = $adminAffiliate->forgeAffiliateToken($userId);
+            $adminAffiliate->saveAffiliateToken($userId, $affiliateToken);
+        }
+
+        $data = [
+            'appName'       => env('APP_NAME'),
+            'userName'      => $request->userName,
+            'mailTo'        => $request->email, //affiliate email
+            'fromEmail'     => env('MAIL_FROM_ADDRESS'),
+            'fromName'      => env('MAIL_FROM_NAME'),
+            'adminEmail'    => config('values.adminEmail'),
+            'msg'           => $request->msg,
+            'subject'       => config('values.affiliatePostApproveMailSubject'),
+            'affiliateLink' => $adminAffiliate->createAffiliateLink($userId)
+        ];
+
+        $adminAffiliate->sendPostApprovalMail($data);
+
+        $result = $this->approvePost($request);
+        if($result == 1){
+            return 'ok';
+        }
+    }
+
+    /* using Laravel default Mail */
+    /*
+    try{
+        Mail::send('mailPages.approve_post_mail', ['data'=>$data], function ($m) use ($data){
+            $m->from($data['adminEmail']);
+            $m->to($data['mailTo'])->subject($data['subject']);
+        });
+    }catch (Exception $exception){
+        return $exception;
+    }
+    */
+
+
+
 }

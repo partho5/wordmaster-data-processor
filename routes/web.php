@@ -12,7 +12,7 @@
 */
 
 
-
+use Dacastro4\LaravelGmail\Facade\LaravelGmail;
 
 Route::get('/partner', [App\Http\Controllers\AffiliateController::class, 'showAffiliateHome']);
 Route::get('/partner/proposal', [App\Http\Controllers\AffiliateController::class, 'showAffiliateLandingPage']);
@@ -24,6 +24,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 
 Route::get('/privacy-policy', [App\Http\Controllers\HomeController::class, 'showPrivacyPolicy']);
+Route::get('/terms-of-service', [App\Http\Controllers\HomeController::class, 'showPrivacyPolicy']);
 Route::get('/download', [App\Http\Controllers\HomeController::class, 'showDownloadPage']);
 Route::get('/download/pdf', [App\Http\Controllers\HomeController::class, 'showPdfDownload']);
 
@@ -51,7 +52,7 @@ Route::get('/admin/tom/affiliate_approval/show', [App\Http\Controllers\AdminCont
 Route::get('/admin/tom/pdf/generate/export-words', [\App\Http\Controllers\AdminController::class, 'exportWordsPdf']);
 
 
-Route::post('/admin/tom/ajax/post/send_approval_mail', [\App\Http\Controllers\AdminController::class, 'sendApprovalMail']);
+Route::post('/admin/tom/ajax/post/send_approval_mail', [\App\Http\Controllers\AdminAffiliateManageController::class, 'sendApprovalMail']);
 
 
 Route::get('/admin/tom/sentence/search', [App\Http\Controllers\AdminController::class, 'showSearchSentence']);
@@ -166,6 +167,35 @@ Route::match( ['GET', 'POST'], '/api/coupon/verify',  [App\Http\Controllers\User
 
 
 Auth::routes();
+
+
+
+
+Route::get('/oauth/gmail', function (){
+    return LaravelGmail::redirect();
+});
+
+
+/* you have to pass 'code' value as a GET parameter with this url */
+Route::get('/oauth/gmail/callback', function (){
+    $token = LaravelGmail::makeToken();
+    return $token;
+    return redirect()->to('/');
+});
+
+Route::get('/oauth/gmail/logout', function (){
+    LaravelGmail::logout(); //It returns exception if fails
+    return redirect()->to('/');
+});
+
+
+
+
+
+
+
+
+
 
 
 

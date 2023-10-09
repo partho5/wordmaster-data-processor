@@ -23,7 +23,7 @@ class AffiliateController extends Controller
         $affiliateId = 423;
         $enc = (new UserIdEncodeDecode())->encodeNumberToString($affiliateId);
         $dec = (new UserIdEncodeDecode())->decodeStringToNumber($enc);
-        echo $affiliateId.' > '.$enc.' < '.$dec."<br>";
+        //echo $affiliateId.' > '.$enc.' < '.$dec."<br>";
         if(is_null($dec)){
             echo "invalid arg for decodeStringToNumber()";
         }

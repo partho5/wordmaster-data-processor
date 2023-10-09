@@ -14,6 +14,18 @@
 @section('body_container')
     <div class="col-md-12 text-center">
         <h2><span>Affiliate Post Approval</span></h2>
+
+
+        <div style="background: rgba(220,218,75,0.2); border: 1px solid #dcdb89; ">
+            <div>Gmail API: <b>{{ LaravelGmail::user() }}</b></div>
+            @if(LaravelGmail::check())
+                <a href="{{ url('oauth/gmail/logout') }}" class="hidden">Logout</a>
+            @else
+                <a href="{{ url('oauth/gmail') }}">Login</a>
+            @endif
+        </div>
+
+
         <div class="col-md-12 col-xs-12 no-padding">
             @if(count($posts)>0)
             <table class="table text-center">
@@ -78,8 +90,9 @@
                                 THIS.parents('tr').find('img.send-mail-icon').attr('src', '/images/icon/blue-tick.svg');
                             }
                         }, error : function (error) {
+                            console.log("error :");
                             console.log(error);
-                            alert(error);
+                            //alert(error);
                         }
                     });
                 }else{

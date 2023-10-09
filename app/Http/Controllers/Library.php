@@ -22,26 +22,28 @@ class Library
     }
 
 
-    public function generateRandomString($length){
-        $ingredients = "abcdefghkjpqrstuvwxyz";
+
+    public function generateRandomString($length, $customIngredients = null) {
+        if ($customIngredients === null) {
+            $ingredients = "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_+=<>?";
+        } else {
+            $ingredients = $customIngredients;
+        }
+
         $arr = str_split($ingredients);
         $string = "";
         $char = "";
-        for($i=0; $i < $length; $i++){
-            while(str_contains($string, $char)){
-                $char = $arr[ rand(0, count($arr)-1) ];
+
+        for ($i = 0; $i < $length; $i++) {
+            while (str_contains($string, $char)) {
+                $char = $arr[rand(0, count($arr) - 1)];
             }
-            $string = $string.$char;
+            $string .= $char;
         }
+
         return $string;
     }
 
-
-    public function forgeAffiliateToken($userId){
-        $string = $this->generateRandomString(4);
-        $token = substr($string, 0, 2).$userId.substr($string, 2);
-        return $token;
-    }
 
 
 

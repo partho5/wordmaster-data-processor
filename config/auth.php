@@ -95,6 +95,19 @@ return [
         ],
     ],
 
+
+
+
+    // Add this configuration for the password reset email
+    'password_reset' => [
+        'provider' => 'users',
+        'expire' => 60,
+        'throttle' => 60,
+        'email' => 'emails.password', // This is the email template view
+        'connection' => 'gmail', // Set the connection to 'gmail'
+    ],
+
+
     /*
     |--------------------------------------------------------------------------
     | Password Confirmation Timeout

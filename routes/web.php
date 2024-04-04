@@ -14,7 +14,9 @@
 
 use Dacastro4\LaravelGmail\Facade\LaravelGmail;
 
-Route::get('/partner', [App\Http\Controllers\AffiliateController::class, 'showAffiliateHome']);
+Route::get('/partner/submit-new-post', [App\Http\Controllers\AffiliateController::class, 'showSubmitNewPost'])->name('showSubmitNewPost');
+Route::get('/partner/dashboard', [App\Http\Controllers\AffiliateController::class, 'showAffiliateDashboard'])->name('affiliateDashboard');
+Route::get('/partner/my-link', [App\Http\Controllers\AffiliateController::class, 'showMyAffiliateLink'])->name('myAffiliateLink');
 Route::get('/partner/proposal', [App\Http\Controllers\AffiliateController::class, 'showAffiliateLandingPage']);
 Route::get('/partner/terms-of-service', [App\Http\Controllers\AffiliateController::class, 'showTermsOfService']);
 
@@ -77,10 +79,12 @@ Route::match(array('GET', 'POST'), '/admin/ajax/fetch_word', [App\Http\Controlle
 
 
 
+Route::get('/test', [App\Http\Controllers\TestSampleController::class, 'test']);
 Route::get('/test/cam', [App\Http\Controllers\TestSampleController::class, 'cambridgeWordsBulkInsert']);
 Route::get('/test/saw', 'TestSampleController@synAntWebster');
 Route::get('/test/bn', 'TestSampleController@extractBanglaContainingText');
 Route::get('/test/tns', [App\Http\Controllers\TestSampleController::class, 'questionBankAddMeanings']);
+Route::get('/test/most_frequent_exam_words/export', [App\Http\Controllers\TestSampleController::class, 'mostFrequentExamWordsExport']);
 Route::get('/test/t', 'TestSampleController@test');
 Route::post('/test/t/ajax', 'TestSampleController@testAjax');
 Route::get('/test/insertTestCategories', 'TestSampleController@insertTestCategories');
@@ -88,7 +92,7 @@ Route::get('/test/insertDerived', 'TestSampleController@insertDerivedWords');
 Route::get('/test/insertMnemonics', 'TestSampleController@insertMnemonics');
 Route::get('/test/prevW', [App\Http\Controllers\TestSampleController::class, 'exportPrevWords']);
 Route::get('/test/dropbox', 'TestSampleController@dropboxTest');
-Route::get('/test/backup/db', 'TestSampleController@dbBackup');
+Route::get('/test/backup/db', [App\Http\Controllers\TestSampleController::class, 'dbBackup']);
 Route::get('/test/backup/dropbox', [App\Http\Controllers\TestSampleController::class, 'saveToDropbox']);
 
 
@@ -144,6 +148,8 @@ Route::get('/api/fb_group/jovoc/post', [App\Http\Controllers\TestSampleControlle
 
 
 
+Route::get('/admin/tom/app_upgrade_instruction', [App\Http\Controllers\AdminController::class, 'showAppUpgradeInstruction'])->name('appUpgradeInstructionPage');
+
 
 /************ Word import export for mobile app ******************/
 
@@ -169,6 +175,11 @@ Route::match( ['GET', 'POST'], '/api/coupon/verify',  [App\Http\Controllers\User
 Auth::routes();
 
 
+Route::match( ['GET', 'POST'], '/pass/reset',  [App\Http\Controllers\TestSampleController::class, 'sendCustomReset']);
+
+
+
+
 
 
 Route::get('/oauth/gmail', function (){
@@ -176,12 +187,12 @@ Route::get('/oauth/gmail', function (){
 });
 
 
-/* you have to pass 'code' value as a GET parameter with this url */
 Route::get('/oauth/gmail/callback', function (){
     $token = LaravelGmail::makeToken();
-    return $token;
+    //return $token;
     return redirect()->to('/');
 });
+
 
 Route::get('/oauth/gmail/logout', function (){
     LaravelGmail::logout(); //It returns exception if fails

@@ -8,13 +8,16 @@
 
 namespace App\Http\Controllers\Processor;
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Library;
 use App\Http\Controllers\MyConstants;
+use App\Http\Controllers\Processor\Word\WordDataProcessor;
 use App\Http\Controllers\WordMeanings\BengaliMeaning;
 use App\Models\Meanings;
 use App\Models\PreviousJobExams;
 use App\Models\WordUsages;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -35,18 +38,20 @@ class AppReadyDataExporter{
 
 
     function prepareWordsForAndroid(){
+        $start = round(microtime(true)*1000);
+
         if(! Auth::id()){
             abort(403);
         }
+
         ini_set("max_execution_time", 30000);
+
         $wordsPerFile = 500;
         $startIndex = 1;
         $savePath = $this->savePath;
 
         $fetchableWordsCount = count($this->wordsToFetch($startIndex, "8000"));//8000 is just an assumed max value, we won't extract more words than this number.
         $numOfFiles = ceil( $fetchableWordsCount/$wordsPerFile );
-
-        $start = round(microtime(true)*1000);
 
         for($fileNo=1; $fileNo <= $numOfFiles; $fileNo++){
             $wordData = [];
@@ -71,7 +76,6 @@ class AppReadyDataExporter{
 
         /************ Now export question bank **************/
         $this->exportPrevYearQuestions();
-
 
 
         $end = round(microtime(true)*1000);
@@ -305,6 +309,21 @@ class AppReadyDataExporter{
             }
         }
 
+
+        /**  Add the last entry. it was prepared in the last iteration of loop, but it didn't get pushed in main array **/
+
+        if(sizeof($wordList)>0){
+            sort($wordList);
+
+            $data['bank'] = $lastExam;
+            $data['postName'] = $lastPostName;
+            $data['year'] = $lastYear;
+            $data['wordList'] = $wordList;
+            array_push($bankDataSet, $data);
+        }
+
+
+
         return $bankDataSet;
     }
 
@@ -377,6 +396,72 @@ class AppReadyDataExporter{
 
 
 
+
+    public function mostFrequentExamWords($numOfWordsToFetch, $importanceLevel){
+        $results = DB::select("SELECT pje.word AS word, COUNT(pje.word) AS frequency FROM previous_job_exams pje JOIN words w ON pje.word = w.word GROUP BY word ORDER BY frequency DESC LIMIT $numOfWordsToFetch");
+
+        $dataArray = [];
+        foreach ($results as $examWord){
+            $word =  $examWord->word;
+            $data['word'] = $word;
+
+
+            $wordProcessor = new WordDataProcessor();
+            $banglaMeaning = new BengaliMeaning();
+            $wid = $wordProcessor->idOfWord($word);
+            if(! is_null($wid)){
+                $synonyms = (new AdminController())->extractSynonymWordsWithImportanceLevel($wid, $importanceLevel);
+                $synonymsArray = [];
+                if (!is_null($synonyms)) {
+                    foreach ($synonyms as $synonym){
+                        $synonymWord = $synonym->synoword;
+
+                        $syn['word'] = $synonymWord;
+
+                        /*
+                         * all perfect synonyms are not marked yet. so some synonyms are fetched which are distant in meaning.
+                         * so better not to show bangla right now
+                         * */
+                        //$syn['meaning'] = $banglaMeaning->simpleBengaliMeaningOf($synonymWord);
+
+                        array_push($synonymsArray, $syn);
+                    }
+
+                    $data['synonyms'] = $synonymsArray;
+                }
+            }
+
+
+            $data['meaning'] = $banglaMeaning->simpleBengaliMeaningOf($word);
+
+
+            $exams = $this->prevExamDataOf($word);
+            $data['exam'] = [];
+            array_push($data['exam'], $exams);
+
+
+            array_push($dataArray, $data);
+        }
+
+
+        return $dataArray;
+    }
+
+
+    public function prevExamDataOf($word){
+        $jobExam = PreviousJobExams::where('word', $word)->get(['exam', 'post_name', 'year']);
+
+        $exams = [];
+        foreach ($jobExam as $object){
+            $exam['exam'] = $object->exam;
+            $exam['postName'] = $object->post_name;
+            $exam['year'] = $object->year;
+
+            array_push($exams, $exam);
+        }
+
+        return $exams;
+    }
 
 
 }

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Contents\FacebookPagePostingHelper;
+use App\Http\Controllers\Processor\AppReadyDataExporter;
+use App\Http\Controllers\Processor\Email\GmailProcessor;
 use App\Http\Controllers\Processor\ImageProcessor;
+use App\Http\Controllers\Processor\StringProcessor;
+use App\Http\Controllers\WordMeanings\BengaliMeaning;
 use App\Models\Antonyms;
 use App\Models\DerivedWords;
 use App\Models\Meanings;
@@ -11,17 +15,28 @@ use App\Models\Mnemonics;
 use App\Models\PartsOfSpeech;
 use App\Models\PreviousJobExams;
 use App\Models\Synonyms;
+use App\Models\User;
 use App\Models\WordCategories;
 use App\Models\Words;
 use App\Models\WordUsages;
 use Carbon\Carbon;
+use Dacastro4\LaravelGmail\Facade\LaravelGmail;
 use DOMDocument;
 use DOMElement;
 use DOMXPath;
+use Google_Client;
+use Google_Service_Gmail;
+use Google_Service_Gmail_Message;
+use GuzzleHttp\Client;
 use Hamcrest\Thingy;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Mockery\Exception;
 
 //use League\Flysystem\Filesystem;
@@ -31,6 +46,7 @@ use Mockery\Exception;
 //use Spatie\FlysystemDropbox\DropboxAdapter;
 
 use App\Http\Controllers\Contents\SocialMediaPostContents;
+use phpseclib3\Net\SSH2;
 use function Symfony\Component\Finder\size;
 
 
@@ -47,74 +63,13 @@ class TestSampleController extends Controller
     public function test(){
         ini_set("max_execution_time", 30000);
 
-
-        $someWords = ["abnegate","ACCOST", "ACERBIC", "ADDRESS", "AGENDA", "ALLOCATE", "AMORAL", "ANGUISH", "APOCALYPSE", "APPRECIATE", "ARBITRARY", "ARISTOCRATIC", "ATHEIST", "AUTOCRATIC", "AUTONOMOUS", "AVUNCULAR", "AXIOM", "BEGET", "BELABOR", "BELIE", "BELITTLE", "BEMUSED", "BEREAVED", "BLASPHEMY", "CAPITALISM", "CARICATURE", "CHARISMA", "CONCISE", "CONCURRENT", "CONVENTIONAL", "CRITERION", "CULINARY", "DAUNT", "DEBAUCHERY", "DEFAME", "DEMAGOGUE", "DEXTROUS", "DISCRIMINATE", "DISSIPATE", "DISSOLUTION", "DISTINGUISH", "DOCTRINAIRE", "DOGMATIC", "DOMESTIC", "ECLECTIC", "EFFUSION", "EGOCENTRIC", "ELLIPTICAL", "ENDEMIC", "ENFRANCHISE", "EXISTENTIAL", "EXPLICIT", "EXTROVERT", "FIGURATIVE", "FINESSE", "FLAUNT", "FORBEAR", "FOREGO", "FRENETIC", "GENRE", "GRAVITY", "HOMOGENEOUS", "HUSBANDRY", "HYPOTHETICAL", "IDEOLOGY", "IMMUTABLE", "IMPARTIAL", "IMPOTENT", "INAUGURATE", "INCANDESCENT", "INCONGRUOUS", "INCREMENT", "INDIGENOUS", "INERT", "INFINITESIMAL", "INHERENT", "INSIDIOUS", "INTEGRATE", "INTRANSIGENT", "KINETIC", "LATENT", "LUGUBRIOUS", "LUMINOUS", "MANIFEST", "MANIFESTO", "MENDACIOUS", "MENDICANT", "METAMORPHOSIS", "MITIGATE", "MORIBUND", "MYOPIA", "NEFARIOUS", "NOMINAL", "NOTORIOUS", "OBFUSCATE", "OPAQUE", "PACIFY", "PARADOX", "PARSIMONIOUS", "PATRONIZE", "PEDESTRIAN", "PERIPHERY", "PIOUS", "POLARIZE", "POSTULATE", "PRECEDENT", "PRECIPITOUS", "PREEMPT", "PROLETARIAT", "QUIXOTIC", "REDUNDANT", "RENAISSANCE", "REQUISITE", "ROBUST", "SCINTILLATE", "SECULAR", "SENSORY", "SOBRIETY", "STATIC", "SYNTHESIS", "TRANSIENT", "UNIFORM", "ABOMINATION", "ACCESS", "AD-LIB", "ALLOT", "APPALLING", "ARCHIVES", "ASSESS", "ATROPHY", "ATTEST", "ATTRIBUTE", "AUGUR", "AUSPICES", "AUXILIARY", "BEHEST", "BON VIVANT", "CACHE", "CANON", "CANT", "CANVASS", "CAPITAL", "CHANNEL", "CHORTLE", "CLASSIC", "CLONE", "COMPATIBLE", "CONCAVE", "CORRELATION", "DEGRADE", "DEITY", "DEJECTED", "DEPLOY", "DISAFFECT", "DIVINE", "DOLDRUMS", "DOUBLE ENTENDRE", "ECCLESIASTICAL", "ELITE", "EMPOWER", "ENTREPRENEUR", "ETHICS", "FORSWEAR", "FUEL", "GALVANIZE", "GENERIC", "IDIOM", "IMPOVERISH", "INCARNATION", "INFLAMMATORY", "INFRASTRUCTURE", "IRIDESCENT", "JUNCTION", "KARMA", "LASCIVIOUS", "LYRICAL", "MEDIUM", "MODE", "MOMENTUM", "MYSTIC", "NIRVANA", "NOMENCLATURE", "NULLIFY", "ORDINANCE", "OSCILLATE", "OVERRIDE", "OVERTURE", "PARALLEL", "PARTITION", "PILGRIMAGE", "PRESUPPOSE", "PROTOCOL", "PROVOCATION", "PUNDIT", "QUERY", "RESIGNATION", "SALUTATION", "SANCTION", "SARCASM", "STIPEND", "STUPENDOUS", "THESIS", "THRESHOLD", "TOIL", "TOXIC", "UNILATERAL", "WAKE"];
-
-        //return $someWords;
-
-        
-        $wf5 = ["Indifferent", "Vindictive", "Tiny", "Lethargic", "Transparent"];
-        $wf4 = ["Diligent", "Profound", "Ingenious", "Articulate", "Cursory", "Amateur", "Eulogy", "Lucid", "Sophisticated", "Spurious", "Panacea", "Indigent", "Fragile"];
-        $wf3 = ["Capable", "Depressed", "Suggest", "Facilitate", "Concur", "Hinder", "Inborn", "Meticulous", "Specious", "Serene", "Memento", "Rebuke", "Lucrative", "Ingenuous", "Inflation", "Opaque", "Gentle", "Die by", "Extol", "Loyalty", "Profitable", "Transient", "Industrious", "Reprimand", "Philanthropist", "Complacency", "Pardon", "Loquacious", "Retreat", "Postulate", "Coward", "Alleviate", "Appreciate", "Possess", "Aggravate", "Vigilant", "Proliferate", "Lax", "Lizard", "Obstinate", "Put up with", "Obscure", "Ambiguous", "Superficial", "Indolent", "Enlarge", "Inadvertent", "Vacillate", "Thrive", "Generosity", "Protract", "Deference", "Anomalous", "Entrepreneur", "Distant", "Innate", "Paucity", "Irregular", "Incorrigible"];
-
-        $words = array_merge($wf5, $wf4, $wf3);
-        $data = [];
-        $testw = ["hinder", "Vacillate"];
-//return view('test.test', compact('data'));
-
-
-        $w = PreviousJobExams::whereIn('word', $wf3)
-            ->get(['word','exam', 'post_name', 'year'])
-            ->groupBy('word');
-        foreach ($w as $key=>$obj){
-            try{
-                $objectArray = [];
-                foreach ($obj as $item){
-                    $object['word'] = $key;
-                    $object['exam'] = $item['exam'];
-                    $object['post'] = $item['post_name'];
-                    $object['year'] = $item['year'];
-
-                    //$key = 'enlarge';
-                    $word = Words::where('word', $key)->get();
-                    if(count($word)>0){
-                        $meanings = Meanings::where('word_id', $word[0]->id)
-                            //->whereNotIn('bangla_meaning', ['*', '#'])
-                            ->limit(2)
-                            ->get(['bangla_meaning']);
-                        if(count($meanings)>0){
-                            $mean = "";
-                            foreach ($meanings as $meaning){
-                                $meaning = $meaning->bangla_meaning;
-                                $meaning = substr($meaning, 1);
-                                if($meaning != '' || !empty($meaning) || isset($meaning)){
-                                    $mean = $mean.$meaning.' , ';
-                                }
-                            }
-                            $mean = trim($mean);
-                            $mean = substr($mean, 0, -2);
-                            $object['meaning'] = $mean;
-                            //return $mean;
-
-                            array_push($objectArray, $object);
-                        }
-                    }
-                }
-                array_push($data, $objectArray);
-                $objectArray = [];
-            }catch (\Exception $e){
-            }
+        $proces = new StringProcessor();
+        $bn = $proces->containsBanglaChar("‘ a’ - equivalentও  english word is :");
+        if($bn){
+            return 'bn';
+        }else{
+            return 'no bn';
         }
-        //return $data;
-        return view('test.test', compact('data'));
-
-        foreach ($data as $object){
-            foreach ($object as $item){
-                echo $item['word'].' - '.$item['exam'].'<br>';
-            }
-        }
-
-
 
         //return view('test/test');
     }
@@ -262,19 +217,38 @@ class TestSampleController extends Controller
 
     }
 
-    function dbBackup(){
-        $ssh = new SSH2('server10.hostever.com', 1004);
+    function dbBackup() {
+        $dbUsername = 'jovocco1_mysql_partho';
+        $dbPassword = '%Gn@~ZqWTc2b';
+        $dbName = 'jovocco1_jovoc_db';
 
-        if (!$ssh->login('jovoccom', '2-xxpWtA1!H6J3')) {
-            exit('Login Failed');
+        // Generate a timestamp for the backup file
+        $timestamp = date('Y-m-d');
+
+        // Define the backup file path
+        $backupFilePath = '/home/jovocco1/public_html/jovoc/backup/jovoc_com_' . $timestamp . '.sql.zip';
+
+        // Construct the mysqldump command
+        $command = "mysqldump -u $dbUsername -p'$dbPassword' $dbName | gzip -9 > $backupFilePath";
+
+        try{
+            // Execute the command using shell_exec
+            $result = exec($command);
+            //return $result;
+            echo 'ok';
+        }catch (\Exception $e){
+            return $e->getMessage();
         }
 
-        $today = date('Y-m-d');
-        $command = "mysqldump -u'jovoccom_partho' -p'cQ+SUobXh8c?' jovoccom_jovoc | gzip -9 > /public_html/jovoc/backup/wordmaster_db_$today.sql.zip";
-        //echo $command;
-        echo "<pre>".$ssh->exec($command)."</pre>";
-        echo "<p style='font-size:3em'>backup saved in webserver</p>";
+//        if ($result === null) {
+//            echo "<p style='font-size:3em'>Error: Database backup failed.</p>";
+//        } else {
+//            echo "<p style='font-size:3em'>Backup saved in web server: $backupFilePath</p>";
+//        }
     }
+
+
+
 
     function saveToDropbox(){
         $todayDate = date('Y-m-d');
@@ -579,6 +553,7 @@ class TestSampleController extends Controller
     function extractBanglaContainingText(){
         ini_set("max_execution_time", 30000);
         $words = Words::where('id', '>', 1)->get(['id', 'word']);
+        $stringProcessor = new StringProcessor();
         $wordDetails = [];
         foreach ($words as $word){
             $row['word'] = $word->word;
@@ -586,7 +561,7 @@ class TestSampleController extends Controller
             $meanings = Meanings::where('word_id', '=', $word->id)->get();
             $m = [];
             foreach ($meanings as $meaning){
-                if($this->containsBangla($meaning->bangla_meaning)){
+                if($stringProcessor->containsBanglaChar($meaning->bangla_meaning)){
                     array_push($m, $meaning->bangla_meaning);
                 }
             }
@@ -617,17 +592,7 @@ class TestSampleController extends Controller
         return $k2*256 + $k1;
     }
 
-    function containsBangla($s){
-        $containsBangla = false;
-        $splited = mb_str_split($s);
-        foreach ($splited as $c){
-            if($this->uniord($c) > 2432 && $this->uniord($c) < 2559){
-                //its bengali character
-                $containsBangla = true;
-            }
-        }
-        return $containsBangla;
-    }
+
 
 
 
@@ -998,8 +963,179 @@ class TestSampleController extends Controller
 
 
 
+    public function sendCustomReset(Request $request){
+
+        $data = [
+            'appName'       => env('APP_NAME'),
+            'recipientName' => "username",
+            'mailTo'        => $request->email,
+            'fromEmail'     => env('MAIL_FROM_ADDRESS'),
+            'fromName'      => env('APP_NAME'),
+            'adminEmail'    => config('values.adminEmail'),
+            'msg'           => "msg",
+            'subject'       => Lang::get('passwords.resetRequest.subject'),
+        ];
 
 
+
+
+        // Get the user based on the email provided in the request
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            throw ValidationException::withMessages(['email' => 'This email is not registered']);
+        }
+
+        // Generate a reset token
+        $token = (Password::broker())->createToken($user);
+
+        // Create a new instance of the ResetPassword notification
+        $notification = new ResetPassword($token);
+
+        // Call the toMail method to generate the mail message
+        $mailMessage = $notification->toMail($user);
+        $mailMessageHtml = $mailMessage->render()->__toString();
+
+        $data['mailBodyHtmlContent'] = $mailMessageHtml;
+
+        //return $data;
+
+
+
+
+
+
+        $user_to_impersonate = env('MAIL_FROM_ADDRESS');
+
+        $sender = $user_to_impersonate;
+        $to = $request->email;
+        $subject = 'The subject of an email.';
+        $messageText = 'Finally this works!';
+
+
+        $credentialPath = storage_path('app/gmail/tokens/job-vocabulary-400418-866476c2a970__service-account.json');
+        // The path to your service account credentials goes here.
+        putenv("GOOGLE_APPLICATION_CREDENTIALS=$credentialPath");
+        $client = new Google_Client();
+        $client->useApplicationDefaultCredentials();
+        $client->setSubject($sender);
+        $client->setApplicationName(env('APP_NAME'));
+        $client->setScopes(["https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.compose",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.send"]);
+        $service = new Google_Service_Gmail($client);
+
+
+        try {
+            $msg = $this->createMessage($sender, $to, $subject, $messageText);
+            $this->sendMessage($service, $sender, $msg);
+        } catch (Exception $e) {
+            print "An error occurred: " . $e->getMessage();
+        }
+
+
+
+
+        return;
+
+
+
+
+
+        $gmailProcessor = new GmailProcessor();
+        $response = $gmailProcessor->sendEmail($data);
+
+        return $response;
+    }
+
+
+    function sendMessage($service, $sender, $msg) {
+        $service->users_messages->send($sender, $msg);
+    }
+
+    function createMessage($sender, $to, $subject, $messageText) {
+        $rawMsgStr = "From: <{$sender}>\r\n";
+        $rawMsgStr .= "To: <{$to}>\r\n";
+        $rawMsgStr .= 'Subject: =?utf-8?B?' . base64_encode($subject) . "?=\r\n";
+        $rawMsgStr .= "MIME-Version: 1.0\r\n";
+        $rawMsgStr .= "Content-Type: text/html; charset=utf-8\r\n";
+        $rawMsgStr .= 'Content-Transfer-Encoding: quoted-printable' . "\r\n\r\n";
+        $rawMsgStr .= "{$messageText}\r\n";
+
+        // The message needs to be encoded in Base64URL
+        $mime = rtrim(strtr(base64_encode($rawMsgStr), '+/', '-_'), '=');
+        $msg = new Google_Service_Gmail_Message();
+        $msg->setRaw($mime);
+        return $msg;
+    }
+
+
+
+
+    /*
+     * The words appeared in previous year questions.
+     * Wanna make pdf/image of those words. Max frequent words first
+     * This function generates a html file which can be converted to pdf
+     * */
+    public function mostFrequentExamWordsExport(Request $request){
+        $numOfWordsToFetch = 300;
+        $importanceLevel = 80;
+
+        $dataExporter = new AppReadyDataExporter();
+        $data = $dataExporter->mostFrequentExamWords($numOfWordsToFetch, $importanceLevel);
+
+        //return $data;
+        $appLink = "https://jovoc.com?p=prev-exam-top-words";
+
+        return view('pdf_generator/prev_exam_words_max_frequent', compact('data', 'appLink'));
+    }
+
+
+
+    public function testVerifyWindowsLicense(){
+
+        //echo 'Write-Output "Hello" ';
+
+        $client = new Client();
+        $url = 'https://massgrave.dev/get';
+        $response = $client->get($url);
+        $content = $response->getBody()->getContents();
+
+        $contentContainingLineBreak = "\$script = \"Write-Output '
+-------------------------------
+        
+        License valid !
+        
+        Start now !
+        '\"
+        Invoke-Expression \$script
+        ";
+
+        $stylingContent = "Write-Host \"
+        Log new !        \" -ForegroundColor White -BackgroundColor Red
+        Write-Host \"
+        Command ok !\" -ForegroundColor Green
+        
+        Write-Host \"
+        Error : !\" -ForegroundColor Red 
+        
+        Write-Host \"
+-------------------------------
+\"";
+
+
+        $valid = false;
+        if(! $valid){
+            return $contentContainingLineBreak.''.
+                $stylingContent;
+        }else{
+            return $content;
+        }
+    }
 
 
 }
+
+
+

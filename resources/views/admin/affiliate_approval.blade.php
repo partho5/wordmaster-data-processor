@@ -19,7 +19,7 @@
         <div style="background: rgba(220,218,75,0.2); border: 1px solid #dcdb89; ">
             <div>Gmail API: <b>{{ LaravelGmail::user() }}</b></div>
             @if(LaravelGmail::check())
-                <a href="{{ url('oauth/gmail/logout') }}" class="hidden">Logout</a>
+                <a href="{{ url('oauth/gmail/logout') }}" class="">Logout</a>
             @else
                 <a href="{{ url('oauth/gmail') }}">Login</a>
             @endif

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Admin\Affiliate\AdminAffiliate;
+use App\Http\Controllers\Processor\Email\GmailProcessor;
 use App\Models\AffiliatePersons;
 use App\Models\AffiliatePosts;
 use App\Models\Antonyms;
@@ -644,6 +645,18 @@ class AdminController extends Controller
     }
 
 
+    public function extractSynonymWordsWithImportanceLevel($wid, $importanceLevel){
+        $synonyms = $this->extractSynonymWords($wid);
+        if (!is_null($synonyms)) {
+            $filteredSynonyms = $synonyms->filter(function ($synonym) use ($importanceLevel) {
+                return $synonym->importance_level >= $importanceLevel;
+            });
+            return $filteredSynonyms;
+        }
+        return null;
+    }
+
+
     public function extractAntonymWords($baseWordId){
         $anto = DB::table('words as w')
             ->select('w.id','w.word as antoword', 'a.antonym_word_id as anto_id')
@@ -781,6 +794,12 @@ class AdminController extends Controller
         return $retVal;
     }
 
+
+
+
+    public function showAppUpgradeInstruction(){
+        return view('admin/app_upgrade_instruction');
+    }
 
 
 

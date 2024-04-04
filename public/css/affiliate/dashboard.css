@@ -1,0 +1,22 @@
+
+
+
+
+#body-wrapper{
+    margin-top: -1.2em;
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.79)), url("../../images/bg21.jpg") center;
+    font-size: 1.3em;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+}
+.section{
+    padding: 5px;
+    color: #000;
+}
+
+#content{
+    background-color: #fff;
+    min-height: 100vh;
+}
+

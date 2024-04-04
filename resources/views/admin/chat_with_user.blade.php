@@ -17,7 +17,7 @@
 
                     <div class="col-xs-12  user-msg-wrapper">
                         <div class="col-xs-2 no-padding about-msg">
-                            <span class="time">12:34 pm &nbsp; </span>
+                            <span class="time">{{ \Carbon\Carbon::parse($msg->created_at)->diffForHumans() }} &nbsp; </span>
                             <span class="seen"></span>
                         </div>
 

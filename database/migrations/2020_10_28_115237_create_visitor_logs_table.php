@@ -25,6 +25,12 @@ class CreateVisitorLogsTable extends Migration
             $table->string('url')->nullable();
             $table->text('meta')->nullable();
             $table->timestamps();
+
+
+            /*
+             * To query sales report (in affiliate dashboard for example), referred_by is frequently used
+             * */
+            $table->index('referred_by');
         });
     }
 

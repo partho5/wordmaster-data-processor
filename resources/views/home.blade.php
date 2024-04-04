@@ -20,7 +20,7 @@
 
                         <div class="">
                             <p style="font-size: 1.5em">
-                                Now go to <a href="/partner">Partner Program</a>
+                                Now go to <a href="{{ route('affiliateDashboard') }}">Partner Program</a>
                             </p>
                         </div>
                 </div>

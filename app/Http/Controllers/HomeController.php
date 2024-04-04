@@ -41,12 +41,22 @@ class HomeController extends Controller
      */
     public function index(Request $request){
 
-        //retutn $ref;
+        $target = $request->target;
+        $viewFileToDisplay = 'home/featuredHome';
+
 
         $appDistributionThrough = 'playstore';
         //$appDistributionThrough = 'apk';
 
-        return view('home/featuredHome', compact('appDistributionThrough'));
+
+
+        if(isset($target)){
+            if($target === 'admission'){
+                $viewFileToDisplay = 'home/featuredHome_admission';
+            }
+        }
+
+        return view($viewFileToDisplay, compact('appDistributionThrough', 'target'));
 
 /*
         if( null !== $request->w){
@@ -245,7 +255,7 @@ class HomeController extends Controller
             //old visitor
             $sessionEnd = VisitorLog::where('device_token', $deviceToken)
                 ->orderBy('id', 'desc')->limit(1)->get(['reading_end_at', 'url']);
-            if(count($sessionEnd)>0){
+            if(count($sessionEnd) > 0){
                 $lastEndTime = $sessionEnd[0]->reading_end_at;
                 if( abs($lastEndTime - $request['current_time'])/1000 < $logInterval  && $sessionEnd[0]->url == $request->url){
                     //no dormancy within $logInterval seconds, so user is active continuously
@@ -255,7 +265,11 @@ class HomeController extends Controller
                         ->orderBy('id', 'desc')->limit(1)->get();
 
                     if(count($lastLog)>0){
-                        $meta = $lastLog[0]->meta.', '.$request->meta; //if newly arrived meta data is null just comma (,) will be being concatenated repeatedly. And if again new metadata has value it will be added. So metadata like "some data ,,,,, another data" means there was no activity for a while
+                        $meta = $lastLog[0]->meta;
+                        if(! str_contains($meta, $request->meta)){
+                            $meta = $meta.', '.$request->meta; //if newly arrived meta data is null just comma (,) will be being concatenated repeatedly. And if again new metadata has value it will be added. So metadata like "some data ,,,,, another data" means there was no activity for a while
+                        }
+
                         VisitorLog::where('id', $lastLog[0]->id)->update([
                             'reading_end_at'    => $request['current_time'],
                             'meta'              => $meta
@@ -295,7 +309,6 @@ class HomeController extends Controller
             }
         }
         return "logged";
-        return $retVal;
     }
 
 

@@ -9,7 +9,11 @@
 
 namespace App\Http\Controllers\Processor\Email;
 
+use Dacastro4\LaravelGmail\Facade\LaravelGmail;
+use Dacastro4\LaravelGmail\Services\Message\Mail;
+use Exception;
 use Google\Client;
+use Illuminate\Support\Facades\Log;
 
 class GmailProcessor{
 
@@ -33,6 +37,59 @@ class GmailProcessor{
 
         return $accessToken;
     }//getAccessToken()
+
+
+
+
+    public function sendEmail($data){
+        if (
+            isset($data['mailTo']) &&
+            isset($data['fromEmail']) &&
+            isset($data['subject']) &&
+            isset($data['mailBodyHtmlContent'])
+        ){
+            $clientId = env('GOOGLE_CLIENT_ID');
+            $clientSecret = env('GOOGLE_CLIENT_SECRET');
+            $accessTokenJsonStr = env('GMAIL_OAUTH_CALLBACK_JSON');
+
+            $accessToken = $this->getAccessToken($clientId, $clientSecret, $accessTokenJsonStr);
+            LaravelGmail::setAccessToken($accessToken);
+
+
+            $accessTokenInfo = LaravelGmail::getAccessToken();
+            $accessToken = $accessTokenInfo['access_token'];
+            Log::info('Access Token: ' . $accessToken);
+
+
+
+            $mail = new Mail();
+
+            $mail->to($data['mailTo'], $data['recipientName'] ?? null);
+            $mail->from($data['fromEmail'], $data['fromName'] ?? null);
+            $mail->subject($data['subject']);
+            $mail->message($data['mailBodyHtmlContent']);
+
+            // if cc and bcc not needed, set them same as main recipient, since they cannot be empty
+            $mail->cc($data['mailTo']);
+            $mail->bcc($data['mailTo']);
+
+
+            try {
+                $mail->send();
+                return response()->json([
+                    'message' => 'Email sent successfully'
+                ], 200);
+            } catch (Exception $exception) {
+                Log::error('Email sending failed: ' . $exception->getMessage()); //saved in laravel.log
+
+                return response()->json([
+                    'error' => 'Email sending failed'
+                ], 500);
+            }
+        }else{
+            return response('One or more basic mail parameter(s) missing !', 400);
+        }
+    }//sendEmail()
 
 
 

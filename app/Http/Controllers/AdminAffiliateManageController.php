@@ -6,7 +6,10 @@ use App\Http\Controllers\Admin\Affiliate\AdminAffiliate;
 use App\Models\AffiliatePersons;
 use App\Models\AffiliatePosts;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Response;
 
 class AdminAffiliateManageController extends Controller
 {
@@ -70,21 +73,47 @@ class AdminAffiliateManageController extends Controller
         $row = AffiliatePersons::where('user_id', $userId)->select('reference_token')->get();
         if(count($row) == 0){
             //new affiliate. so create their reference token
-            $affiliateToken = $adminAffiliate->forgeAffiliateToken($userId);
+            $affiliateToken = $adminAffiliate->generateAffiliateToken($userId);
             $adminAffiliate->saveAffiliateToken($userId, $affiliateToken);
         }
 
         $data = [
             'appName'       => env('APP_NAME'),
-            'userName'      => $request->userName,
+            'recipientName' => $request->userName,
             'mailTo'        => $request->email, //affiliate email
             'fromEmail'     => env('MAIL_FROM_ADDRESS'),
             'fromName'      => env('MAIL_FROM_NAME'),
             'adminEmail'    => config('values.adminEmail'),
-            'msg'           => $request->msg,
+            'msg'           => $request->msg, //needed in approval mail page
             'subject'       => config('values.affiliatePostApproveMailSubject'),
-            'affiliateLink' => $adminAffiliate->createAffiliateLink($userId)
+            'affiliateLink' => $adminAffiliate->affiliateLinkOf($userId),
         ];
+
+
+
+        try {
+            $result = Mail::send('mailPages.approve_post_mail', ['data' => $data], function ($m) use ($data) {
+                $m->from($data['fromEmail'], $data['fromName']);
+                $m->replyTo($data['adminEmail']);
+                $m->to($data['mailTo'])->subject($data['subject']);
+            });
+
+
+            // Check if the email was sent successfully
+            if ($result) {
+                return Response::json(['message' => 'ok']);
+            } else {
+                return Response::json(['message' => 'error']);
+            }
+        } catch (Exception $exception) {
+            return Response::json(['error' => $exception->getMessage()], 500);
+        }
+
+
+
+        /*
+        $htmlContent = view('mailPages.approve_post_mail', ['data' => $data])->render();
+        $data['mailBodyHtmlContent'] = $htmlContent;
 
         $adminAffiliate->sendPostApprovalMail($data);
 
@@ -92,19 +121,9 @@ class AdminAffiliateManageController extends Controller
         if($result == 1){
             return 'ok';
         }
+        */
     }
 
-    /* using Laravel default Mail */
-    /*
-    try{
-        Mail::send('mailPages.approve_post_mail', ['data'=>$data], function ($m) use ($data){
-            $m->from($data['adminEmail']);
-            $m->to($data['mailTo'])->subject($data['subject']);
-        });
-    }catch (Exception $exception){
-        return $exception;
-    }
-    */
 
 
 

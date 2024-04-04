@@ -2,22 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Meanings;
-use App\Models\Mnemonics;
-use App\Models\Notes;
-use App\Models\PartsOfSpeech;
+
 use App\Models\UserActivityLog;
 use App\Models\UserPayment;
-use App\Models\WordCategories;
-use App\Models\Words;
-use App\Models\WordUsages;
-use App\Models\Synonyms;
-use App\Models\Antonyms;
-use App\Models\DerivedWords;
+
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Mockery\Exception;
+
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -67,6 +58,8 @@ class ApiController extends Controller
         $osVersion = $request->osV;
         $deviceName = $request->deviceName;
         $ip = $_SERVER['REMOTE_ADDR'];
+        $appVariantInfo = isset($request->app) ? ',app='.$request->app.','  :  '';
+
         
     	$user = User::where('device_id', $deviceId)->get();
     	if( count($user) > 0 ){
@@ -86,7 +79,7 @@ class ApiController extends Controller
             $user->device_os = $deviceOS;
             $user->os_version = $osVersion;
             $user->device_name = $deviceName;
-            $user->meta = "ip=".$ip;
+            $user->meta = "ip=".$ip. '' .$appVariantInfo;
     	    $user->created_at = Carbon::now();
     	    $user->save();
 
@@ -103,7 +96,7 @@ class ApiController extends Controller
                 //payment verified for this userId. That means this user has reinstalled the app
                 $paymentVerified = 1;
             }
-        }catch (\Exception $e){}
+        }catch (Exception $e){}
 
     	
     	$data = [

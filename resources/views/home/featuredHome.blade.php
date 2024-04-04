@@ -247,6 +247,12 @@
                 <p>আলাদা করে কোনো প্রশ্ন ব্যাংকের বই কিনতে হবে না</p>
 
                 <p>2001 - 2023 পর্যন্ত বাংলাদেশ ব্যাংক, সরকারি ব্যাংক, প্রাইভেট ব্যাংক, বিসিএস এ আসা সকল Vocabulary কালেকশন রয়েছে</p>
+                <br>
+                <p>
+                    আবার নতুন পরীক্ষার প্রশ্ন পেতে বইয়ের নতুন এডিশন কেনা লাগে । কিন্তু এই App আপডেট দিলেই Free তে নতুন প্রশ্নের Vocabulary
+                    সব পেয়ে যাবেন। যেমন- Bangladesh Bank AD 2023 পরীক্ষার পরের দিনেই Vocabulary গুলো Question Bank
+                    সেকশনে অ্যাড করে দেওয়া হয়েছে
+                </p>
 
             </div>
 
@@ -389,7 +395,10 @@
         <div class="content text-center">
             <!-- <p>Download <b>{{ env('APP_NAME') }}</b> :</p> -->
             {{--<p class="p1">কিনবেন কিনা সেটা পরের কথা, কিন্তু ইনস্টল করে যাচাই করে দেখুন</p>--}}
-            <p class="p1">App টি কেনার আগে ইন্সটল করে full ডেমো দেখে নেওয়ার সুযোগ রয়েছে</p>
+            <p class="p1">
+                {{--কেনার আগে ইন্সটল করে পড়ে দেখার সুযোগ রয়েছে--}}
+                4-5 টি Vocabulary বই এর তথ্য জাস্ট একটি বইয়ের মূল্যে !!
+            </p>
             @if(isset($appDistributionThrough))
                 @if($appDistributionThrough === 'playstore')
                         <a href="https://play.google.com/store/apps/details?id=com.wordmas.wordmaster">
@@ -406,19 +415,31 @@
 
             <p class="p2">
                 <img class="icon icon-love" src="/images/icon/love_symbol_red.png">
-                ঢাকা বিশ্ববিদ্যালয়ের উদ্যমী তরুণদের একটি উদ্যোগ
+                ঢাবির একদল গবেষক শিক্ষার্থীদের একটি উদ্যোগ
                 <img class="icon icon-love" src="/images/icon/love_symbol_red.png">
             </p>
         </div>
     </div>
 
 
-    <div class="col-xs-12 col-md-12" id="footer">
+    <div class="col-xs-12 col-md-12 no-padding" id="footer">
         <div class="content text-center">
-            <h4>Your feedback is important to us</h4>
+            <div>Your feedback is important to us</div>
             <span>Contact Developer : </span>
             <div>
                 Click on &nbsp; <a href="mailto:{{ env('ADMIN_EMAIL') }}">{{ env('ADMIN_EMAIL') }}</a>
+            </div>
+
+            <div class="contacts col-xs-12">
+                <div class="contact col-xs-6">
+                    <img src="/images/icon/fb-logo.png" alt="" class="icon icon-fb">
+                    <a href="https://www.facebook.com/profile.php?id=61550346235580" target="_blank">Facebook</a>
+                </div>
+
+                <div class="contact col-xs-6">
+                    <img src="/images/icon/youtube-logo.png" alt="" class="icon icon-tube">
+                    <a target="_blank">YouTube</a>
+                </div>
             </div>
         </div>
     </div>
@@ -467,6 +488,8 @@
             //here we use 'p' instead of 'ref'
             var referredBy = urlParams.get('p');//this way gets url parameter written using ?param=value
 
+            var postLink = urlParams.get('post');//the URL where the website link was written/posted
+
             //check if url contains reference (use p instead of ref).
             //Along with "domain.com?p=referenceName" this pattern we also use "domain.com/p/referenceName" this pattern. Because in youtube description ?p= this type url parameter is omitted. But /url/ style works.
             if(urlPath.includes("/p/")){
@@ -477,13 +500,15 @@
                 referredBy = refValue;
             }
 
+            setCookie('referredBy', referredBy);
+
 
 
             // Remove URL parameters without page reloading, so that only base domain is visible to user.
             // !!!!!!!!       But do this only after storing all URL params in variables.       !!!!!!!
             //window.history.replaceState({}, document.title, window.location.pathname);
 
-            window.history.replaceState({}, document.title, extractDomainNameFromFullUrl());
+            //window.history.replaceState({}, document.title, extractDomainNameFromFullUrl());
 
             if(referredBy !== undefined){
                 //attach that referredBy parameter to /download url
@@ -569,6 +594,57 @@
 
 
 
+            var fp = new Fingerprint({
+                canvas: true,
+                ie_activex: true,
+                screen_resolution: true
+            });
+
+
+
+            var visitorLogId = getCookie("visitorLogId");
+            if(! visitorLogId){
+                visitorLogId = generateVisitorLogId();
+                setCookie("visitorLogId", visitorLogId);
+            }
+
+            var screenSize = screen.width+'x'+screen.height;
+            if(! screen.width){
+                screenSize = "window.inner:"+window.innerWidth+'x'+window.innerHeight;
+            }
+            //p("screenSize="+screenSize);
+
+            var metaData = '';
+            if(postLink){
+                p('added postLink');
+                metaData += 'postLink="' + postLink + '"';
+            }
+
+            var intervalTime = 4000  ;
+            setInterval(function () {
+                $.ajax({
+                    url : "/ajax/visit_log/save",
+                    type : "post",
+                    async : true,
+                    data : {
+                        _token : "{{ csrf_token() }}", visitorLogId : visitorLogId,
+                        current_time : Date.now(), browser : navigator.userAgent,
+                        url : '/', referredBy : referredBy, screenSize : screenSize,
+                        meta: metaData
+                    },
+                    success : function (response) {
+                        p("log: intervalTime");
+                        p(response);
+
+                        metaData = '';
+                        postLink = '';
+                    },error: function (error) {}
+                });
+            }, intervalTime);
+
+
+
+
 
             const elements = document.querySelectorAll('.title');
 
@@ -590,6 +666,8 @@
 
                 //console.log( $(element).text() +" > ajax");
 
+                //this ajax call sends only 'section view' info
+                /*
                 $.ajax({
 
                     url : "/ajax/visit_log/save",
@@ -600,23 +678,24 @@
 
                     data : {
 
-                        _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
+                        _token : "{{ csrf_token() }}", visitorLogId : visitorLogId,
 
-                        current_time : Date.now(), browser : navigator.userAgent,
+                        current_time : Date.now(),
 
-                        url : '/', referredBy : referredBy,
+                        //browser : navigator.userAgent,
+                        //url : '/', referredBy : referredBy,
                         meta: $(element).text() === '' ? null : "section view="+($(element).text())
 
                     },
 
                     success : function (response) {
-
+                        p("log: section view");
                         p(response);
-    ``
+
                     },error: function (error) {}
 
                 });
-
+                */
 
 
                 return;
@@ -673,55 +752,6 @@
 
 
 
-            var fp = new Fingerprint({
-
-                canvas: true,
-
-                ie_activex: true,
-
-                screen_resolution: true
-
-            });
-
-
-
-            var visitorLogId = getCookie("visitorLogId");
-            if(! visitorLogId){
-                visitorLogId = generateVisitorLogId();
-                setCookie("visitorLogId", visitorLogId);
-            }
-
-            var screenSize = screen.width+'x'+screen.height;
-            if(! screen.width){
-                screenSize = "window.inner:"+window.innerWidth+'x'+window.innerHeight;
-            }
-            p("screenSize="+screenSize);
-            var section = '';
-            try{
-                section = ($(element).text());
-            }catch (e){}
-
-            var intervalTime = 4000  ;
-            setInterval(function () {
-                $.ajax({
-                    url : "/ajax/visit_log/save",
-                    type : "post",
-                    async : true,
-                    data : {
-                        _token : "{{ csrf_token() }}", visitorLogId : visitorLogId,
-                        current_time : Date.now(), browser : navigator.userAgent,
-                        url : '/', referredBy : referredBy, screenSize : screenSize,
-                        meta: section === '' ? null : "section view="+section
-                    },
-                    success : function (response) {
-                        p(response);
-                    },error: function (error) {}
-                });
-            }, intervalTime);
-
-
-
-
 
 
 
@@ -749,7 +779,7 @@
 
                     data : {
 
-                        _token : "{{ csrf_token() }}", visitorLogId : getCookie("visitorLogId"),
+                        _token : "{{ csrf_token() }}", visitorLogId : visitorLogId,
 
                         current_time : Date.now(), browser : navigator.userAgent,
 
@@ -792,7 +822,6 @@
         });
 
     </script>
-
 
 
 @endsection

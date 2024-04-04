@@ -49,8 +49,8 @@ class ImageProcessor{
     public function writeWordOnImage($word){
         $basePath = storage_path()."/app/pagePost/jovoc";
         $inputImagePath = $basePath."/images/word_bg.png";
-        $fontPath = $basePath."/fonts/RobotoSlab-VariableFont_wght.ttf"; // Replace with the actual path to your TrueType font file
-        $outputImagePath = (new FacebookPagePostingHelper())->getWordWrittenOnBgPath();
+        $fontPath = $basePath."/fonts/RobotoSlab-VariableFont_wght.ttf";
+        $outputImagePath = (new FacebookPagePostingHelper())->getWordWrittenOnBg_Path();
         $text = $word;
         $fontSize = 70;
 

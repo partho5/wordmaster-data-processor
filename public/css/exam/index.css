@@ -40,6 +40,9 @@ body{
 #get-question{
     
 }
+#get-question .p1{
+    font-family: Langar;
+}
 #get-question .btn-get{
     background: #1c657d;
     color: #fff;

@@ -533,5 +533,24 @@ body {
 #footer{
     background: linear-gradient(rgba(246, 246, 246, 0.89), rgba(244, 244, 244, 0.87)), url("../../images/bg48.jpg") center;
     color: #333;
-    padding: 1em 0;
+    margin-bottom: 1em;
+}
+#footer .content{
+    color: #9c9c9c;
+    font-family: "Calibri", sans-serif
+}
+#footer .contacts{
+    border-top: 1px solid #dadada;
+    margin-top: 1em;
+    background: linear-gradient(rgba(246, 246, 246, 0.89), rgba(244, 244, 244, 0.87)), url("../../images/bg48.jpg") center;
+}
+.contact img.icon{
+    width: 20px;
+    height: auto;
+    position: relative;
+    top: -1px;
+    filter: grayscale(100%); /* 100% will turn the image completely grayscale */
+}
+.contact a{
+    color: #000;
 }

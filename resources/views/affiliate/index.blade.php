@@ -15,6 +15,9 @@
     <link href="/css/affiliate/index.css" rel="stylesheet">
 
 
+    <script src="{{ asset('react-components/affiliate/static/js/main.ca27c644.js') }}"></script>
+
+
 
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
 
@@ -31,7 +34,7 @@
 @section('body_container')
 
 
-    <div class="section col-xs-12 no-padding" id="common">
+    <div class="section col-xs-12 no-padding" id="content">
         <div class="col-xs-12 instruction1">প্রথমে আপনার নিজেকেই স্পষ্ট ভাবে জানতে হবে {{ ENV('APP_NAME') }} এর সকল বৈশিষ্ট ।</div>
         <div CLASS="col-xs-12 no-padding steps">
             <ol>

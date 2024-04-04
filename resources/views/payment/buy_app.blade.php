@@ -154,16 +154,29 @@
             meta+= 'clicked payment method';
         });
 
+
+        /*
+         * case when user visited from this browser for downloading app.
+         * Not applicable if user visited from facebook webview while downloading. because for payment, fb webview won't be used, rather chrome browser will be opened
+         * */
+        var referredBy = getCookie('referredBy');
+        if(typeof referredBy === 'undefined'){
+            referredBy = 'app';
+        }
+
+
         $('.verify-btn').click(function () {
             var trxId = $('#trxId').val().trim();
             var code = $('#coupon-code').val(); //not implemented yet
             var THIS = $(this);
-            var verified = localStorage.getItem('verified7'); // 'verified7' is just a unique identifier
-            if(false && verified == 1){ /* false &  -will always skip this section, tentatively */
+            var verifiedStatusCookieName = 'verified7';
+            var verified = getCookie(verifiedStatusCookieName); // 'verified7' is just a unique identifier
+
+            if(false && verified === 1){ /* false &  -will always skip this section, tentatively */
                 $('.msg-success').text("Already Verified !");
                 $('.msg-success').show();
             }else{
-                if(trxId.length == 10){
+                if(trxId.length === 10){
                     //bKash transaction id length is 10 character
 
                     $('.msg-error').hide();//in case currently being shown
@@ -174,7 +187,7 @@
                         url : '/buy/app/payment/verify',
                         type : 'post',
                         data : {
-                            '_token' : "{{ csrf_token() }}", userId : userId, trxId : trxId
+                            '_token' : "{{ csrf_token() }}", userId : userId, trxId : trxId, referredBy : referredBy
                         }, success : function (response) {
                             p(response);
                             if(response.isValid == 1){
@@ -182,7 +195,7 @@
                                 $('.loading, .msg-error').hide();//in case currently being shown
                                 $('.section1 .app-name, .section2').hide();
                                 $('.section3').fadeIn();
-                                localStorage.setItem('verified7', 1);
+                                setCookie(verifiedStatusCookieName, 1);
                             }else {
                                 $('.loading').hide();//in case currently being shown
                                 $('.msg-error').fadeIn();
@@ -235,9 +248,12 @@
             setCookie("visitorLogId", visitorLogId);
         }
 
-        var referredBy = "app";
-        var intervalTime = 2000  ;
+
+
+
+        var intervalTime = 4000  ;
         setInterval(function () {
+            p("referredBy="+referredBy);
             $.ajax({
                 url : "/ajax/visit_log/save",
                 type : "post",

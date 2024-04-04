@@ -1,0 +1,44 @@
+
+#body-wrapper{
+    margin-bottom: 5em;
+}
+h1, h2, h3, h4{
+    font-family: Monda, sans-serif;
+}
+.alert{
+    color: red;
+}
+.commands{
+    margin-top: 2em;
+}
+.command{
+    margin-top: 1em;
+}
+.command a{
+    background-color: rgba(202, 213, 254, 0.2);
+    padding: 0.6em 2em;
+    border: 1px solid rgba(160, 159, 226, 0.6);
+    border-radius: 3px;
+    font-size: 1.3em;
+    text-decoration: none;
+    color: #0000da;
+}
+.command a:hover{
+    background-color: rgba(202, 213, 254, 0.3);
+    border: 1px solid #6360b9;
+    border-radius: 6px;
+    transition: 0.4s;
+}
+.command .about{
+    margin-top: 1.4em;
+    background-color: rgba(243, 246, 217, 0.35);
+    border: 1px solid rgb(136, 136, 136);
+    padding: 1em 4px;
+}
+.android-steps{
+    margin-top: 2em;
+    font-size: 1.2em;
+}
+.android-steps li{
+    margin-top: 15px;
+}

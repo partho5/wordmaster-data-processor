@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Admin\Affiliate\AdminAffiliate;
+use App\Http\Controllers\Contents\VariousData;
 use App\Models\AffiliatePosts;
+use App\Models\User;
+use App\Models\VisitorLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AffiliateController extends Controller
 {
@@ -18,15 +23,7 @@ class AffiliateController extends Controller
         return view('affiliate/landing-page');
     }
 
-    public function showAffiliateHome(Request $request){
-
-        $affiliateId = 423;
-        $enc = (new UserIdEncodeDecode())->encodeNumberToString($affiliateId);
-        $dec = (new UserIdEncodeDecode())->decodeStringToNumber($enc);
-        //echo $affiliateId.' > '.$enc.' < '.$dec."<br>";
-        if(is_null($dec)){
-            echo "invalid arg for decodeStringToNumber()";
-        }
+    public function showSubmitNewPost(){
 
         $userId = Auth::id();
         //$userId=0; //test
@@ -40,9 +37,93 @@ class AffiliateController extends Controller
             $postLink = $row['post_link'];
         }
 
+
         $adminEmail = config('values.adminEmail');
 
         return view('affiliate/index', compact('postLink', 'adminEmail'));
+    }
+
+
+
+    public function showAffiliateDashboard(){
+        $userId = Auth::id();
+
+        $adminAffiliate = new AdminAffiliate();
+        $affiliateCode = $adminAffiliate->queryAffiliateToken($userId);
+
+        $affiliateCode = "adoct3";
+
+        if(is_null($affiliateCode)){
+            $affiliateCode = $adminAffiliate->generateAffiliateToken($userId);
+            $success = $adminAffiliate->saveAffiliateToken($userId, $affiliateCode);
+            if(! $success){
+                return "Error occurred. Please <a href='" . url()->current() . "'>Reload page</a>";
+            }
+        }
+
+
+        if(! is_null($affiliateCode)){
+            $logs = VisitorLog::where('referred_by', $affiliateCode)
+                ->where('url', 'LIKE', '%play.google.com%')
+                //->select('device_token', 'client', 'id', 'url')
+                ->orderBy('id', 'desc')
+                ->limit(500)
+                ->get();
+
+            $logs = $logs->unique('device_token')->values();
+            if(count($logs) > 0){
+                foreach ($logs as $i=>$log){
+                    $userAgent = $log->client;
+                    $clientInfo =  $this->extractFromUserAgent($userAgent);
+                    //return $clientInfo;
+                    $androidVersionCode = @$clientInfo['version'];
+                    $buildName = @$clientInfo['build'];
+                    $ip = @$clientInfo['ip'];
+
+                    //echo "$androidVersion $buildName $ip <br>";
+
+                    $variousData = new VariousData();
+                    $apiLevel = $variousData->androidVersionToApiLevel($androidVersionCode);
+
+
+                    //fetch from users by     ip,build,api level,log created_at time smaller than users created_at time and time diff 24 hours iff 1+ rows found
+
+                    $users = User::where('device_name', 'LIKE', '%'.$buildName.'%')
+                        ->where('os_version', 'LIKE', '%'.$apiLevel.'%')
+                        ->where('meta', 'LIKE', '%ip='.$ip.'%')
+                        ->where('created_at', '>', $log->created_at) //device registration must have taken place later than app download
+                        ->get();
+
+                    echo "[$i]";
+                    if(count($users) == 0){
+                        echo "<p style='color: #c93a00'>$buildName and $androidVersionCode -> $apiLevel ip=$ip | visit : $log->created_at not found in users table.</p>";
+                    }else{
+                        if(count($users) >= 1){
+                            foreach ($users as $user){
+                                $userIp = $user->meta;
+                                echo $user->id." : downloaded at ".$log->created_at.", device_token=".($log->device_token). " | logIp=$ip vs userIp=$userIp | $buildName and $androidVersionCode -> $apiLevel . device registered at ".($user->created_at)." <br> ";
+                            }
+                            echo "<br><hr><br>";
+                        }
+                        //echo "<p style='color: #00aa11'>".count($users)." users having same device+ip+api Level. users.id=".($users[0]->id)." </p> <br>";
+                    }
+                }
+            }
+
+
+
+            //return;
+            //return $logs;
+        }
+
+
+
+
+        $adminAffiliate = new AdminAffiliate();
+        $adminAffiliate->affiliateLinkOf($userId);
+
+
+        return view('affiliate/dashboard');
     }
 
 
@@ -63,22 +144,50 @@ class AffiliateController extends Controller
 
 
 
+    public function showMyAffiliateLink(){
+        $userId = Auth::id();
+        $affiliateLinkJob = (new AdminAffiliate)->affiliateLinkOf($userId);
+        $affiliateLinkAdmission = $affiliateLinkJob . '&target=admission';
+
+        return view('affiliate/my-affiliate-link', compact('affiliateLinkJob', 'affiliateLinkAdmission'));
+    }
+
+
+
     public function showTermsOfService(){
         return view('affiliate.terms_of_service');
     }
 
     /* not implemented yet */
-    public function extractFromClient(){
-        $userAgent = 'Mozilla/5.0 (Linux; Android 12; CPH2269 Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/103.0.5060.129 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/393.0.0.35.106;';
+    public function extractFromUserAgent($userAgent){
+        /*
+         * Testing purpose
+         * */
+        //$userAgent = 'Mozilla/5.0 (Linux; Android 12; CPH2269 Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/103.0.5060.129 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/393.0.0.35.106;';
+        //$userAgent = "Mozilla/5.0 (Linux; Android 8.1.0; TECNO B1p) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Mobile Safari/537.36  -screenSize=";
 
-        //$userAgent = "Mozilla/5.0 (Linux; Android 8.1.0; TECNO B1p) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Mobile Safari/537.36 -ip=197.239.13.114 -screenSize=";
 
-        //$patternAndroidVersion = '/Android\s([0-9]+);/'; //extracts only android version number
-        $patternBuild = '/Android\s?(\d+(?:\.\d+)*);\s?(.*?)\s?(?:Build|\))/'; //first sub group ([0-9]+) gives android version number and second sub group gives builb name
+
+        /*
+         * extracts only android version number
+         * */
+        //$patternAndroidVersion = '/Android\s([0-9]+);/';
+
+
+        /*
+         * First sub group ([0-9]+) gives android version number , and second sub group gives builb name , third subgroup gives IP.
+         *   [^-]*  says "not hyphen", it is important because ip starts with '-'
+         * */
+
+        $patternBuild = '/Android\s?(\d+(?:\.\d+)*);\s?(.*?)\s?(?:Build|\))(?:.*-ip=([\d.]+))?/';
+
+
+
 
 
 
         //-----------------------
+        /*
         $filePath = storage_path()."/app/visitor_log_user_agents.json";
         $dataArray = json_decode(file_get_contents($filePath), true);
         foreach ($dataArray as $client){
@@ -93,20 +202,30 @@ class AffiliateController extends Controller
                 echo "No match found for <span style='color:red'>$userAgent</span>";
             }
         }
+        */
         //-----------------------
+
 
 
         if (preg_match($patternBuild, $userAgent, $matches)) {
             //dd($matches);
-            $androidVersionNumber = $matches[1];
-            $build = $matches[2];
-            echo 'vCode=<b>'.$androidVersionNumber.'</b> buildName=<b>'.$build.'</b>';
-        } else {
-            echo "No match found.";
+
+            $clientInfo = [];
+
+            if(isset($matches[1])){
+                $clientInfo['version'] = $matches[1];
+            }
+            if(isset($matches[2])){
+                $clientInfo['build'] = $matches[2];
+            }
+            if(isset($matches[3])){
+                $clientInfo['ip'] = $matches[3];
+            }
+
+
+            return $clientInfo;
         }
-
-
-        return;
+        return null;
     }
 
 

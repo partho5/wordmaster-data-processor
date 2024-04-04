@@ -81,7 +81,7 @@
         <div class="p1">Partner Program</div>
     </div>
     <div class="msg-container">
-        <div class="username">Dear {{ $data['userName'] }}</div>
+        <div class="username">Dear {{ $data['recipientName'] }}</div>
         <div class="msg-content">
             <p class="p1">{{ $data['msg'] }}</p>
             <div>

@@ -19,4 +19,10 @@ return [
     'token' => 'This password reset token is invalid.',
     'user' => "We can't find a user with that email address.",
 
+
+    //custom values set by me
+    'resetRequest' => [
+        'subject' => 'Password Reset',
+    ]
+
 ];

@@ -89,6 +89,7 @@
             var url = new URL(window.location.href);
             var deviceId = url.searchParams.get('deviceId');
             var maxdi = url.searchParams.get('maxdi');
+            var englishOnly = url.searchParams.get('engonly');
 
             setCookie('deviceId', deviceId);//android deviceId
 
@@ -108,7 +109,7 @@
                     type:'post',
                     url:'/student/exam/ajax/fetch_question',
                     data:{
-                        _token: "{{ csrf_token() }}", deviceId:deviceId, maxdi:maxdi,
+                        _token: "{{ csrf_token() }}", deviceId:deviceId, maxdi:maxdi, englishOnly:englishOnly,
                          numOfQ: $('#num-of-q').val()
                     }, success:function (response) {
                         p(response);
@@ -117,8 +118,10 @@
                         var len = response.length;
                         if(len>0){
                             if(len<10){
-                                alert("Till now you have read only "+len+" words. Please read at least 10 words and then test yourself again");
+                                //alert("Till now you have read only "+len+" words. Please read at least 10 words and then test yourself again");
+                                alert("Please read more words and then test yourself again");
                             }
+
                             $('#exam .p1, #exam .p2').show();
                             $('#totQ').text("Total questions : "+len);
                             var totTime = Math.ceil(len);

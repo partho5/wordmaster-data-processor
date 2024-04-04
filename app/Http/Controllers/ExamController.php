@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Processor\StringProcessor;
 use App\Models\Antonyms;
 use App\Models\Meanings;
 use App\Models\SelfTestQuestions;
@@ -34,7 +35,8 @@ class ExamController extends Controller
 
 
     function fetchQuestion(Request $request){
-        //return $request->all();
+        $engOnly = $request->input('englishOnly'); // show only English content, if set it will looks like engonly=1, or won't be set at all
+        $stringProcessor = new StringProcessor();
 
         $mainWords = Words::where('importance_level', '>=', MyConstants::$minImportanceLevelForMainWords)
             ->whereNotNull('display_index')
@@ -46,10 +48,18 @@ class ExamController extends Controller
             ->get()->groupBy('word');
         $questionSets = [];
 
+
         foreach ($questions as $question){
             $randIndex = rand(0, sizeof($question)-1);
-            array_push($questionSets, $question[$randIndex]);
+            if($engOnly){
+                if(! $stringProcessor->containsBanglaChar($question[$randIndex]['question'])){
+                    array_push($questionSets, $question[$randIndex]);
+                }
+            }else{
+                array_push($questionSets, $question[$randIndex]);
+            }
         }
+
         shuffle($questionSets);
         $questionSets = array_slice($questionSets, 0, $request->numOfQ);
 
@@ -193,6 +203,11 @@ class ExamController extends Controller
 
             if($word->word > $lastWord){
                 $questions = $this->generateQuestions($word['id']);
+
+                if(is_null($questions)){
+                    //for some reason null is returned. so skip this word.
+                    break;
+                }
                 
                 $qSets = [];
                 foreach ($questions as $question){
@@ -237,106 +252,115 @@ class ExamController extends Controller
 
                 $wordData = $this->wordDataForMakingQuestion($word);
 
+                $englishContentOnly = true;
+                $stringProcessor = new StringProcessor();
+
                 try{
-                    $bangMeaning = $wordData['meanings'][0];
-                    $arr = explode("*", $bangMeaning);
-                    $bangMeaning = trim($arr[1]);
+                    $meaning = $wordData['meanings'][0];
+                    if($englishContentOnly){
+                        if(! $stringProcessor->containsBanglaChar($meaning)){
+                            $arr = explode("*", $meaning);
+                            $meaning = trim($arr[1]);
 
-                    //remove serial no. like: 1. , 2. etc
-                    $b = explode(".", $bangMeaning);
-                    try{
-                        $bangMeaning = $b[1];
-                        $bangMeaning = trim($bangMeaning);
-                    }catch (\Exception $e){}
-
-
-                    $spaceCount = substr_count($bangMeaning, ' ');
-                    $q = '';
-                    if($spaceCount == 0){
-                        $rand = rand(1,3);
-                        if($rand==1){
-                            $q = "Which one is equivalent to ‘"."$bangMeaning"."’ ?";
-                        }elseif (($rand==2)){
-                            $q = "Which word has the similar meaning as ‘"."$bangMeaning"."’ ?";
-                        }elseif($rand==3){
-                            $q = "English word for ‘"."$bangMeaning"."’ is-";
-                        }
-
-                        $options = $this->generateOptionsWithoutSynonym($wordId, $word);
-                        array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$word] );
-                    }
+                            //remove serial no. like: 1. , 2. etc
+                            $b = explode(".", $meaning);
+                            try{
+                                $meaning = $b[1];
+                                $meaning = trim($meaning);
+                            }catch (\Exception $e){}
 
 
-                    if($spaceCount == 1 || strpos($bangMeaning, '/') == true || strpos($bangMeaning, '(') == true){
-                        $q = "‘".$bangMeaning."’ - equivalent english word is :";
+                            $spaceCount = substr_count($meaning, ' ');
+                            $q = '';
+                            if($spaceCount == 0){
+                                $rand = rand(1,3);
+                                if($rand==1){
+                                    $q = "Which one is equivalent to ‘"."$meaning"."’ ?";
+                                }elseif (($rand==2)){
+                                    $q = "Which word has the similar meaning as ‘"."$meaning"."’ ?";
+                                }elseif($rand==3){
+                                    $q = "English word for ‘"."$meaning"."’ is-";
+                                }
 
-                        $options = $this->generateOptionsWithoutSynonym($wordId, $word);
-                        array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$word] );
-                    }
-                    if($spaceCount >=2 || strpos($bangMeaning, '/') == true || strpos($bangMeaning, '(') == true){
-                        $q = "Which word does express the sense ‘".$bangMeaning."’ ?";
-
-                        $options = $this->generateOptionsWithoutSynonym($wordId, $word);
-                        array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$word] );
-                    }
+                                $options = $this->generateOptionsWithoutSynonym($wordId, $word);
+                                array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$word] );
+                            }
 
 
+                            if($spaceCount == 1 || strpos($meaning, '/') == true || strpos($meaning, '(') == true){
+                                $q = "‘".$meaning."’ - equivalent english word is :";
 
-                    $def1 = $wordData['meanings'][2];
-                    if($def1 != '#'){
-                        //it's not blank
+                                $options = $this->generateOptionsWithoutSynonym($wordId, $word);
+                                array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$word] );
+                            }
+                            if($spaceCount >=2 || strpos($meaning, '/') == true || strpos($meaning, '(') == true){
+                                $q = "Which word does express the sense ‘".$meaning."’ ?";
 
-                        //keep only one definition if multiple available
-                        try{
-                            preg_match("/<\/span>.*(<span)?.*/", $def1, $matches);
-                            $def1 = preg_replace("/<\/span>/", "", $matches[0]);
-                        }catch (\Exception $e){}
+                                $options = $this->generateOptionsWithoutSynonym($wordId, $word);
+                                array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$word] );
+                            }
 
-                        //return $def1;
 
-                        if(strpos($def1, $word) == false){
-                            //definition doesn't contain the word itself
-                            $q = '"'.trim($def1)."\" - this definition corresponds with :";
 
-                            $options = $this->generateOptionsWithoutSynonym($wordId, $word);
-                            array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$word] );
-                        }
-                    }
+                            $def1 = $wordData['meanings'][2];
+                            if($def1 != '#'){
+                                //it's not blank
+
+                                //keep only one definition if multiple available
+                                try{
+                                    preg_match("/<\/span>.*(<span)?.*/", $def1, $matches);
+                                    $def1 = preg_replace("/<\/span>/", "", $matches[0]);
+                                }catch (\Exception $e){}
+
+                                //return $def1;
+
+                                if(strpos($def1, $word) == false){
+                                    //definition doesn't contain the word itself
+                                    $q = '"'.trim($def1)."\" - this definition corresponds with :";
+
+                                    $options = $this->generateOptionsWithoutSynonym($wordId, $word);
+                                    array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$word] );
+                                }
+                            }
 
 //                        $wordData['question'] = $q;
 //                        $options = $this->generateOptionsWithoutSynonym($wordId, $word);
 //                        $wordData['options'] = $options;
 //                        $wordData['correctOption'] = $word;
 
-                    $synonyms = $wordData['synonyms'];
-                    //return $synonyms;
-                    foreach ($synonyms as $synonym){
-                        $syno = $synonym['word'];
-                        $rand = rand(1,4);
-                        if($rand==1){
-                            $q = "Which one is a synonym of $word ?";
-                            $options = $this->generateOptionsWithoutSynonym($wordId, $syno);
-                            array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$syno] );
-                        } elseif($rand==2){
-                            $q = "Which word is closely related to '$word' ?";
-                            $options = $this->generateOptionsWithoutSynonym($wordId, $syno);
-                            array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$syno] );
-                        } elseif($rand==3){
-                            $q = "Which word is synonymous with $word ?";
-                            $options = $this->generateOptionsWithoutSynonym($wordId, $syno);
-                            array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$syno] );
-                        } elseif($rand==4){
-                            $q = "Find the best match for '$word' ?";
-                            $options = $this->generateOptionsWithoutSynonym($wordId, $syno);
-                            array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$syno] );
+                            $synonyms = $wordData['synonyms'];
+                            //return $synonyms;
+                            foreach ($synonyms as $synonym){
+                                $syno = $synonym['word'];
+                                $rand = rand(1,4);
+                                if($rand==1){
+                                    $q = "Which one is a synonym of $word ?";
+                                    $options = $this->generateOptionsWithoutSynonym($wordId, $syno);
+                                    array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$syno] );
+                                } elseif($rand==2){
+                                    $q = "Which word is closely related to '$word' ?";
+                                    $options = $this->generateOptionsWithoutSynonym($wordId, $syno);
+                                    array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$syno] );
+                                } elseif($rand==3){
+                                    $q = "Which word is synonymous with $word ?";
+                                    $options = $this->generateOptionsWithoutSynonym($wordId, $syno);
+                                    array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$syno] );
+                                } elseif($rand==4){
+                                    $q = "Find the best match for '$word' ?";
+                                    $options = $this->generateOptionsWithoutSynonym($wordId, $syno);
+                                    array_push($questionSets, ['q' => $q, 'options' => $options, 'correctOption'=>$syno] );
+                                }
+                            }
+
+
+                            return $questionSets;
                         }
                     }
 
+                    return null;
 
-                    return $questionSets;
 
-
-                    return $wordData;
+                    //return $wordData;
                 }catch (\Exception $e){
                     //dd($e);
                 }
@@ -386,8 +410,12 @@ class ExamController extends Controller
             $wordId = $w[0]->id;
             $wordDetails['word'] = $word;
             $wordDetails['id'] = $wordId;
+
+            /* this fetches both Bangla meaning and English definition */
             $meaningsCollection = Meanings::where('word_id', $wordId)
-                ->limit(4)->get(['bangla_meaning']);
+                ->limit(4)
+                ->get(['bangla_meaning']);
+
             $allMeanings = [];
             foreach ($meaningsCollection as $row){
                 $meaning = $row->bangla_meaning;

@@ -68,7 +68,7 @@
                     <small>[{{ $i++ }}]</small> <span>{{ date('d M, y -- h:i A', $log->reading_start_at/1000) }}</span>
                     <span class="duration">{{  (new \App\Http\Controllers\Library())->secondHumanReadable( round(($log->reading_end_at - $log->reading_start_at)/1000) ) }}</span>
                     <span class="url">{{ $log->url }}</span>
-                    <span class="ref">ref={{ $log->referred_by }}</span>
+                    <span class="ref hidden">ref={{ $log->referred_by }}</span>
                     <span class="meta">{{ $log->meta }}</span>
                 </p>
             @endforeach

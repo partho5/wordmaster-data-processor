@@ -43,7 +43,9 @@
             <div class="col-xs-12">
                 পেমেন্ট মেথড
                 <select id="payment-method-holder">
-                    <option value="bKash">bKash (send money)</option>
+                    <option disabled selected>Select</option>
+                    <option value="bkash">bKash (send money)</option>
+                    <option value="nagad">Nagad (send money)</option>
                 </select>
             </div>
 
@@ -54,25 +56,29 @@
                 </div>
             @endif
 
-            <div id="steps" class="col-xs-12">
+            <div id="steps" class="col-xs-12" style="display: none">
                 <div class="heading1">
                     <span>ক্রয়ের পদ্ধতি :</span>
                 </div>
                 <ol>
-                    <li class="bkash-app">
-                        <img src="/images/icon/bkash-app-icon.png" class="icon" alt="bkash app">
-                        bKash অ্যাপে যান
+                    <li class="payment-app">
+                        <img src="/images/icon/bkash-app-icon.png" class="icon" alt="payment app">
+                        <span class="payment-name">bKash/Nagad</span> অ্যাপে যান
                     </li>
                     <li class="send-money">
                         <img src="/images/icon/bkash-send-money-icon.jpg" class="icon" alt="send money">
                         “সেন্ড মানি” অপশনে যাবেন
                     </li>
-                    <li class="bkash-num-li">
-                        নাম্বার বসাবেন : <span class="field bkash-num"></span>
+                    <li class="payment-num-li">
+                        নাম্বার বসাবেন : <span class="field payment-num"></span>
                         <span class="success-msg">নাম্বারটি copy করা হয়েছে</span>
                     </li>
                     <li>পরিমাণ ৳‎ : <span class="field payable-amount">{{ $netAmountToPay }}</span> </li>
-                    <li>bKash থেকে মেসেজ আসবে। সেখান থেকে TrxID টা Copy করে এনে এখানে লিখুন <input type="text" id="trxId" placeholder="TrxID"> </li>
+                    <li>
+                        <span class="payment-name">bKash/Nagad</span> থেকে মেসেজ আসবে। সেখান থেকে
+                        <span class="transaction-id-text">TrxID</span> টা Copy করে এনে এখানে লিখুন
+                        <input type="text" id="trxId" placeholder="">
+                    </li>
                     <li>Click <button class="btn btn-success verify-btn">Verify Payment</button> </li>
                 </ol>
             </div>
@@ -86,7 +92,7 @@
                 <div class="col-xs-12 msg-error text-center">
                     একটু দেখুন তো :
                     <ol>
-                        <li>TrxId ঠিক মত লিখেছেন কিনা </li>
+                        <li><span class="transaction-id-text">TrxID</span> ঠিক মত লিখেছেন কিনা </li>
                         <li>ঠিক <span>{{ $netAmountToPay }}</span> টাকা send করেছেন কিনা</li>
                     </ol>
                 </div>
@@ -94,20 +100,10 @@
 
         </div>
 
-        <div class="section3 col-xs-12 no-padding text-center">
-            <img src="/images/green_tick_in_circle.png" class="tick">
-            <h3>Payment Successful !</h3>
-            <p class="p1">
-                Now start learning vocabulary. <br>
-                <b>Bonus</b> : you get access to <a href="/download/pdf" target="_blank">330 high frequency words PDF</a> for short preparation
-            </p> <br>
-            <h4 class="instruction2">অ্যাপ টি exit করে আবার open করুন</h4>
-        </div>
-
 
         <footer>
             <div class="col-xs-12 text-center">
-                যেকোনো সমস্যা হলে ইমেইল করুন
+                যেকোনো সমস্যা হলে ইমেইল করুন`
                 <div>
                     Click on &nbsp;
                     <a href="mailto:{{ env('ADMIN_EMAIL') }}?subject=Problem from user id {{ request()->query('userId') }}&body=My problem is: ">{{ env('ADMIN_EMAIL') }}</a>
@@ -128,14 +124,13 @@
     $(document).ready(function (){
 
 
-        //var payableAmount = 150;
-        //payableAmount = payableAmount - 5;//5 tk bkash send money charge
-        var  bkashNum = "01811971069";
-        var paymentMethod = "bKash";
+
+        var bkashNum = "01811971069";
+        var nagadNum = bkashNum;
+        var paymentMethod = "bkash";
 
 
-        //$('.payable-amount').text(payableAmount);
-        $('.bkash-num').text(bkashNum);
+        $('.payment-num').text(bkashNum);
 
 
         $('#apply-coupon-btn').click(function () {
@@ -149,10 +144,48 @@
         //p("userId="+userId);
         var meta = 'userId='+userId; //sent in ajax call meta data
 
+        var fbclid = new URLSearchParams(window.location.search).get('fbclid');
+
 
         $('#payment-method-holder').click(function () {
             meta+= 'clicked payment method';
         });
+
+
+        function updatePaymentMethod() {
+            $('#steps').fadeIn();
+
+            var method = document.getElementById('payment-method-holder').value;
+            method = method.toLowerCase();
+            var paymentNum = "";
+            var paymentName = "";
+            var paymentAppIcon = "";
+            var sendMoneyIcon = "";
+            var transactionIdText = "";
+
+            if (method === "bkash") {
+                paymentNum = bkashNum;
+                paymentName = "bKash";
+                paymentAppIcon = "/images/icon/bkash-app-icon.png";
+                sendMoneyIcon = "/images/icon/bkash-send-money-icon.jpg";
+                transactionIdText = "TrxID";
+            } else if (method === "nagad") {
+                paymentNum = nagadNum;
+                paymentName = "Nagad";
+                paymentAppIcon = "/images/icon/nagad-app-icon.png"; // Update with actual Nagad app icon path
+                sendMoneyIcon = "/images/icon/nagad-send-money-icon.jpg"; // Update with actual Nagad send money icon path
+                transactionIdText = "TnxID";
+            }
+
+            $('.payment-num').text(paymentNum);
+            $('.payment-name').text(paymentName);
+            $('.payment-app .icon').attr('src', paymentAppIcon);
+            $('.send-money .icon').attr('src', sendMoneyIcon);
+            $('.transaction-id-text').text(transactionIdText);
+        }
+
+        document.getElementById('payment-method-holder').addEventListener('change', updatePaymentMethod);
+
 
 
         /*
@@ -176,26 +209,31 @@
                 $('.msg-success').text("Already Verified !");
                 $('.msg-success').show();
             }else{
-                if(trxId.length === 10){
-                    //bKash transaction id length is 10 character
+                if(isTrxFormatValid(trxId)){
 
                     $('.msg-error').hide();//in case currently being shown
                     $('.loading').show();
 
                     THIS.prop('disabled', true);//prevent multiple click on this button
                     $.ajax({
-                        url : '/buy/app/payment/verify',
+                        url : '/buy/app/payment/verify?preventCache=' + (new Date().getTime()),
                         type : 'post',
                         data : {
                             '_token' : "{{ csrf_token() }}", userId : userId, trxId : trxId, referredBy : referredBy
                         }, success : function (response) {
                             p(response);
-                            if(response.isValid == 1){
+                            if(response.isValid === 1){
                                 //success
-                                $('.loading, .msg-error').hide();//in case currently being shown
-                                $('.section1 .app-name, .section2').hide();
-                                $('.section3').fadeIn();
+//                                $('.loading, .msg-error').hide();//in case currently being shown
+//                                $('.section1 .app-name, .section2').hide();
+//                                $('.section3').fadeIn();
                                 setCookie(verifiedStatusCookieName, 1);
+
+                                let currentUrl = new URL(window.location.href);
+                                currentUrl.searchParams.set('status', 'paid');
+                                currentUrl.searchParams.set('userId', userId);
+                                currentUrl.searchParams.set('fbclid', fbclid);
+                                window.location.href = currentUrl.toString();
                             }else {
                                 $('.loading').hide();//in case currently being shown
                                 $('.msg-error').fadeIn();
@@ -222,6 +260,22 @@
         });
 
 
+        function isAllCapsAndAlphanumeric(str) {
+            // Regular expression to check if string is alphanumeric and all uppercase
+            const regex = /^[A-Z0-9]+$/;
+
+            // Check if the string matches the regex
+            return regex.test(str);
+        }
+
+
+        function isTrxFormatValid(trxId) {
+            if (!trxId) return false;
+
+            // bKash transaction ID length is 10 characters, and for Nagad it's 8 characters
+            const isValidLength = trxId.length === 10 || trxId.length === 8;
+            return isValidLength && isAllCapsAndAlphanumeric(trxId);
+        }
 
 
         $('.bkash-num').click(function() {
@@ -261,7 +315,7 @@
                 data : {
                     _token : "{{ csrf_token() }}", visitorLogId : visitorLogId,
                     current_time : Date.now(), browser : navigator.userAgent,
-                    url : window.location.pathname, referredBy : referredBy, meta : meta || null
+                    url : window.location.href, referredBy : referredBy, meta : meta || null
                 },
                 success : function (response) {
                     p(response);

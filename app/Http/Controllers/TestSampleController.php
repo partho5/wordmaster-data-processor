@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Mockery\Exception;
@@ -61,17 +62,34 @@ class TestSampleController extends Controller
 
 
     public function test(){
-        ini_set("max_execution_time", 30000);
 
-        $proces = new StringProcessor();
-        $bn = $proces->containsBanglaChar("‘ a’ - equivalentও  english word is :");
-        if($bn){
-            return 'bn';
-        }else{
-            return 'no bn';
-        }
 
         //return view('test/test');
+    }
+
+    public function testMail(){
+        return 'testmail';
+
+        $data['fromEmail'] = 'mailtrap@jovoc.com';
+        $data['fromName'] = 'DV';
+        $data['adminEmail'] = '123jacktom@gmail.com';
+        $data['mailTo'] = 'choriyedao@gmail.com';
+        $data['subject'] = 'Post approved';
+        $data['appName'] = env('APP_NAME');
+
+        $result = Mail::send('mailPages.test', ['data' => $data], function ($m) use ($data) {
+            $m->from($data['fromEmail'], $data['fromName']);
+            $m->replyTo($data['adminEmail']);
+            $m->to($data['mailTo'])->subject($data['subject']);
+        });
+
+
+
+        if ($result) {
+            return Response::json(['message' => 'ok']);
+        } else {
+            return Response::json(['message' => 'error']);
+        }
     }
 
 
@@ -950,9 +968,11 @@ class TestSampleController extends Controller
             $additionalData['word'] = $word;
         }
 
+        // return $contentToPost; // shows the word details content
 
 
-        return $postingHelper->postInJovoc($contentToPost, $additionalData);
+
+        return $postingHelper->postInJovoc($contentToPost, $additionalData); // shows the meta api response
 
     }
 
@@ -1089,49 +1109,6 @@ class TestSampleController extends Controller
         $appLink = "https://jovoc.com?p=prev-exam-top-words";
 
         return view('pdf_generator/prev_exam_words_max_frequent', compact('data', 'appLink'));
-    }
-
-
-
-    public function testVerifyWindowsLicense(){
-
-        //echo 'Write-Output "Hello" ';
-
-        $client = new Client();
-        $url = 'https://massgrave.dev/get';
-        $response = $client->get($url);
-        $content = $response->getBody()->getContents();
-
-        $contentContainingLineBreak = "\$script = \"Write-Output '
--------------------------------
-        
-        License valid !
-        
-        Start now !
-        '\"
-        Invoke-Expression \$script
-        ";
-
-        $stylingContent = "Write-Host \"
-        Log new !        \" -ForegroundColor White -BackgroundColor Red
-        Write-Host \"
-        Command ok !\" -ForegroundColor Green
-        
-        Write-Host \"
-        Error : !\" -ForegroundColor Red 
-        
-        Write-Host \"
--------------------------------
-\"";
-
-
-        $valid = false;
-        if(! $valid){
-            return $contentContainingLineBreak.''.
-                $stylingContent;
-        }else{
-            return $content;
-        }
     }
 
 

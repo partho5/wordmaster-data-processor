@@ -77,7 +77,7 @@
 <body>
 <div id="content" class="">
     <div class="header">
-        <div class="appname">{{ $data['appName'] }}</div>
+        <div class="appname">DV</div>
         <div class="p1">Partner Program</div>
     </div>
 

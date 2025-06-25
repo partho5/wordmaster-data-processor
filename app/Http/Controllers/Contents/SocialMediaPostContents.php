@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 trait SocialMediaPostContents{
 
-    private $hashTagsForWordPost = "#JobVocabulary #vocabulary #bcs #bank #BangladeshBank #PrivateBank";
+    private $hashTagsForWordPost = "#vocabulary #englishvocabulary #GREvocabulary #GMATvocabulary #SATvocabulary #studyabroad #vocabularyquiz";
 
 
     function getContentsOfType($postType){
@@ -131,7 +131,8 @@ class FacebookPagePostingHelper{
             $imagePath = $_SERVER['HTTP_HOST'].'/jovoc/storage/app/public/'.($this->wordWrittenOnBgPath);
 
             //tentative
-            $imagePath = $_SERVER['HTTP_HOST'].'/jovoc/storage/app/public/images/jovocPage/words-3k-boss.png';
+            //$imagePath = $_SERVER['HTTP_HOST'].'/jovoc/storage/app/public/images/jovocPage/words-3k-boss.png';
+            //$imagePath = $this->randomlySelectedImage($_SERVER['HTTP_HOST'].'/jovoc/storage/app/public/images/jovocPage');
 
 
             /*
@@ -170,6 +171,25 @@ class FacebookPagePostingHelper{
 
 
 
+    function randomlySelectedImage($directoryPath) {
+        // Get list of image files in the directory
+        $imageFiles = glob($directoryPath . '/*.png'); // Change '*.png' to match the file extension of your images
+
+        // Check if there are any image files
+        if (count($imageFiles) > 0) {
+            // Randomly select an image file
+            $randomImage = $imageFiles[array_rand($imageFiles)];
+
+            // Return the randomly selected image path
+            return $directoryPath . '/'. basename($randomImage);
+        } else {
+            return $directoryPath.'-'.count($imageFiles);
+            //return $directoryPath. '/'. 'words-3k-boss.png';
+        }
+    }
+
+
+
     public function wordDetails($word){
         //$word = 'accent'; //debugging purpose
         $data['word'] = $word;
@@ -180,9 +200,10 @@ class FacebookPagePostingHelper{
                 ->from('words')
                 ->where('word', $word);})
             ->select('word_id', 'bangla_meaning')
-            ->limit(4)
+            ->offset(2) // Skip the first two records
+            ->limit(2)
             ->get();
-        //dd($meaningsCollection);
+        // dd($meaningsCollection);
 
 
         $wordNo = null;
@@ -209,19 +230,23 @@ class FacebookPagePostingHelper{
                     $multipleBanglaMeaningExist = true;
                 }
             }else if($i >= 2){
-                $definition = $Lib->replaceFirstOccurrence($definition, "#", "");
-                $definition = $Lib->replaceFirstOccurrence($definition, "[cam]", "Cambridge Dictionary তে যেভাবে definition দেওয়া হয়েছে: ");
-                $definition = $Lib->replaceFirstOccurrence($definition, "[ox]", "Oxford Dictionary তে যেভাবে definition দেওয়া হয়েছে: ");
-                if($definition){
-                    //parsing html
-                    $dom = new \DOMDocument();
-                    $dom->loadHTML(mb_convert_encoding($definition, 'HTML-ENTITIES', 'UTF-8'));
-                    $definition = $dom->textContent;
-                }else{
-                    //empty string. so skip it.
-                    continue;
-                }
+
             }
+
+
+            $definition = $Lib->replaceFirstOccurrence($definition, "#", "");
+            $definition = $Lib->replaceFirstOccurrence($definition, "[cam]", "Cambridge Dictionary  definition: ");
+            $definition = $Lib->replaceFirstOccurrence($definition, "[ox]", "Oxford Dictionary definition: ");
+            if($definition){
+                //parsing html
+                $dom = new \DOMDocument();
+                $dom->loadHTML(mb_convert_encoding($definition, 'HTML-ENTITIES', 'UTF-8'));
+                $definition = $dom->textContent;
+            }else{
+                //empty string. so skip it.
+                continue;
+            }
+
 
             if($i <= 1){
                 $definition = trim($definition);
@@ -244,6 +269,8 @@ class FacebookPagePostingHelper{
             $definitions[1] = '2. '.$definitions[1];
         }
         $data['definitions'] = $definitions;
+
+        // dd($definitions);
 
 
         $partsOfSpeech = PartsOfSpeech::where('word_id', $wordId)->get(['parts_of_speech']);
@@ -303,7 +330,7 @@ class FacebookPagePostingHelper{
             $readableContent = $readableContent. "\nParts of speech: ".$wordDetails['parts_of_speech'];
         }
 
-        $readableContent = $readableContent."\n\nsentence এ প্রয়োগ: \n\n";
+        $readableContent = $readableContent."\n\nUse in sentence: \n\n";
         foreach ($wordDetails['sentences'] as $i=>$sentence){
             $readableContent = $readableContent.($i+1).'. '.$sentence."\n";
         }

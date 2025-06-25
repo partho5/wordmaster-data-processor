@@ -13,12 +13,11 @@
     <div class="col-md-6 col-md-offset-3 col-xs-12" id="content">
         <div id="intro">
             <p class="p1">
-                অনেক সময় মনে হয় কেউ যদি আমাকে একটা একটা করে word ধরতো, তাহলে নিজেকে টেস্ট করতে পারতাম ।
+                Sometimes, it feels like if someone could ask me one word at a time, I could test myself.
             </p>
             <p class="p2">
-                ধরুন 20 টি  word পড়লেন, ঠিক ওই 20 টি word এর মধ্য থেকে সফটওয়্যার আপনাকে প্রশ্ন তৈরি করে দিবে ! MCQ
+                Imagine you've learned 20 words; the software will create questions for you from those exact 20 words! MCQ
                 <br>
-
             </p>
             <div class="instruction text-center">
                 <div style="font-size: 0.8em">
@@ -26,10 +25,8 @@
                     <button class="btn btn-dark ins-btn" data-toggle="collapse" data-target="#ins-list">Instructions</button>
                     <hr>
                 </div>
-
                 <ul class="collapse text-left" id="ins-list">
-                    <li>নির্ধারিত সময়ের মধ্যে উত্তর  submit করতে হবে</li>
-                    {{--<li>কতগুলো প্রশ্নে পরীক্ষা দিতে চান সেটা পরবর্তী পেজে সিলেক্ট করবেন</li>--}}
+                    <li>You must submit your answers within the allotted time</li>
                 </ul>
             </div>
         </div>
@@ -39,7 +36,7 @@
             <button class="btn-get">Get Question Paper</button>
 
             <div class="text-left col-xs-12  panel panel-hidden">
-                <div class="col-xs-8 no-padding">কতগুলো প্রশ্নে পরীক্ষা দিতে চান</div>
+                <div class="col-xs-8 no-padding">How many questions do you want in the MCQ test ?</div>
                 <div class="col-xs-4">
                     <input type="number" min="1" max="1000" value="20" id="num-of-q" class="form-control">
                 </div>
@@ -51,7 +48,7 @@
         </div>
 
         <div id="exam" class="col-xs-12 no-padding" style="margin-top:2em">
-            <p class="text-center p1">Word Master is preparing question for you</p>
+            <p class="text-center p1"> is preparing question for you</p>
             <p class="text-center p2"> <b>Exam will start in 1 minute</b> </p>
             <div class="clock" style="display: none"></div>
 
@@ -89,7 +86,7 @@
             var url = new URL(window.location.href);
             var deviceId = url.searchParams.get('deviceId');
             var maxdi = url.searchParams.get('maxdi');
-            var englishOnly = url.searchParams.get('engonly');
+            var englishOnly = url.searchParams.get('englishOnly');
 
             setCookie('deviceId', deviceId);//android deviceId
 

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Word Master</title>
+    <title></title>
 
     <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
     <script src="/bootstrap/jquery-1.12.4.min.js"></script>

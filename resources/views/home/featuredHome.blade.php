@@ -4,24 +4,32 @@
 
 @section('title')
 
-    <title>Bank + BCS + Any Job Exam - Vocabulary Preparation with {{ env('APP_NAME') }}</title>
+    <title>Bank + BCS + Any Job Exam + Higher Study - with {{ config('app.name') }}</title>
     <link rel="icon" type="image/png" href="/images/jovoc_app_logo.png">
 
 
     <meta property="og:type" content="website">
     <meta property="fb:app_id" content="1472570683494634">
-
-    <meta property="og:title" content="প্রিলিমিনারি তে 94-100% কমন  ||  রিটেন এ 
-
- মানসম্মত  Writing || Smart Speaking - এর জন্য যেভাবে words পড়া প্রয়োজন">
+    <meta property="og:title" content="যে 2900 words শিখলে কোনো Exam এ আটকাবেন না — কারণ ঘুরে ফিরে এগুলো থেকেই আসে ">
 
     <!-- <meta property="og:title" content="যে 2900 words থেকে সব পরীক্ষায় কমন আসে। 3-4 টা বইয়ের সমান information এই একটি অ্যাপে"> -->
 
     <meta property="og:description" content="(1)Explanation (2)Example Sentence (3)Guarenteed memorizing (4)Question Bank (5)Synonyms (6)Revision (7)Exam">
+    <meta property="og:image" content="https://vocabulary.jovoc.com/images/jovoc-og.png">
+    <meta property="og:url" content="https://vocabulary.jovoc.com">
 
-    <meta property="og:image" content="https://jovoc.com/images/jovoc-og.png">
 
-    <meta property="og:url" content="https://jovoc.com">
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="https://vocabulary.jovoc.com/images/jovoc-og.png">
+    <meta name="twitter:title" content="Job Vocabulary - Improve Your Vocabulary for Job Exams">
+    <meta name="twitter:description" content="Enhance your vocabulary for job exams with Job Vocabulary app. Learn common words, synonyms, example sentences, and more. Prepare effectively for BCS, bank, and government job exams.">
+    <meta name="twitter:image" content="https://vocabulary.jovoc.com/images/jovoc-og.png">
+
+
+
+    <meta name="description" content="Enhance your vocabulary for job exams with Job Vocabulary app. Learn common words, synonyms, example sentences, and more. Prepare effectively for BCS, bank, and government job exams.">
+    <meta name="keywords" content="Job Vocabulary, vocabulary preparation, job exams, BCS, bank jobs, government jobs, word memorizing, example sentences, synonyms, সরকারী চাকরী, ভোকাবুলারি প্রস্তুতি, Sairfurs vocabulary pdf, word smart 1, word smart 2 pdf, ওয়ার্ড মনে রাখার টেকনিক, মুখস্ত করারা কৌশল, rivision, MCQ test, parts of speech">
+    <meta name="author" content="Job Vocabulary">
 
 
 
@@ -33,17 +41,25 @@
 
 
 
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="https://jovoc.com/images/jovoc-og.png">
-    <meta name="twitter:title" content="Job Vocabulary - Improve Your Vocabulary for Job Exams">
-    <meta name="twitter:description" content="Enhance your vocabulary for job exams with Job Vocabulary app. Learn common words, synonyms, example sentences, and more. Prepare effectively for BCS, bank, and government job exams.">
-    <meta name="twitter:image" content="https://jovoc.com/images/jovoc-og.png">
 
+    <!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '615829604664137');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=615829604664137&ev=PageView&noscript=1"
+        /></noscript>
+    <!-- End Meta Pixel Code -->
 
-
-    <meta name="description" content="Enhance your vocabulary for job exams with Job Vocabulary app. Learn common words, synonyms, example sentences, and more. Prepare effectively for BCS, bank, and government job exams.">
-    <meta name="keywords" content="Job Vocabulary, vocabulary preparation, job exams, BCS, bank jobs, government jobs, word memorizing, example sentences, synonyms, সরকারী চাকরী, ভোকাবুলারি প্রস্তুতি, Sairfurs vocabulary pdf, word smart 1, word smart 2 pdf, ওয়ার্ড মনে রাখার টেকনিক, মুখস্ত করারা কৌশল, rivision, MCQ test, parts of speech">
-    <meta name="author" content="Job Vocabulary">
 
 @endsection
 
@@ -51,7 +67,7 @@
 
 @section('external_resources')
 
-    <link href="/css/home/featuredHome.css" rel="stylesheet">
+    <link href="/css/home/featuredHome.css?v=2" rel="stylesheet">
 
 
 
@@ -71,6 +87,48 @@
 
 @section('body_container')
 
+    <div class="section col-xs-12 main-pitch">
+        <div class="infographic-container">
+            <!-- Hero Section -->
+            <div class="hero-text">
+                <h1>যেকোনো প্রতিযোগিতামূলক পরীক্ষায় Vocabulary অংশে সবারই কিছু না কিছু জায়গায় সমস্যা হয়।</h1>
+            </div>
+
+            <!-- Problems Grid -->
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <p>কোন শব্দগুলো আসলে কমন পড়ে?</p>
+                </div>
+                <div class="problem-card">
+                    <p>মুখস্থ করলেও মনে থাকে না কেন?</p>
+                </div>
+                <div class="problem-card">
+                    <p>Sentence ব্যবহার না জানলে কী হয়?</p>
+                </div>
+                <div class="problem-card">
+                    <p>ভুল Synonym বা অর্থ বুঝে পরীক্ষায় মার খাই কেন?</p>
+                </div>
+            </div>
+
+            <!-- Solution Section -->
+            <div class="solution-section">
+                <div class="solution-content">
+                    <span class="search-icon">🔍</span>
+                    <p>আমরা <span class="highlight">BCS, ব্যাংক, IELTS, GRE, GMAT, TOEFL সহ সকল পরীক্ষার প্রশ্নপত্র বিশ্লেষণ করে</span> দেখেছি — Vocabulary অংশে মানুষ মূলত এই কিছু নির্দিষ্ট সমস্যায় আটকে যায়।</p>
+                </div>
+            </div>
+
+            <!-- Final Solution -->
+            <div class="final-solution">
+                তাই, আমরা রিসার্চ করে এই সমস্যাগুলোর <strong>এক্স্যাক্ট সমাধান তৈরি করেছি – এক অ্যাপে 👇</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="section col-xs-12 banner banner-top">
+        <img src="https://mindilaxyz.s3-accelerate.amazonaws.com/2025/05/job-and-higher-study-cover.png" width="100%" alt="govt job and higher study cover">
+    </div>
+
     <div class="section col-xs-12 " id="common">
 
         <div class="title col-xs-10 col-xs-offset-1">94-100 % common</div>
@@ -78,9 +136,6 @@
         <div class="col-xs-12 content">
 
             <div id="commonStat" class="col-xs-12 text-center">
-
-                <!-- <img class="hidden" src="/images/barchart.jpg" alt="img"> -->
-
 
 
                 <div id="bar-chart" style="margin-bottom: 1em">
@@ -91,7 +146,7 @@
 
                             <li><span>2001-2010</span></li>
 
-                            <li><span>2010-2023</span></li>
+                            <li><span>2010-2025</span></li>
 
                         </ul>
 
@@ -169,11 +224,13 @@
 
                 <span style="font-size: 0.8em">বিগত বছর গুলোতে -</span> <br/>
 
-                <img src="images/icon/tick-orange.svg" class="icon"> <span class="fontCourier">BCS</span> এ কমন ছিল <span class="fontRoman">94-100%</span>  <br/>
+                <div style="font-size: 0.7em">
+                    <img src="/images/icon/tick-orange.svg" class="icon"> <span class="fontCourier">BCS</span> এ কমন ছিল <span class="fontRoman">94-100%</span>  <br/>
 
-                <img src="images/icon/tick-oliv.svg" class="icon"> বাংলাদেশ ব্যাংক এ <span class="fontRoman">96-100%</span> <br/>
+                    <img src="/images/icon/tick-oliv.svg" class="icon"> বাংলাদেশ ব্যাংক এ <span class="fontRoman">96-100%</span> <br/>
 
-                <img src="images/icon/tick-paste.svg" class="icon"> অন্যান্য  ব্যাংক  ও সরকারি চাকরির পরীক্ষায়ও প্রচুর কমন
+                    <img src="/images/icon/tick-paste.svg" class="icon"> অন্যান্য  ব্যাংক  ও সরকারি চাকরির পরীক্ষায়ও প্রচুর কমন
+                </div>
 
             </div>
 
@@ -228,6 +285,7 @@
 
 
     <div class="section col-xs-12" id="words-quantity">
+        @include('home.partial.svg.purple_svg')
         <div class="title col-xs-10 col-xs-offset-1">সবচেয়ে গুরুত্বপূর্ণ 2900+ words</div>
         <div class="col-xs-12 text-center content no-padding">
             এই words গুলো আয়ত্ত করবেন । জীবনে Vocabulary তে আটকাবেন না !
@@ -235,10 +293,19 @@
     </div>
 
 
+    <div class="section col-xs-12">
+        <div class="responsive-video-portrait">
+            <iframe src="https://www.youtube.com/embed/itGCtzQR9wA" allowfullscreen></iframe>
+        </div>
+    </div>
+
 
     <div class="section col-xs-12 " id="question-bank">
 
-        <div class="title col-xs-10 col-xs-offset-1">23 বছরের প্রশ্ন ব্যাংক</div>
+        <div class="title col-xs-10 col-xs-offset-1">
+            23 বছরের প্রশ্ন ব্যাংক <br>
+            <small style="color: #777">for Job seekers</small>
+        </div>
 
         <div class="col-xs-12 content no-padding">
 
@@ -247,8 +314,8 @@
                 <p>আলাদা করে কোনো প্রশ্ন ব্যাংকের বই কিনতে হবে না</p>
 
                 <p>2001 - 2023 পর্যন্ত বাংলাদেশ ব্যাংক, সরকারি ব্যাংক, প্রাইভেট ব্যাংক, বিসিএস এ আসা সকল Vocabulary কালেকশন রয়েছে</p>
-                <br>
-                <p>
+
+                <p class="hidden">
                     আবার নতুন পরীক্ষার প্রশ্ন পেতে বইয়ের নতুন এডিশন কেনা লাগে । কিন্তু এই App আপডেট দিলেই Free তে নতুন প্রশ্নের Vocabulary
                     সব পেয়ে যাবেন। যেমন- Bangladesh Bank AD 2023 পরীক্ষার পরের দিনেই Vocabulary গুলো Question Bank
                     সেকশনে অ্যাড করে দেওয়া হয়েছে
@@ -262,9 +329,15 @@
 
 
 
+    <div class="section col-xs-12 banner banner-top">
+        <img src="/images/preparation-types.png" width="100%" alt="govt job and higher study cover">
+    </div>
+
+
+
     <div class="section col-xs-12 " id="diction">
 
-        <div class="title col-xs-10 col-xs-offset-1">written এ বেশি মার্ক তুলতে</div>
+        <div class="title col-xs-10 col-xs-offset-1">Writing এ বেশি মার্ক তুলতে</div>
 
         <div class="col-xs-12 content">
 
@@ -276,9 +349,9 @@
 
             <i>প্রত্যেকটা word  আলাদা আলাদা ভাবপ্রকাশ করে ।</i>
 
-            সেই ভাব গুলো জানতে হবে <br/>
+            সেই ভাব গুলো জানতে হবে <br/><br>
 
-            <p class="highlight"><b>{{ env('APP_NAME') }}</b> তে প্রত্যেকটি word এর specific  meaning দেওয়া হয়েছে</p>
+            <p class="highlight"><b>{{ config('app.name') }}</b> তে প্রত্যেকটি word এর specific  meaning দেওয়া হয়েছে</p>
 
         </div>
 
@@ -288,6 +361,7 @@
 
 
     <div class="section col-xs-12">
+        @include('home.partial.svg.orange_svg')
         <div class="col-xs-12 content">
             <div class="text-center" style="font-size: 1em; padding-bottom: 8px; color: #000ae9">
                 4-5 টা ভোকাবুলারি বই এর তথ্য এই একটি App এ !
@@ -351,7 +425,7 @@
 
         <div class="title col-xs-10 col-xs-offset-1">
 
-            Revision + Exam <br/> <small>= words মনে থাকতে বাধ্য</small>
+            Revision + Exam System<br/> <small style="color: #000">= words মনে থাকতে বাধ্য</small>
 
         </div>
 
@@ -376,7 +450,7 @@
                 <br><br>আবার প্রতি 20 টি words পড়ার পর  App টি আপনাকে <b style="color: #0000d5">Revision</b> দেওয়াবে, পদ্ধতিটা ও বেশ দারুণ !
                 <br>
                 <div class="col-xs-12 text-center">
-                    <img src="images/icon/golden_trophy.png" class="trophy" alt="effective">
+                    <img src="/images/icon/golden_trophy.png" class="trophy" alt="effective">
                 </div>
             </div>
 
@@ -393,7 +467,7 @@
 
     <div class="col-xs-12 section" id="download">
         <div class="content text-center">
-            <!-- <p>Download <b>{{ env('APP_NAME') }}</b> :</p> -->
+            <!-- <p>Download <b>{{ config('app.name') }}</b> :</p> -->
             {{--<p class="p1">কিনবেন কিনা সেটা পরের কথা, কিন্তু ইনস্টল করে যাচাই করে দেখুন</p>--}}
             <p class="p1">
                 {{--কেনার আগে ইন্সটল করে পড়ে দেখার সুযোগ রয়েছে--}}
@@ -401,7 +475,7 @@
             </p>
             @if(isset($appDistributionThrough))
                 @if($appDistributionThrough === 'playstore')
-                        <a href="https://play.google.com/store/apps/details?id=com.wordmas.wordmaster">
+                        <a href="https://play.google.com/store/apps/details?id=com.wordmas.wordmaster&referrer=utm_source%3Dfacebook%26utm_medium%3Dppm%26utm_campaign%3Dad-june-25">
                             <img src="/images/playstore-link.png" alt="Download App" >
                         </a>
                 @elseif($appDistributionThrough === 'apk')
@@ -413,7 +487,7 @@
                 @endif
             @endif
 
-            <p class="p2">
+            <p class="p2 hidden">
                 <img class="icon icon-love" src="/images/icon/love_symbol_red.png">
                 ঢাবির একদল গবেষক শিক্ষার্থীদের একটি উদ্যোগ
                 <img class="icon icon-love" src="/images/icon/love_symbol_red.png">
@@ -574,9 +648,6 @@
 
 
 
-
-
-
             //$('.title').addClass('scaleup');
 
 
@@ -594,11 +665,15 @@
 
 
 
-            var fp = new Fingerprint({
-                canvas: true,
-                ie_activex: true,
-                screen_resolution: true
-            });
+            try{
+                var fp = new Fingerprint({
+                    canvas: true,
+                    ie_activex: true,
+                    screen_resolution: true
+                });
+            }catch (e){
+
+            }
 
 
 
@@ -629,7 +704,7 @@
                     data : {
                         _token : "{{ csrf_token() }}", visitorLogId : visitorLogId,
                         current_time : Date.now(), browser : navigator.userAgent,
-                        url : '/', referredBy : referredBy, screenSize : screenSize,
+                        url : window.location.href, referredBy : referredBy, screenSize : screenSize,
                         meta: metaData
                     },
                     success : function (response) {
@@ -767,7 +842,7 @@
 
                 }
 
-                p( href );
+                //p( href );
 
                 $.ajax({
 
@@ -796,6 +871,14 @@
                 });
 
 
+                const eventId = 'click_dl_' + Date.now(); // or any unique string
+                fbq('trackCustom', 'ClickDownloadApp', {
+                    button: 'PlayStoreLink',
+                    platform: 'web'
+                }, {
+                    eventID: eventId
+                });
+
 
                 window.location = href;
 
@@ -823,5 +906,83 @@
 
     </script>
 
+    <script>
+        /**
+         * Facebook Click ID (fbclid) Appender
+         *
+         * This script automatically detects the 'fbclid' parameter from the current page URL
+         * and appends it to the Google Play Store download link for proper attribution tracking.
+         *
+         * How it works:
+         * 1. Extracts fbclid from current URL parameters
+         * 2. Finds the Google Play Store link element
+         * 3. Appends fbclid to the existing referrer parameters
+         * 4. Updates the link href attribute
+         */
+
+// Function to get URL parameter by name
+        function getUrlParameter(name) {
+            // Create regex pattern to match the parameter
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(window.location.href);
+
+            // Return decoded parameter value or null if not found
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Function to append fbclid to the Google Play Store link
+        function appendFbclidToPlayStoreLink() {
+            // Get fbclid from current URL
+            const fbclid = getUrlParameter('fbclid');
+
+            // Only proceed if fbclid exists
+            if (!fbclid) {
+                //console.log('No fbclid found in URL');
+                return;
+            }
+
+            // Find the Google Play Store link (you can adjust the selector as needed)
+            const playStoreLink = document.querySelector('a[href*="play.google.com"]');
+
+            if (!playStoreLink) {
+                //console.log('Google Play Store link not found');
+                return;
+            }
+
+            // Get current href
+            let currentHref = playStoreLink.getAttribute('href');
+
+            // Check if fbclid is already in the URL to avoid duplicates
+            if (currentHref.includes('fbclid=')) {
+                //console.log('fbclid already exists in the link');
+                return;
+            }
+
+            // Append fbclid to the referrer parameter
+            // The referrer parameter already contains UTM parameters, so we add fbclid with %26 (encoded &)
+            const updatedHref = currentHref + '%26fbclid%3D' + encodeURIComponent(fbclid);
+
+            // Update the link href
+            playStoreLink.setAttribute('href', updatedHref);
+
+//            console.log('Successfully appended fbclid to Play Store link');
+//            console.log('Updated URL:', updatedHref);
+        }
+
+        // Execute when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            appendFbclidToPlayStoreLink();
+        });
+
+        // Alternative: If you need to run this after the page is fully loaded (including images)
+        // window.addEventListener('load', function() {
+        //     appendFbclidToPlayStoreLink();
+        // });
+
+        // Optional: If you want to manually trigger this function later
+        // You can call: appendFbclidToPlayStoreLink();
+    </script>
 
 @endsection

@@ -85,7 +85,7 @@ Route::get('/test/saw', 'TestSampleController@synAntWebster');
 Route::get('/test/bn', 'TestSampleController@extractBanglaContainingText');
 Route::get('/test/tns', [App\Http\Controllers\TestSampleController::class, 'questionBankAddMeanings']);
 Route::get('/test/most_frequent_exam_words/export', [App\Http\Controllers\TestSampleController::class, 'mostFrequentExamWordsExport']);
-Route::get('/test/t', 'TestSampleController@test');
+Route::get('/test/mail', [App\Http\Controllers\TestSampleController::class, 'testMail']);
 Route::post('/test/t/ajax', 'TestSampleController@testAjax');
 Route::get('/test/insertTestCategories', 'TestSampleController@insertTestCategories');
 Route::get('/test/insertDerived', 'TestSampleController@insertDerivedWords');
@@ -143,6 +143,10 @@ Route::match( array('GET', 'POST'), '/api/mobile/register', [App\Http\Controller
 Route::match( array('GET', 'POST'), '/api/payment/create', [App\Http\Controllers\UserPaymentController::class, 'insertPayment']);
 Route::match( array('GET', 'POST'), '/api/user/payment/verification_status',  [App\Http\Controllers\UserPaymentController::class, 'verificationStatus']);
 
+
+Route::match( array('POST'), '/api/capi/purchase-complete',  [App\Http\Controllers\ConversionController::class, 'purchaseComplete']);
+
+
 Route::get('/api/fb_group/jovoc/post', [App\Http\Controllers\TestSampleController::class, 'postInfbPageJobVocabulary']);
 
 
@@ -166,6 +170,7 @@ Route::get('/mobile_app/data/export/prev_year_questions', [App\Http\Controllers\
 
 
 Route::get('/buy/app',  [App\Http\Controllers\UserPaymentController::class, 'showBuyApp']);
+Route::get('/purchase-complete', [App\Http\Controllers\UserPaymentController::class, 'showPurchaseComplete']);
 Route::post('/buy/app/payment/verify',  [App\Http\Controllers\UserPaymentController::class, 'verifyPayment']);
 Route::get('/buy/app/payment/issue/report/show',  [App\Http\Controllers\UserPaymentController::class, 'verifyPaymentIssueReport']);
 
@@ -205,7 +210,7 @@ Route::get('/oauth/gmail/logout', function (){
 
 
 
-
+Route::get('mail', [App\Http\Controllers\HomeController::class, 'testSendMail']);
 
 
 

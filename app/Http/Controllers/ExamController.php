@@ -30,12 +30,12 @@ class ExamController extends Controller
                 return view('exam/index');
             }
         }
-        return "<div style='text-align: center; font-size: 1.3em'> Invalid Link. <p> Please click <b>MCQ Test</b> option from Word Master app menu</p> </div>";
+        return "<div style='text-align: center; font-size: 1.3em'> Invalid Link. <p> Please click <b>MCQ Test</b> option from Joy Vocabulary app menu</p> </div>";
     }
 
 
     function fetchQuestion(Request $request){
-        $engOnly = $request->input('englishOnly'); // show only English content, if set it will looks like engonly=1, or won't be set at all
+        $engOnly = $request->input('englishOnly'); // show only English content, if set it will look like englishOnly=1, or won't be set at all
         $stringProcessor = new StringProcessor();
 
         $mainWords = Words::where('importance_level', '>=', MyConstants::$minImportanceLevelForMainWords)
@@ -47,7 +47,6 @@ class ExamController extends Controller
         $questions = SelfTestQuestions::whereIn('word', $mainWords)
             ->get()->groupBy('word');
         $questionSets = [];
-
 
         foreach ($questions as $question){
             $randIndex = rand(0, sizeof($question)-1);

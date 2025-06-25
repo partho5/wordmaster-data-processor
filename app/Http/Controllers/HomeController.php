@@ -17,12 +17,13 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class HomeController extends Controller
 {
-    private $adminDevices = ["746347999", "3873590173", "1391769358", "145110509", "703968647", "2633596126", "3611826085", "2746203542", "2013181607", "1943572267", "2657667095", "2729225889", "786356722", "2308038079", "2015841309", "2034330327"];
+    private $adminDevices = ["1761444613 ", "746347999", "3873590173", "1391769358", "145110509", "703968647", "2633596126", "3611826085", "2746203542", "2013181607", "1943572267", "2657667095", "2729225889", "786356722", "2308038079", "2015841309", "2034330327"];
 
     /**
      * Create a new controller instance.
@@ -328,6 +329,8 @@ class HomeController extends Controller
 
 
     function showAppUserActivity(Request $request){
+        return $this->getUserActivityLogs();
+
         $numOfUsersToShow = 10;
         $userGroups = UserActivityLog::orderBy('id', 'desc')
             ->get()
@@ -388,6 +391,111 @@ class HomeController extends Controller
         ));
     }
 
+
+    public function getUserActivityLogs()
+    {
+        // Android OS versions mapping
+        $osVersions = [
+            '21' => 'Lollipop 5.0',
+            '22' => 'Lollipop 5.1',
+            '23' => 'Marshmallow',
+            '24' => 'Nougat 7.0',
+            '25' => 'Nougat 7.1+',
+            '26' => 'Oreo 8.0',
+            '27' => 'Oreo 8.1',
+            '28' => 'Pie 9.0',
+            '29' => 'Android 10',
+            '30' => 'Android 11',
+            '31' => 'Android 12',
+            '32' => 'Android 12 L',
+            '33' => 'Android 13',
+            '34' => 'Android 13 L',
+            '35' => 'Android 14',
+            '36' => 'Android 14 L',
+            '37' => 'Android 15',
+            '38' => 'Android 15 L',
+            '39' => 'Android 16',
+        ];
+
+        // Add pagination and limits at the query level
+        $userGroups = DB::table('user_activity_logs')
+            ->join('users', 'user_activity_logs.user_id', '=', 'users.id')
+            ->select('user_activity_logs.*', 'users.device_name', 'users.os_version')
+            ->orderBy('user_activity_logs.created_at', 'desc')
+            ->limit(500) // Limit to first 20 users
+            ->get()
+            ->groupBy('user_id');
+
+        $processedData = [];
+
+        foreach ($userGroups as $userId => $userLogs) {
+            $userInfo = [
+                'user_id' => $userId,
+                'device_name' => $userLogs->first()->device_name ?? 'Unknown',
+                'os_version' => $osVersions[$userLogs->first()->os_version] ?? 'Unknown OS',
+                'logs' => []
+            ];
+
+            foreach ($userLogs as $logEntry) {
+                $logData = json_decode($logEntry->log, true);
+
+                if (!$logData) continue;
+
+                // Reverse to show latest first
+                $logData = array_reverse($logData);
+
+                foreach ($logData as $index => $activity) {
+                    // Limit to 50 rows per user
+                    if ($index >= 50) {
+                        break;
+                    }
+
+                    // Skip empty activities
+                    if (empty($activity['activity']) && empty($activity['a'])) {
+                        continue;
+                    }
+
+                    $startTime = '';
+                    if (!empty($activity['start'])) {
+                        try {
+                            $startTime = Carbon::createFromTimestampMs($activity['start'])->format('Y-m-d h:i:s A');
+                        } catch (Exception $e) {
+                            $startTime = 'Invalid timestamp';
+                        }
+                    } else {
+                        $startTime = "Created: " . $logEntry->created_at;
+                    }
+
+                    $endTime = '';
+                    $duration = 0;
+                    if (!empty($activity['end'])) {
+                        try {
+                            $endTime = Carbon::createFromTimestampMs($activity['end'])->format('Y-m-d h:i:s A');
+                            $duration = round(($activity['end'] - ($activity['start'] ?? 0)) / 1000);
+                        } catch (Exception $e) {
+                            $endTime = 'Invalid timestamp';
+                        }
+                    }
+
+                    $userInfo['logs'][] = [
+                        'activity' => $activity['activity'] ?? $activity['a'] ?? 'Unknown',
+                        'details' => $activity['details'] ?? '',
+                        'start_time' => $startTime,
+                        'end_time' => $endTime,
+                        'duration' => $duration . ' sec',
+                        'word_index' => $activity['wIndex'] ?? $activity['a'] ?? 'N/A',
+                        'raw_start' => $activity['start'] ?? 0,
+                        'raw_end' => $activity['end'] ?? 0
+                    ];
+                }
+            }
+
+            $processedData[] = $userInfo;
+        }
+
+        return view('admin/log/app_user_activity', compact('processedData'));
+    }
+
     function osVersion($apiLevel){
         $osV['21']='Lollipop 5.0'; $osV['22']='Lollipop 5.1'; $osV['23']='Marshmallow'; $osV['24']='Nougat 7.0'; $osV['25']='Nougat 7.1+'; $osV['26']='Oreo 8.0'; $osV['27']='Oreo 8.1';$osV['28']='Pie 9.0'; $osV['29']='Android 10'; $osV['30']='Android 11';
         return $osV[$apiLevel];
@@ -436,8 +544,37 @@ class HomeController extends Controller
 
 
 
+    public function sendMail($data){
+        $result = Mail::send($data['template'], ['data' => $data], function ($mail) use ($data) {
+            $mail->from($data['from'], $data['senderName']);
+            $mail->replyTo($data['replyTo']);
+            $mail->to($data['to']);
+            $mail->subject($data['subject']);
+        });
 
+        dd($result);
+    }
 
+    public function testSendMail(Request $request){
+        $mailTo = 'partho8181@gmail.com';
+        $data = [
+            'from'      => env('MAIL_FROM_ADDRESS'),
+            'to'        => $mailTo,
+            'replyTo'   => env('MAIL_FROM_ADDRESS'),
+            'subject'   => 'Payment Successful',
+            'msg'       => 'Subject: Payment Success
+                            Dear Jany,
+                            Your payment to Nany Article was successful. Here is your invoice.',
+            'name'      => 'Nany Article',
+            'senderName'    => 'Nany Article',
+            'senderEmail'   => env('MAIL_FROM_ADDRESS'),
+
+            'template'  => 'mailPages.test',
+        ];
+
+        $result = $this->sendMail($data);
+        return $result;
+    }
 
 
 

@@ -23,8 +23,7 @@ input{
 }
 .section1 .app-name{
     padding: 0 0.5em 0.2em 0.5em;
-    border-bottom: 2px solid #000bf8;
-    color: #000ae9;
+    color: red;
 }
 .section2{
     margin-top: 0.5em;
@@ -63,7 +62,7 @@ input{
 #steps li{
     margin-top: 1em;
 }
-#steps li.bkash-app img.icon{
+#steps li.payment-app img.icon{
     width: 20px;
     height: 20px;
     margin-top: -5px;
@@ -82,7 +81,7 @@ input{
     padding: 2px 4px;
     border-radius: 5px;
 }
-.bkash-num-li .success-msg{
+.payment-num-li .success-msg{
     position: absolute;
     right: 5%;
     bottom: -50em;
@@ -119,7 +118,7 @@ input{
 }
 
 .section3{
-    display: none;
+    //display: none;
     margin-top: 2em;
 }
 .section3 h3{

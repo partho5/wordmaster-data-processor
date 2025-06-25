@@ -73,6 +73,10 @@ class UserPaymentController extends Controller
         return $data;
     }
 
+    public function showPurchaseComplete(Request $request){
+        return view('payment/payment_success');
+    }
+
 
 
     /* when user submits TrxID from payment page, TrxID is verified bu this function */
@@ -136,18 +140,30 @@ class UserPaymentController extends Controller
 
 
     public function showBuyApp(Request $request){
+        $paymentStatus = $request->status; // this status is set in buy_app.blade.php
+        if(isset($paymentStatus)){
+            $redirectUrl = '/purchase-complete?status=' . $request->status . '&userId=' . $request->userId;
+
+            // Only append fbclid if it exists in the request
+            if($request->has('fbclid') && !empty($request->fbclid)) {
+                $redirectUrl .= '&fbclid=' . $request->fbclid;
+            }
+
+            return redirect()->to($redirectUrl);
+        }
+
         $appPrice = MyConstants::$amountToBePaid;
         $paymentCharge = MyConstants::$paymentCharge;
 
         $versionCode = $request->version;
         if( !isset($versionCode) ){
             //for older version. Override app price.
-            $appPrice = 150;
+            //$appPrice = 195;
         }
 
         $netAmountToPay = $appPrice - MyConstants::$paymentCharge;
 
-        return view('payment.buy_app', compact('appPrice', 'paymentCharge', 'netAmountToPay'));
+        return view('payment/buy_app', compact('appPrice', 'paymentCharge', 'netAmountToPay'));
     }
 
 
@@ -156,9 +172,16 @@ class UserPaymentController extends Controller
         $query = UserPayment::where('user_id', $request->userId)
             ->whereNotNull('verified_at')
             ->get();
+
         $isVerified = 0;
         if(count($query)  == 1){
             $isVerified = 1;
+        }
+
+        // debug
+        if(in_array($request->userId, [1739, 1110])){
+            // developer devices, Realme=1793
+            $isVerified = 0;
         }
 
         return response()->json([

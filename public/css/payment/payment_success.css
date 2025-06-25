@@ -1,0 +1,164 @@
+:root {
+    --primary-color: #4CAF50;
+    --text-color: #333333;
+    --bg-color: #f9f9f9;
+    --light-bg: #ffffff;
+    --accent-color: #2E7D32;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.no-padding{
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.app-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background-color: var(--light-bg);
+    text-align: center;
+}
+
+.success-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.message {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.bonus {
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.pdf-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 1px dotted var(--primary-color);
+}
+
+.pdf-link:hover {
+    color: var(--accent-color);
+}
+
+.instruction {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #FFF9C4;
+    border-radius: 8px;
+    border-left: 4px solid #FBC02D;
+}
+
+.action-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.action-button:hover {
+    background-color: var(--accent-color);
+}
+
+footer {
+    background-color: white;
+    padding: 1.5rem;
+    text-align: center;
+    border-top: 1px solid #e0e0e0;
+}
+
+.support-text {
+    margin-bottom: 0.5rem;
+}
+
+.email-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media screen and (min-width: 768px) {
+    .app-name {
+        font-size: 1.8rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .success-icon {
+        width: 100px;
+        height: 100px;
+    }
+
+    .success-card {
+        padding: 2.5rem;
+    }
+}
